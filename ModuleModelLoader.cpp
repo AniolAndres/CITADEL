@@ -1,12 +1,10 @@
 #include "ModuleModelLoader.h"
-#include "assimp/cimport.h"
-#include "assimp/postprocess.h"
-#include "assimp/scene.h"
-#include "assimp/material.h"
-#include "assimp/mesh.h"
+#include "Application.h"
 #include "GL/glew.h"
 
-unsigned ModuleModelLoader::GenerateMeshData(const aiMesh* mesh) {
+
+unsigned ModuleModelLoader::GenerateMeshData(const aiMesh* mesh)
+{
 
 	unsigned vbo = 0;
 
@@ -24,13 +22,15 @@ unsigned ModuleModelLoader::GenerateMeshData(const aiMesh* mesh) {
 	return vbo;
 }
 
+
+
 bool ModuleModelLoader::Init()
 {
 	bool ret = true;
 
 	const char* err;
 
-	scene = aiImportFile("Baker_house.fbx", 0);	
+	scene = aiImportFile("BakerHouse.fbx", 0);	
 	LOG("loading scene");
 
 	if (scene == nullptr)

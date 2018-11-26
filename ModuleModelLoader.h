@@ -1,7 +1,10 @@
-
+#include "assimp/mesh.h"
+#include "assimp/cimport.h"
+#include "assimp/postprocess.h"
+#include "assimp/scene.h"
+#include "assimp/material.h"
 #include "Module.h"
-class ModuleModelLoader :
-	public Module
+class ModuleModelLoader :public Module
 {
 public:
 
@@ -10,12 +13,17 @@ public:
 	update_status Update();
 	update_status PostUpdate();
 	bool CleanUp();
+
 	unsigned GenerateMeshData(const aiMesh* mesh);
+
+	unsigned* vbos;
+
+	const aiScene* scene;
 
 	ModuleModelLoader();
 	~ModuleModelLoader();
 
-private:
-	const aiScene* scene;
+	
+	
 };
 
