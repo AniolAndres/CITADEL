@@ -1,5 +1,6 @@
 #pragma once
 #include "Application.h"
+#include "Brofiler.h"
 #include "ModuleWindow.h"
 #include "ModuleRender.h"
 #include "ModuleTextures.h"
@@ -48,14 +49,23 @@ update_status Application::Update()
 {
 	update_status ret = UPDATE_CONTINUE;
 
-	for(list<Module*>::iterator it = modules.begin(); it != modules.end() && ret == UPDATE_CONTINUE; ++it)
+	for (list<Module*>::iterator it = modules.begin(); it != modules.end() && ret == UPDATE_CONTINUE; ++it)
+	{
 		ret = (*it)->PreUpdate();
+	BROFILER_CATEGORY("PreUpdate", Profiler::Color::Orchid)
+	}
 
-	for(list<Module*>::iterator it = modules.begin(); it != modules.end() && ret == UPDATE_CONTINUE; ++it)
+	for (list<Module*>::iterator it = modules.begin(); it != modules.end() && ret == UPDATE_CONTINUE; ++it)
+	{
 		ret = (*it)->Update();
-
-	for(list<Module*>::iterator it = modules.begin(); it != modules.end() && ret == UPDATE_CONTINUE; ++it)
+	BROFILER_CATEGORY("Update", Profiler::Color::OrangeRed)
+	}
+	for (list<Module*>::iterator it = modules.begin(); it != modules.end() && ret == UPDATE_CONTINUE; ++it)
+	{
 		ret = (*it)->PostUpdate();
+	BROFILER_CATEGORY("PostUpdate", Profiler::Color::Peru)
+	}
+		
 
 	return ret;
 }
