@@ -2,6 +2,7 @@
 #include<list>
 #include "Module.h"
 #include "Globals.h"
+#include "GL/glew.h"
 
 struct SDL_Texture;
 
@@ -12,10 +13,11 @@ public:
 	~ModuleTextures();
 
 	bool Init();
+	update_status Update();
 	bool CleanUp();
 
-	SDL_Texture* const Load(const char* path);
+	GLuint loadImg(const char* path);
 
 private:
-	std::list<SDL_Texture*> textures;
+	unsigned texture0 = 0;
 };
