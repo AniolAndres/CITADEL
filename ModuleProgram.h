@@ -1,3 +1,7 @@
+#ifndef __ModuleProgram_H_
+#define  __ModuleProgram_H_
+
+
 #include "GL/glew.h"
 #include "Module.h"
 class ModuleProgram :	public Module
@@ -19,3 +23,4 @@ public:
 	GLuint program;
 };
 
+#endif // __ModuleProgram_H_

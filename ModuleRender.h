@@ -1,4 +1,6 @@
-#pragma once
+#ifndef __ModuleRender_H_
+#define __ModuleRender_H_
+
 #include "Module.h"
 #include "Globals.h"
 
@@ -22,3 +24,5 @@ public:
 private:
 	
 };
+
+#endif // __ModuleRender_H_

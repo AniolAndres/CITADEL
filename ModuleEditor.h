@@ -1,3 +1,6 @@
+#ifndef __ModuleEditor_H_
+#define  __ModuleEditor_H_
+
 #include "GL/glew.h"
 #include "Module.h"
 
@@ -21,3 +24,4 @@ private:
 	bool show_another_window = false;
 };
 
+#endif // __ModuleEditor_H_

@@ -1,3 +1,7 @@
+#ifndef __ModuleModelLoader_H_
+#define  __ModuleModelLoader_H_
+
+
 #include "assimp/mesh.h"
 #include "assimp/cimport.h"
 #include "assimp/postprocess.h"
@@ -27,3 +31,4 @@ public:
 	
 };
 
+#endif // __ModuleModelLoader_H_

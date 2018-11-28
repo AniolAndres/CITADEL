@@ -1,3 +1,6 @@
+#ifndef __ModuleCamera_H_
+#define __ModuleCamera_H_
+
 
 #include "Module.h"
 #include "Application.h"
@@ -21,4 +24,7 @@ public:
 private:
 
 };
+
+#endif // __ModuleCamera_H_
+
 

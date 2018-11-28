@@ -1,4 +1,6 @@
-#pragma once
+#ifndef __ModuleTextures_h__
+#define __ModuleTextures_h__
+
 #include<list>
 #include "Module.h"
 #include "Globals.h"
@@ -21,3 +23,5 @@ public:
 private:
 	unsigned texture0 = 0;
 };
+
+#endif // __ModuleTextures_h__
