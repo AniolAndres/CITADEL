@@ -64,11 +64,6 @@ GLuint ModuleTextures::loadImg(const char* path)
 
 	success = ilLoadImage(path); 	// Load the image file
 
-				
-
-
-
-
 									// If we managed to load the image, then we can start to do things with it...
 	if (success)
 	{

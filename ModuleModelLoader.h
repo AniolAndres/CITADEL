@@ -20,6 +20,12 @@ public:
 
 	unsigned GenerateMeshData(const aiMesh* mesh);
 
+	bool LoadFBX(const char* path);
+
+	void GenerateMeshes(const aiScene* scene);
+
+	void GenerateMaterials(const aiScene* scene);
+
 	unsigned* vbos;
 
 	const aiScene* scene;

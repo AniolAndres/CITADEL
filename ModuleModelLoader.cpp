@@ -27,29 +27,8 @@ unsigned ModuleModelLoader::GenerateMeshData(const aiMesh* mesh)
 bool ModuleModelLoader::Init()
 {
 	bool ret = true;
-
-	const char* err;
-
-	scene = aiImportFile("BakerHouse.fbx", 0);	
-	LOG("loading scene");
-
-	if (scene == nullptr)
-	{
-		err = aiGetErrorString();
-		LOG(err);
-	}
-	else
-	{
-		vbos = new unsigned[scene->mNumMeshes];
-
-		for (unsigned i = 0; i < scene->mNumMeshes; ++i)
-		{
-			vbos[i] = GenerateMeshData(scene->mMeshes[i]);
-		}
-	}
 	return ret;
 }
-
 
 update_status ModuleModelLoader::PreUpdate()
 {
@@ -72,6 +51,38 @@ bool ModuleModelLoader::CleanUp()
 
 	return ret;
 }
+
+void ModuleModelLoader::GenerateMeshes(const aiScene* scene)
+{
+
+}
+
+void ModuleModelLoader::GenerateMaterials(const aiScene* scene)
+{
+
+}
+
+bool ModuleModelLoader::LoadFBX(const char* path)
+{
+	const char* err;
+
+	scene = aiImportFile("BakerHouse.fbx", 0);
+	LOG("Loading Scene")
+
+	if (scene == nullptr)
+	{
+		err = aiGetErrorString();
+		LOG(err);
+	}
+	else
+	{
+		vbos = new unsigned[scene->mNumMeshes];
+	}
+	GenerateMeshes(scene);
+	GenerateMaterials(scene);
+
+	return true;
+}	
 
 ModuleModelLoader::ModuleModelLoader()
 {

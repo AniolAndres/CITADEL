@@ -39,14 +39,6 @@ bool ModuleRenderExercise::Init()
 		triangle[i] = vertex_buffer_data[i];
 	}
 
-
-
-	//for (int i = 0; i < 3; ++i)
-	//{
-	//	float4 res = Transform(eye, target) * float4(triangle[i], 1.0f);
-	//	triangle[i] = res.xyz() / res.w;
-	//}
-
 	glGenBuffers(1, &vbo);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(triangle), triangle, GL_STATIC_DRAW);
@@ -99,7 +91,7 @@ update_status ModuleRenderExercise::Update()
 	glVertex3f(1.0f, 0.1f, 0.0f); glVertex3f(1.1f, -0.1f, 0.0f);
 	glVertex3f(1.1f, 0.1f, 0.0f); glVertex3f(1.0f, -0.1f, 0.0f);
 	glEnd();
-
+	
 	// green Y
 	int yAxis = glGetUniformLocation(App->program->program, "newColor");
 	float green[4] = { 0.0f, 1.0f, 0.0f, 1.0f };
@@ -127,6 +119,9 @@ update_status ModuleRenderExercise::Update()
 	glEnd();
 
 	//GRID
+	int grid = glGetUniformLocation(App->program->program, "newColor");
+	float white[4] = { 1.0f, 1.0f, 1.0f, 1.0f };
+	glUniform4fv(grid, 1, white);
 
 	glLineWidth(1.0f);
 	float d = 200.0f;

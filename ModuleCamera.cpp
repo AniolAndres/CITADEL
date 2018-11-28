@@ -28,53 +28,61 @@ update_status ModuleCamera::PreUpdate()
 	else
 		cameraSpeed = 1.0f;
 
-	if (App->input->GetKey(SDL_SCANCODE_DOWN)) // Need to tweek glimbal lock
-	{
-		target += cameraSpeed * upwards/4;
-	}
-	if (App->input->GetKey(SDL_SCANCODE_UP))
-	{
-		target -= cameraSpeed * upwards/4;
-	}
-	if (App->input->GetKey(SDL_SCANCODE_Q))
-	{
-		eye += cameraSpeed * up / 5;
-		target += cameraSpeed * up / 5;
-	}
-	if (App->input->GetKey(SDL_SCANCODE_E))
-	{
-		eye -= cameraSpeed * up / 5;
-		target -= cameraSpeed * up / 5;
-	}
-	if (App->input->GetKey(SDL_SCANCODE_W))
-	{
-		eye -= cameraSpeed * front;
-		target -= cameraSpeed * front;
-	}
-	if (App->input->GetKey(SDL_SCANCODE_S))
-	{
-		eye += cameraSpeed * front;
-		target += cameraSpeed * front;
-	}
-	if (App->input->GetKey(SDL_SCANCODE_A))
-	{
-		eye += cameraSpeed * side;
-		target += cameraSpeed * side;
-	}
-	if (App->input->GetKey(SDL_SCANCODE_D))
-	{
-		eye -= cameraSpeed * side;
-		target -= cameraSpeed * side;
-	}
-	if (App->input->GetKey(SDL_SCANCODE_LEFT))
-	{
-		target += cameraSpeed * side/4;
-	}
-	if (App->input->GetKey(SDL_SCANCODE_RIGHT))
-	{
-		target -= cameraSpeed * side/4;
-	}
 
+	if (App->input->GetKey(SDL_SCANCODE_F))
+	{
+		target = { 0,0,0 };
+		eye = { 1,1,5 };
+	}
+	else
+	{
+		if (App->input->GetKey(SDL_SCANCODE_DOWN)) // Need to tweek glimbal lock
+		{
+			target += cameraSpeed * upwards/4;
+		}
+		if (App->input->GetKey(SDL_SCANCODE_UP))
+		{
+			target -= cameraSpeed * upwards/4;
+		}
+		if (App->input->GetKey(SDL_SCANCODE_Q))
+		{
+			eye += cameraSpeed * up / 5;
+			target += cameraSpeed * up / 5;
+		}
+		if (App->input->GetKey(SDL_SCANCODE_E))
+		{
+			eye -= cameraSpeed * up / 5;
+			target -= cameraSpeed * up / 5;
+		}
+		if (App->input->GetKey(SDL_SCANCODE_W))
+		{
+			eye -= cameraSpeed * front;
+			target -= cameraSpeed * front;
+		}
+		if (App->input->GetKey(SDL_SCANCODE_S))
+		{
+			eye += cameraSpeed * front;
+			target += cameraSpeed * front;
+		}
+		if (App->input->GetKey(SDL_SCANCODE_A))
+		{
+			eye += cameraSpeed * side;
+			target += cameraSpeed * side;
+		}
+		if (App->input->GetKey(SDL_SCANCODE_D))
+		{
+			eye -= cameraSpeed * side;
+			target -= cameraSpeed * side;
+		}
+		if (App->input->GetKey(SDL_SCANCODE_LEFT))
+		{
+			target += cameraSpeed * side/4;
+		}
+		if (App->input->GetKey(SDL_SCANCODE_RIGHT))
+		{
+			target -= cameraSpeed * side/4;
+		}
+	}
 	return UPDATE_CONTINUE;
 }
 
