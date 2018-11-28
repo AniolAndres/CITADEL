@@ -23,57 +23,56 @@ update_status ModuleCamera::PreUpdate()
 	side = side / 5;
 	upwards = upwards / 20;
 
-	if (App->input->GetKey(SDL_SCANCODE_DOWN))
+	if (App->input->GetKey(SDL_SCANCODE_RSHIFT) || App->input->GetKey(SDL_SCANCODE_LSHIFT))
+		cameraSpeed = 2.5f;
+	else
+		cameraSpeed = 1.0f;
+
+	if (App->input->GetKey(SDL_SCANCODE_DOWN)) // Need to tweek glimbal lock
 	{
-		target += upwards;
+		target += cameraSpeed * upwards/4;
 	}
 	if (App->input->GetKey(SDL_SCANCODE_UP))
 	{
-		target -= upwards;
+		target -= cameraSpeed * upwards/4;
 	}
 	if (App->input->GetKey(SDL_SCANCODE_Q))
 	{
-		eye += up / 5;
-		target += up / 5;
+		eye += cameraSpeed * up / 5;
+		target += cameraSpeed * up / 5;
 	}
 	if (App->input->GetKey(SDL_SCANCODE_E))
 	{
-		eye -= up / 5;
-		target -= up / 5;
+		eye -= cameraSpeed * up / 5;
+		target -= cameraSpeed * up / 5;
 	}
 	if (App->input->GetKey(SDL_SCANCODE_W))
 	{
-		eye -= front;
-		target -= front;
+		eye -= cameraSpeed * front;
+		target -= cameraSpeed * front;
 	}
 	if (App->input->GetKey(SDL_SCANCODE_S))
 	{
-		eye += front;
-		target += front;
+		eye += cameraSpeed * front;
+		target += cameraSpeed * front;
 	}
 	if (App->input->GetKey(SDL_SCANCODE_A))
 	{
-		eye += side;
-		target += side;
+		eye += cameraSpeed * side;
+		target += cameraSpeed * side;
 	}
 	if (App->input->GetKey(SDL_SCANCODE_D))
 	{
-		eye -= side;
-		target -= side;
+		eye -= cameraSpeed * side;
+		target -= cameraSpeed * side;
 	}
-	//Accelration isn't adequate but gets job done, missing some tweeking, angle checking
-
-
-
-	//triangle disappears when looked from behind??
-
 	if (App->input->GetKey(SDL_SCANCODE_LEFT))
 	{
-		target += side;
+		target += cameraSpeed * side/4;
 	}
 	if (App->input->GetKey(SDL_SCANCODE_RIGHT))
 	{
-		target -= side;
+		target -= cameraSpeed * side/4;
 	}
 
 	return UPDATE_CONTINUE;

@@ -18,6 +18,8 @@ public:
 	float3 eye = { 1,1,5 };
 	float3 up = { 0,1,0 };
 
+	float cameraSpeed;
+
 	ModuleCamera();
 	~ModuleCamera();
 
