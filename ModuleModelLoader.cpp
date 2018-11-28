@@ -39,15 +39,24 @@ unsigned ModuleModelLoader::GenerateMeshData(const aiMesh* mesh)
 
 	glGenBuffers(1, &ibo);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned)*mesh->mNumFaces * 3, nullptr, GL_STATIC_DRAW);
 
+	unsigned* indices = (unsigned*)glMapBufferRange(GL_ELEMENT_ARRAY_BUFFER, 0,
+		sizeof(unsigned)*mesh->mNumFaces * 3, GL_MAP_WRITE_BIT);
 
+	for (unsigned i = 0; i < mesh->mNumFaces; ++i)
+	{
+		*(indices++) = mesh->mFaces[i].mIndices[0];
+		*(indices++) = mesh->mFaces[i].mIndices[1];
+		*(indices++) = mesh->mFaces[i].mIndices[2];
+	}
 
-
-	//glGenBuffers(1, &vbo);
-	//glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	//glBufferData(GL_ARRAY_BUFFER, mesh->mNumVertices * 3 * sizeof(float), NULL, GL_STREAM_DRAW);
-	//glBufferSubData(GL_ARRAY_BUFFER, 0, mesh->mNumVertices * 3 * sizeof(float), &mesh->mVertices);
-	//glBindBuffer(GL_ARRAY_BUFFER, vbo);
+	glUnmapBuffer(GL_ELEMENT_ARRAY_BUFFER);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+	
+	textures = mesh->mMaterialIndex;
+	numVerticesMesh = mesh->mNumVertices;
+	numIndicesMesh = mesh->mNumFaces * 3;
 
 	return vbo;
 }

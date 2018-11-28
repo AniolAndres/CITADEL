@@ -28,6 +28,12 @@ public:
 
 	unsigned* vbos;
 
+	unsigned textures;
+
+	unsigned  numVerticesMesh;
+
+	unsigned  numIndicesMesh;
+
 	const aiScene* scene;
 
 	ModuleModelLoader();
