@@ -43,7 +43,6 @@ update_status ModuleTextures::Update()
 bool ModuleTextures::CleanUp()
 {
 	LOG("Freeing textures and Image library");
-
 	return true;
 }
 

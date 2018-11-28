@@ -59,17 +59,17 @@ update_status ModuleRenderExercise::Update()
 
 	transformationMatrix = Transform(App->camera->eye, App->camera->target);
 
-	glColor4f(0.1f, 0.1f, 0.1f, 1.0f);
-	glEnableVertexAttribArray(0);
-	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	glVertexAttribPointer(
-		0,                  // attribute 0
-		3,                  // number of componentes (3 floats)
-		GL_FLOAT,           // data type
-		GL_FALSE,           // should be normalized?
-		0,                  // stride
-		(void*)0            // array buffer offset
-	);
+	//glColor4f(0.1f, 0.1f, 0.1f, 1.0f);
+	//glEnableVertexAttribArray(0);
+	//glBindBuffer(GL_ARRAY_BUFFER, vbo);
+	//glVertexAttribPointer(
+	//	0,                  // attribute 0
+	//	3,                  // number of componentes (3 floats)
+	//	GL_FLOAT,           // data type
+	//	GL_FALSE,           // should be normalized?
+	//	0,                  // stride
+	//	(void*)0            // array buffer offset
+	//);
 
 	float4x4 Model(math::float4x4::identity); // Not moving anything
 

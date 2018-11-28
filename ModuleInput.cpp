@@ -1,7 +1,11 @@
 #include "Globals.h"
+#include "ModuleEditor.h"
 #include "Application.h"
 #include "ModuleInput.h"
 #include "SDL/include/SDL.h"
+#include "IMGUI/imgui.h"
+#include "IMGUI/imgui_impl_sdl.h"
+#include "IMGUI/imgui_impl_opengl2.h"
 
 #define MAX_KEYS 300
 
@@ -122,9 +126,11 @@ update_status ModuleInput::PreUpdate()
 		}
 	}
 
-	if(GetWindowEvent(EventWindow::WE_QUIT) == true || GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
+	if (GetWindowEvent(EventWindow::WE_QUIT) == true || GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
+	{
+		ImGui::EndFrame();
 		return UPDATE_STOP;
-
+	}
 	return UPDATE_CONTINUE;
 }
 
