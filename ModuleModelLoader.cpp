@@ -5,63 +5,63 @@
 #include "GL/glew.h"
 
 
-unsigned ModuleModelLoader::GenerateMeshData(const aiMesh* mesh)
+void ModuleModelLoader::GenerateMeshes(const aiScene* scene)
 {
 
-	unsigned vbo = 0;
-
-	glGenBuffers(1, &vbo);
-	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-
-
-	//mVertices
-
-	glBufferData(GL_ARRAY_BUFFER, (sizeof(float) * 3 + sizeof(float) * 2)*mesh->mNumVertices, nullptr, GL_STATIC_DRAW);
-	glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(float) * 3 * mesh->mNumVertices, mesh->mVertices);
-
-
-	//mTexturecoords
-
-	math::float2* textureCoords = (math::float2*)glMapBufferRange(GL_ARRAY_BUFFER, sizeof(float) * 3 * mesh->mNumVertices,
-		sizeof(float) * 2 * mesh->mNumVertices, GL_MAP_WRITE_BIT);
-
-	for (unsigned i = 0; i < mesh->mNumVertices; ++i)
+	for (unsigned i = 0; i < scene->mNumMeshes; ++i)
 	{
-		textureCoords[i] = math::float2(mesh->mTextureCoords[0][i].x, mesh->mTextureCoords[0][i].y);
+
+		const aiMesh* sourceMesh = scene->mMeshes[i];
+
+
+
+		glGenBuffers(1, &vbos[i]);
+		glBindBuffer(GL_ARRAY_BUFFER, vbos[i]);
+
+
+		//mVertices
+
+		glBufferData(GL_ARRAY_BUFFER, (sizeof(float) * 3 + sizeof(float) * 2)*sourceMesh->mNumVertices, nullptr, GL_STATIC_DRAW);
+		glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(float) * 3 * sourceMesh->mNumVertices, sourceMesh->mVertices);
+
+
+		//mTexturecoords
+
+		math::float2* textureCoords = (math::float2*)glMapBufferRange(GL_ARRAY_BUFFER, sizeof(float) * 3 * sourceMesh->mNumVertices,
+			sizeof(float) * 2 * sourceMesh->mNumVertices, GL_MAP_WRITE_BIT);
+
+		for (unsigned i = 0; i < sourceMesh->mNumVertices; ++i)
+		{
+			textureCoords[i] = math::float2(sourceMesh->mTextureCoords[0][i].x, sourceMesh->mTextureCoords[0][i].y);
+		}
+
+		glUnmapBuffer(GL_ARRAY_BUFFER);
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+		//indices
+
+		glGenBuffers(1, &ibos[i]);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibos[i]);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned)*sourceMesh->mNumFaces * 3, nullptr, GL_STATIC_DRAW);
+
+		unsigned* indices = (unsigned*)glMapBufferRange(GL_ELEMENT_ARRAY_BUFFER, 0,
+			sizeof(unsigned)*sourceMesh->mNumFaces * 3, GL_MAP_WRITE_BIT);
+
+		for (unsigned i = 0; i < sourceMesh->mNumFaces; ++i)
+		{
+			*(indices++) = sourceMesh->mFaces[i].mIndices[0];
+			*(indices++) = sourceMesh->mFaces[i].mIndices[1];
+			*(indices++) = sourceMesh->mFaces[i].mIndices[2];
+		}
+
+		glUnmapBuffer(GL_ELEMENT_ARRAY_BUFFER);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+
+		textures[i] = sourceMesh->mMaterialIndex;
+		numVerticesMesh[i] = sourceMesh->mNumVertices;
+		numIndicesMesh[i] = sourceMesh->mNumFaces * 3;
 	}
-
-	glUnmapBuffer(GL_ARRAY_BUFFER);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-	//indices
-
-	unsigned ibo = 0;
-
-	glGenBuffers(1, &ibo);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned)*mesh->mNumFaces * 3, nullptr, GL_STATIC_DRAW);
-
-	unsigned* indices = (unsigned*)glMapBufferRange(GL_ELEMENT_ARRAY_BUFFER, 0,
-		sizeof(unsigned)*mesh->mNumFaces * 3, GL_MAP_WRITE_BIT);
-
-	for (unsigned i = 0; i < mesh->mNumFaces; ++i)
-	{
-		*(indices++) = mesh->mFaces[i].mIndices[0];
-		*(indices++) = mesh->mFaces[i].mIndices[1];
-		*(indices++) = mesh->mFaces[i].mIndices[2];
-	}
-
-	glUnmapBuffer(GL_ELEMENT_ARRAY_BUFFER);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-	
-	textures = mesh->mMaterialIndex;
-	numVerticesMesh = mesh->mNumVertices;
-	numIndicesMesh = mesh->mNumFaces * 3;
-
-	return vbo;
 }
-
-
 
 bool ModuleModelLoader::Init()
 {
@@ -93,7 +93,6 @@ bool ModuleModelLoader::CleanUp()
 	return ret;
 }
 
-
 void ModuleModelLoader::GenerateMaterials(const aiScene* scene)
 {
 	const aiMaterial* sourceMaterial;
@@ -113,9 +112,7 @@ void ModuleModelLoader::GenerateMaterials(const aiScene* scene)
 			finalMaterial = App->textures->loadImg(file.C_Str());
 		}
 
-		sourceMaterial = scene->mMaterials[i];
-
-
+		materials[i] = finalMaterial;
 	}
 }
 
@@ -134,13 +131,14 @@ bool ModuleModelLoader::LoadFBX(const char* path)
 	}
 	else
 	{
-
 		vbos = new unsigned[scene->mNumMeshes];
+		ibos = new unsigned[scene->mNumMeshes];
+		textures = new unsigned[scene->mNumMeshes];
+		materials = new unsigned[scene->mNumMeshes];
+		numVerticesMesh = new unsigned[scene->mNumMeshes];
+		numIndicesMesh = new unsigned[scene->mNumMeshes];
 
-		for (unsigned i = 0; i < scene->mNumMeshes; ++i)
-		{
-			vbos[i] = GenerateMeshData(scene->mMeshes[i]);
-		}
+		GenerateMeshes(scene);
 		GenerateMaterials(scene);
 	}
 	return true;

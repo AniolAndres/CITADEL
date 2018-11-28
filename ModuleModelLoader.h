@@ -18,7 +18,6 @@ public:
 	update_status PostUpdate();
 	bool CleanUp();
 
-	unsigned GenerateMeshData(const aiMesh* mesh);
 
 	bool LoadFBX(const char* path);
 
@@ -28,11 +27,15 @@ public:
 
 	unsigned* vbos;
 
-	unsigned textures;
+	unsigned* ibos;
 
-	unsigned  numVerticesMesh;
+	unsigned* materials;
 
-	unsigned  numIndicesMesh;
+	unsigned* textures;
+
+	unsigned* numVerticesMesh;
+
+	unsigned* numIndicesMesh;
 
 	const aiScene* scene;
 

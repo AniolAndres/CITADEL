@@ -4,6 +4,7 @@
 #include "ModuleWindow.h"
 #include "ModuleProgram.h"
 #include "ModuleCamera.h"
+#include "ModuleModelLoader.h"
 #include "IMGUI/imgui.h"
 #include "IMGUI/imgui_impl_opengl2.h"
 #include "SDL.h"
@@ -56,22 +57,20 @@ bool ModuleRender::Init()
 
 	glUseProgram(App->program->program);
 
-	float3 vertex_buffer_data[] =
-	{
-		{-1.0f,-1.0f,0.0f},
-		{1.0f,-1.0f,0.0f},
-		{0.0f,1.0f,0.0f}
-	};
-
-	for (int i = 0; i < 3; ++i)
-	{
-		triangle[i] = vertex_buffer_data[i];
-	}
-
-	glGenBuffers(1, &vbo);
-	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(triangle), triangle, GL_STATIC_DRAW);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	//float3 vertex_buffer_data[] =
+	//{
+	//	{-1.0f,-1.0f,0.0f},
+	//	{1.0f,-1.0f,0.0f},
+	//	{0.0f,1.0f,0.0f}
+	//};
+	//for (int i = 0; i < 3; ++i)
+	//{
+	//	triangle[i] = vertex_buffer_data[i];
+	//}
+	//glGenBuffers(1, &vbo);
+	//glBindBuffer(GL_ARRAY_BUFFER, vbo);
+	//glBufferData(GL_ARRAY_BUFFER, sizeof(triangle), triangle, GL_STATIC_DRAW);
+	//glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 	return true;
 }
@@ -88,7 +87,6 @@ update_status ModuleRender::Update()
 	transformationMatrix = Transform(App->camera->eye, App->camera->target);
 
 	float4x4 Model(math::float4x4::identity); // Not moving anything
-
 
 	//Triangle stuff
 	//glColor4f(0.1f, 0.1f, 0.1f, 1.0f);
@@ -107,14 +105,40 @@ update_status ModuleRender::Update()
 	glUniformMatrix4fv(glGetUniformLocation(App->program->program, "view"), 1, GL_TRUE, &App->renderer->viewMatrix[0][0]);
 	glUniformMatrix4fv(glGetUniformLocation(App->program->program, "proj"), 1, GL_TRUE, &App->renderer->projectionMatrix[0][0]);
 
-	
+	for (int i = 0; i < App->modelLoader->scene->mNumMeshes; ++i) {
+
+
+		unsigned vboActual = App->modelLoader->vbos[i];
+		unsigned numVerticesActual = App->modelLoader->numVerticesMesh[i];
+		unsigned numIndexesActual = App->modelLoader->numIndicesMesh[i];
+
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, App->modelLoader->materials[App->modelLoader->textures[i]]);
+		glUniform1i(glGetUniformLocation(App->program->program, "texture0"), 0);
+
+		glEnableVertexAttribArray(0);
+		glEnableVertexAttribArray(1);
+		glBindBuffer(GL_ARRAY_BUFFER, vboActual);
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
+		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, (void*)(sizeof(float) * 3 * App->modelLoader->numVerticesMesh[i]));
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, App->modelLoader->ibos[i]);
+		glDrawElements(GL_TRIANGLES, numIndexesActual, GL_UNSIGNED_INT, nullptr);
+
+		glDisableVertexAttribArray(0);
+		glDisableVertexAttribArray(1);
+
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+		glBindTexture(GL_TEXTURE_2D, 0);
+	}
+
 	drawGrid();
 
 	int fragUnifLocation = glGetUniformLocation(App->program->program, "newColor");
 	float color[4] = { 1.0f, 1.0f, 1.0f, 1.0f };
 	glUniform4fv(fragUnifLocation, 1, color);
 
-	glDrawArrays(GL_TRIANGLES, 0, 3); // Starting from vertex 0; 3 vertices total -> 1 triangle
+	//glDrawArrays(GL_TRIANGLES, 0, 3); // Starting from vertex 0; 3 vertices total -> 1 triangle
 	glDisableVertexAttribArray(0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
@@ -136,7 +160,7 @@ update_status ModuleRender::PostUpdate()
 bool ModuleRender::CleanUp()
 {
 	LOG("Destroying renderer");
-
+	SDL_GL_DeleteContext(context);
 
 	if (vbo != 0)
 	{
