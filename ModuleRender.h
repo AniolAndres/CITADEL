@@ -3,6 +3,7 @@
 
 #include "Module.h"
 #include "Globals.h"
+#include "MathGeoLib.h"
 
 struct SDL_Texture;
 struct SDL_Renderer;
@@ -20,9 +21,17 @@ public:
 	update_status PostUpdate();
 	bool CleanUp();
 	void WindowResized(unsigned width, unsigned height);
+	float4x4 Transform(float3 eye, float3 target);
+	void drawGrid();
 	void* context;
+
 private:
-	
+	unsigned vbo, vao = 0;
+
+	float3 triangle[3];
+	float4x4 viewMatrix;
+	float4x4 projectionMatrix;
+	float4x4 transformationMatrix;
 };
 
 #endif // __ModuleRender_H_
