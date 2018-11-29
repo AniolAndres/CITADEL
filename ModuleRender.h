@@ -25,6 +25,8 @@ public:
 	void drawGrid();
 	void* context;
 
+	bool showGrid = true;
+
 private:
 	unsigned vbo, vao = 0;
 

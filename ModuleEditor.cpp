@@ -59,7 +59,7 @@ update_status ModuleEditor::Update()
 		}
 		if (ImGui::BeginMenu("3D Tools"))
 		{
-			ImGui::MenuItem("Option 1");
+			ImGui::MenuItem("Grid");
 			ImGui::MenuItem("Option 2");
 			ImGui::MenuItem("Option 3");
 			ImGui::EndMenu();
@@ -72,12 +72,25 @@ update_status ModuleEditor::Update()
 		}
 		if (ImGui::BeginMenu("Help"))
 		{
-			ImGui::Text("Try Harder!");
+			ImGui::Text("Try Harder MOFO!");
 			ImGui::EndMenu();
 		}
 		
 	}
 	ImGui::EndMainMenuBar();
+
+	ImGui::SetNextWindowPos({ SCREEN_WIDTH-800,500 });
+
+	if (ImGui::BeginMenu("Varibales"))
+	{
+		if (ImGui::MenuItem("Show/hide Grid"))
+			if (App->renderer->showGrid == true)
+				App->renderer->showGrid = false;
+			else
+				App->renderer->showGrid = true;
+
+		ImGui::EndMenu();
+	}
 
 	return UPDATE_CONTINUE;
 }

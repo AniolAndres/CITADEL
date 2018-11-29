@@ -49,26 +49,11 @@ bool ModuleRender::Init()
     SDL_GetWindowSize(App->window->window, &width, &height);
     glViewport(0, 0, width, height);
 
-	if (!App->program->programLoader)
+	if (!App->program->programLoader || !App->program->programGrid)
 	{
 		LOG("Error: Program cannot be compiled");
 		return false;
 	}
-
-	//float3 vertex_buffer_data[] =
-	//{
-	//	{-1.0f,-1.0f,0.0f},
-	//	{1.0f,-1.0f,0.0f},
-	//	{0.0f,1.0f,0.0f}
-	//};
-	//for (int i = 0; i < 3; ++i)
-	//{
-	//	triangle[i] = vertex_buffer_data[i];
-	//}
-	//glGenBuffers(1, &vbo);
-	//glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	//glBufferData(GL_ARRAY_BUFFER, sizeof(triangle), triangle, GL_STATIC_DRAW);
-	//glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 	return true;
 }
@@ -85,19 +70,6 @@ update_status ModuleRender::Update()
 	transformationMatrix = Transform(App->camera->eye, App->camera->target);
 
 	float4x4 Model(math::float4x4::identity); // Not moving anything
-
-	//Triangle stuff
-	//glColor4f(0.1f, 0.1f, 0.1f, 1.0f);
-	//glEnableVertexAttribArray(0);
-	//glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	//glVertexAttribPointer(
-	//	0,                  // attribute 0
-	//	3,                  // number of componentes (3 floats)
-	//	GL_FLOAT,           // data type
-	//	GL_FALSE,           // should be normalized?
-	//	0,                  // stride
-	//	(void*)0            // array buffer offset
-	//);
 
 	glUseProgram(App->program->programLoader);
 
@@ -133,7 +105,8 @@ update_status ModuleRender::Update()
 		glBindTexture(GL_TEXTURE_2D, 0);
 	}
 
-	drawGrid();
+	if(showGrid)
+		drawGrid();
 
 	//glDrawArrays(GL_TRIANGLES, 0, 3); // Starting from vertex 0; 3 vertices total -> 1 triangle
 	glDisableVertexAttribArray(0);
