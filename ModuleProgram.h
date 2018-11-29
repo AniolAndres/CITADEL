@@ -18,9 +18,13 @@ public:
 
 	void CheckCompilationErrors(GLuint shader);
 
+	GLuint CreateProgram(const char* vertPath, const char* fragPath);
+
 	bool CleanUp();
 
-	GLuint program;
+	GLuint programLoader;
+
+	GLuint programGrid;
 };
 
 #endif // __ModuleProgram_H_

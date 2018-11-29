@@ -1,4 +1,3 @@
-#pragma once
 #include "Application.h"
 #include "Brofiler.h"
 #include "ModuleWindow.h"
@@ -10,6 +9,8 @@
 #include "ModuleCamera.h"
 #include "ModuleEditor.h"
 #include "ModuleModelLoader.h"
+
+//MIRAR RESIZE DE WINDOW, CASA DISTORSIONADA
 
 using namespace std;
 
@@ -80,3 +81,4 @@ bool Application::CleanUp()
 
 	return ret;
 }
+

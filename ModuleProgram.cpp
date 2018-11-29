@@ -15,53 +15,58 @@ ModuleProgram::~ModuleProgram()
 bool ModuleProgram::Init()
 {
 	bool ret = true;
-	// How to: https://badvertex.com/2012/11/20/how-to-load-a-glsl-shader-in-opengl-using-c.html
-	GLuint vertShader = glCreateShader(GL_VERTEX_SHADER);
-	GLuint fragShader = glCreateShader(GL_FRAGMENT_SHADER);
-	GLint compileStatus = GL_FALSE;
-	int logLength = 0;
+	//// How to: https://badvertex.com/2012/11/20/how-to-load-a-glsl-shader-in-opengl-using-c.html
+	//GLuint vertShader = glCreateShader(GL_VERTEX_SHADER);
+	//GLuint fragShader = glCreateShader(GL_FRAGMENT_SHADER);
+	//GLint compileStatus = GL_FALSE;
+	//int logLength = 0;
 
 
 
-	char* vertShaderStr = readShaderFile("../default.vs.txt");
-	char* fragShaderStr = readShaderFile("../default.fs.txt");
+	//char* vertShaderStr = readShaderFile("../default.vs.txt");
+	//char* fragShaderStr = readShaderFile("../default.fs.txt");
 
-	if (vertShaderStr == nullptr || fragShaderStr == nullptr) {
-		LOG("Error: Reading shaders failed");
-		return GL_FALSE;
-	}
+	//if (vertShaderStr == nullptr || fragShaderStr == nullptr) {
+	//	LOG("Error: Reading shaders failed");
+	//	return GL_FALSE;
+	//}
 
-	// Compile shaders
-	glShaderSource(vertShader, 1, &vertShaderStr, NULL);
-	glCompileShader(vertShader);
-	glGetShaderiv(vertShader, GL_COMPILE_STATUS, &compileStatus);
+	//// Compile shaders
+	//glShaderSource(vertShader, 1, &vertShaderStr, NULL);
+	//glCompileShader(vertShader);
+	//glGetShaderiv(vertShader, GL_COMPILE_STATUS, &compileStatus);
 
-	if (!compileStatus) {
-		LOG("Error: Failed compiling vertex shader");
-		CheckCompilationErrors(vertShader);
-		return GL_FALSE;
-	}
+	//if (!compileStatus) {
+	//	LOG("Error: Failed compiling vertex shader");
+	//	CheckCompilationErrors(vertShader);
+	//	return GL_FALSE;
+	//}
 
-	glShaderSource(fragShader, 1, &fragShaderStr, NULL);
-	glCompileShader(fragShader);
-	glGetShaderiv(fragShader, GL_COMPILE_STATUS, &compileStatus);
+	//glShaderSource(fragShader, 1, &fragShaderStr, NULL);
+	//glCompileShader(fragShader);
+	//glGetShaderiv(fragShader, GL_COMPILE_STATUS, &compileStatus);
 
-	if (!compileStatus) {
-		LOG("Error: Failed compiling fragment shader");
-		CheckCompilationErrors(fragShader);
-		return GL_FALSE;
-	}
+	//if (!compileStatus) {
+	//	LOG("Error: Failed compiling fragment shader");
+	//	CheckCompilationErrors(fragShader);
+	//	return GL_FALSE;
+	//}
 
-	// Compile Program
-	program = glCreateProgram();
-	glAttachShader(program, vertShader);
-	glAttachShader(program, fragShader);
-	glLinkProgram(program);
-	glGetProgramiv(program, GL_LINK_STATUS, &compileStatus);
+	//// Compile Program
+	//program = glCreateProgram();
+	//glAttachShader(program, vertShader);
+	//glAttachShader(program, fragShader);
+	//glLinkProgram(program);
+	//glGetProgramiv(program, GL_LINK_STATUS, &compileStatus);
 
-	// Remove shaders, we wont need them anymore if they are loaded correctly into Program
-	glDeleteShader(vertShader);
-	glDeleteShader(fragShader);
+	//// Remove shaders, we wont need them anymore if they are loaded correctly into Program
+	//glDeleteShader(vertShader);
+	//glDeleteShader(fragShader);
+	
+	programLoader = CreateProgram("../vertModelLoader.txt" , "../fragModelLoader.txt");
+
+	programGrid = CreateProgram("../vertGrid.txt", "../fragGrid.txt");
+
 
 	return ret;
 }
@@ -111,3 +116,54 @@ bool ModuleProgram::CleanUp()
 	return ret;
 }
 
+GLuint ModuleProgram::CreateProgram(const char* vertPath, const char* fragPath)
+{
+	GLuint vertShader = glCreateShader(GL_VERTEX_SHADER);
+	GLuint fragShader = glCreateShader(GL_FRAGMENT_SHADER);
+	GLint compileStatus = GL_FALSE;
+	int logLength = 0;
+
+
+
+	char* vertShaderStr = readShaderFile(vertPath);
+	char* fragShaderStr = readShaderFile(fragPath);
+
+	if (vertShaderStr == nullptr || fragShaderStr == nullptr) {
+		LOG("Error: Reading shaders failed");
+		return GL_FALSE;
+	}
+
+	// Compile shaders
+	glShaderSource(vertShader, 1, &vertShaderStr, NULL);
+	glCompileShader(vertShader);
+	glGetShaderiv(vertShader, GL_COMPILE_STATUS, &compileStatus);
+
+	if (!compileStatus) {
+		LOG("Error: Failed compiling vertex shader");
+		CheckCompilationErrors(vertShader);
+		return GL_FALSE;
+	}
+
+	glShaderSource(fragShader, 1, &fragShaderStr, NULL);
+	glCompileShader(fragShader);
+	glGetShaderiv(fragShader, GL_COMPILE_STATUS, &compileStatus);
+
+	if (!compileStatus) {
+		LOG("Error: Failed compiling fragment shader");
+		CheckCompilationErrors(fragShader);
+		return GL_FALSE;
+	}
+
+	// Compile Program
+	GLuint program = glCreateProgram();
+	glAttachShader(program, vertShader);
+	glAttachShader(program, fragShader);
+	glLinkProgram(program);
+	glGetProgramiv(program, GL_LINK_STATUS, &compileStatus);
+
+	// Remove shaders, we wont need them anymore if they are loaded correctly into Program
+	glDeleteShader(vertShader);
+	glDeleteShader(fragShader);
+
+	return program;
+}

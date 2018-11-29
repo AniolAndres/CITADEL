@@ -49,13 +49,11 @@ bool ModuleRender::Init()
     SDL_GetWindowSize(App->window->window, &width, &height);
     glViewport(0, 0, width, height);
 
-	if (!App->program->program)
+	if (!App->program->programLoader)
 	{
 		LOG("Error: Program cannot be compiled");
 		return false;
 	}
-
-	glUseProgram(App->program->program);
 
 	//float3 vertex_buffer_data[] =
 	//{
@@ -101,9 +99,11 @@ update_status ModuleRender::Update()
 	//	(void*)0            // array buffer offset
 	//);
 
-	glUniformMatrix4fv(glGetUniformLocation(App->program->program, "model"), 1, GL_TRUE, &Model[0][0]);
-	glUniformMatrix4fv(glGetUniformLocation(App->program->program, "view"), 1, GL_TRUE, &App->renderer->viewMatrix[0][0]);
-	glUniformMatrix4fv(glGetUniformLocation(App->program->program, "proj"), 1, GL_TRUE, &App->renderer->projectionMatrix[0][0]);
+	glUseProgram(App->program->programLoader);
+
+	glUniformMatrix4fv(glGetUniformLocation(App->program->programLoader, "model"), 1, GL_TRUE, &Model[0][0]);
+	glUniformMatrix4fv(glGetUniformLocation(App->program->programLoader, "view"), 1, GL_TRUE, &App->renderer->viewMatrix[0][0]);
+	glUniformMatrix4fv(glGetUniformLocation(App->program->programLoader, "proj"), 1, GL_TRUE, &App->renderer->projectionMatrix[0][0]);
 
 	for (int i = 0; i < App->modelLoader->scene->mNumMeshes; ++i) {
 
@@ -114,7 +114,7 @@ update_status ModuleRender::Update()
 
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, App->modelLoader->materials[App->modelLoader->textures[i]]);
-		glUniform1i(glGetUniformLocation(App->program->program, "texture0"), 0);
+		glUniform1i(glGetUniformLocation(App->program->programLoader, "texture0"), 0);
 
 		glEnableVertexAttribArray(0);
 		glEnableVertexAttribArray(1);
@@ -122,6 +122,7 @@ update_status ModuleRender::Update()
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
 		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, (void*)(sizeof(float) * 3 * App->modelLoader->numVerticesMesh[i]));
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, App->modelLoader->ibos[i]);
+
 		glDrawElements(GL_TRIANGLES, numIndexesActual, GL_UNSIGNED_INT, nullptr);
 
 		glDisableVertexAttribArray(0);
@@ -134,10 +135,6 @@ update_status ModuleRender::Update()
 
 	drawGrid();
 
-	int fragUnifLocation = glGetUniformLocation(App->program->program, "newColor");
-	float color[4] = { 1.0f, 1.0f, 1.0f, 1.0f };
-	glUniform4fv(fragUnifLocation, 1, color);
-
 	//glDrawArrays(GL_TRIANGLES, 0, 3); // Starting from vertex 0; 3 vertices total -> 1 triangle
 	glDisableVertexAttribArray(0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -145,7 +142,9 @@ update_status ModuleRender::Update()
 	glUseProgram(0);
 	ImGui::Render();
 	ImGui_ImplOpenGL2_RenderDrawData(ImGui::GetDrawData());
-	glUseProgram(App->program->program);
+	glUseProgram(App->program->programLoader);
+
+
 
 	return UPDATE_CONTINUE;
 }
@@ -219,8 +218,14 @@ void ModuleRender::drawGrid()
 
 	glLineWidth(2.0f);
 
+	glUseProgram(App->program->programGrid);
+
+	int fragUnifLocation = glGetUniformLocation(App->program->programGrid, "newColor");
+	float color[4] = { 1.0f, 1.0f, 1.0f, 1.0f };
+	glUniform4fv(fragUnifLocation, 1, color);
+
 	// red X
-	int xAxis = glGetUniformLocation(App->program->program, "newColor");
+	int xAxis = glGetUniformLocation(App->program->programGrid, "newColor");
 	float red[4] = { 1.0f, 0.0f, 0.0f, 1.0f };
 	glUniform4fv(xAxis, 1, red);
 
@@ -231,7 +236,7 @@ void ModuleRender::drawGrid()
 	glEnd();
 
 	// green Y
-	int yAxis = glGetUniformLocation(App->program->program, "newColor");
+	int yAxis = glGetUniformLocation(App->program->programGrid, "newColor");
 	float green[4] = { 0.0f, 1.0f, 0.0f, 1.0f };
 	glUniform4fv(yAxis, 1, green);
 
@@ -244,7 +249,7 @@ void ModuleRender::drawGrid()
 	glEnd();
 
 	// blue Z
-	int zAxis = glGetUniformLocation(App->program->program, "newColor");
+	int zAxis = glGetUniformLocation(App->program->programGrid, "newColor");
 	float blue[4] = { 0.0f, 0.0f, 1.0f, 1.0f };
 	glUniform4fv(zAxis, 1, blue);
 
@@ -257,7 +262,7 @@ void ModuleRender::drawGrid()
 	glEnd();
 
 	//GRID
-	int grid = glGetUniformLocation(App->program->program, "newColor");
+	int grid = glGetUniformLocation(App->program->programGrid, "newColor");
 	float white[4] = { 1.0f, 1.0f, 1.0f, 1.0f };
 	glUniform4fv(grid, 1, white);
 
@@ -272,5 +277,5 @@ void ModuleRender::drawGrid()
 		glVertex3f(d, 0.0f, i);
 	}
 	glEnd();
-
+	glUseProgram(App->program->programLoader);
 }
