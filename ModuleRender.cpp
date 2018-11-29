@@ -218,7 +218,13 @@ void ModuleRender::drawGrid()
 
 	glLineWidth(2.0f);
 
+	float4x4 Model(math::float4x4::identity); // Not moving anything
+
 	glUseProgram(App->program->programGrid);
+
+	glUniformMatrix4fv(glGetUniformLocation(App->program->programGrid, "model"), 1, GL_TRUE, &Model[0][0]);
+	glUniformMatrix4fv(glGetUniformLocation(App->program->programGrid, "view"), 1, GL_TRUE, &App->renderer->viewMatrix[0][0]);
+	glUniformMatrix4fv(glGetUniformLocation(App->program->programGrid, "proj"), 1, GL_TRUE, &App->renderer->projectionMatrix[0][0]);
 
 	int fragUnifLocation = glGetUniformLocation(App->program->programGrid, "newColor");
 	float color[4] = { 1.0f, 1.0f, 1.0f, 1.0f };
