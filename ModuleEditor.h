@@ -20,7 +20,7 @@ public:
 
 private:
 	bool show_console_window = false;
-	bool show_demo_window = true;
+	bool show_info_window = false;
 	bool show_another_window = false;
 };
 

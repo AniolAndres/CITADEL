@@ -3,6 +3,7 @@
 #include "Application.h"
 #include "ModuleInput.h"
 #include "ModuleRender.h"
+#include "ModuleModelLoader.h"
 #include "SDL/include/SDL.h"
 #include "IMGUI/imgui.h"
 #include "IMGUI/imgui_impl_sdl.h"
@@ -111,7 +112,12 @@ update_status ModuleInput::PreUpdate()
 					break;
 				}
 			break;
-
+			case SDL_DROPFILE:
+				App->modelLoader->modelPath = event.drop.file;
+				App->modelLoader->LoadFBX(App->modelLoader->modelPath);
+				LOG("File dropped")
+				App->modelLoader->modelLoaded = true;
+			break;
 			case SDL_MOUSEBUTTONDOWN:
 				mouse_buttons[event.button.button - 1] = KEY_DOWN;
 			break;

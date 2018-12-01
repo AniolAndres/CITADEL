@@ -77,32 +77,35 @@ update_status ModuleRender::Update()
 	glUniformMatrix4fv(glGetUniformLocation(App->program->programLoader, "view"), 1, GL_TRUE, &App->renderer->viewMatrix[0][0]);
 	glUniformMatrix4fv(glGetUniformLocation(App->program->programLoader, "proj"), 1, GL_TRUE, &App->renderer->projectionMatrix[0][0]);
 
-	for (int i = 0; i < App->modelLoader->scene->mNumMeshes; ++i) {
+	if (App->modelLoader->modelLoaded)
+	{
+		for (int i = 0; i < App->modelLoader->scene->mNumMeshes; ++i) {
 
 
-		unsigned vboActual = App->modelLoader->vbos[i];
-		unsigned numVerticesActual = App->modelLoader->numVerticesMesh[i];
-		unsigned numIndexesActual = App->modelLoader->numIndicesMesh[i];
+			unsigned vboActual = App->modelLoader->vbos[i];
+			unsigned numVerticesActual = App->modelLoader->numVerticesMesh[i];
+			unsigned numIndexesActual = App->modelLoader->numIndicesMesh[i];
 
-		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, App->modelLoader->materials[App->modelLoader->textures[i]]);
-		glUniform1i(glGetUniformLocation(App->program->programLoader, "texture0"), 0);
+			glActiveTexture(GL_TEXTURE0);
+			glBindTexture(GL_TEXTURE_2D, App->modelLoader->materials[App->modelLoader->textures[i]]);
+			glUniform1i(glGetUniformLocation(App->program->programLoader, "texture0"), 0);
 
-		glEnableVertexAttribArray(0);
-		glEnableVertexAttribArray(1);
-		glBindBuffer(GL_ARRAY_BUFFER, vboActual);
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
-		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, (void*)(sizeof(float) * 3 * App->modelLoader->numVerticesMesh[i]));
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, App->modelLoader->ibos[i]);
+			glEnableVertexAttribArray(0);
+			glEnableVertexAttribArray(1);
+			glBindBuffer(GL_ARRAY_BUFFER, vboActual);
+			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
+			glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, (void*)(sizeof(float) * 3 * App->modelLoader->numVerticesMesh[i]));
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, App->modelLoader->ibos[i]);
 
-		glDrawElements(GL_TRIANGLES, numIndexesActual, GL_UNSIGNED_INT, nullptr);
+			glDrawElements(GL_TRIANGLES, numIndexesActual, GL_UNSIGNED_INT, nullptr);
 
-		glDisableVertexAttribArray(0);
-		glDisableVertexAttribArray(1);
+			glDisableVertexAttribArray(0);
+			glDisableVertexAttribArray(1);
 
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
-		glBindTexture(GL_TEXTURE_2D, 0);
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+			glBindBuffer(GL_ARRAY_BUFFER, 0);
+			glBindTexture(GL_TEXTURE_2D, 0);
+		}
 	}
 
 	if(showGrid)

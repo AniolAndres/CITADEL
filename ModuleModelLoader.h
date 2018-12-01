@@ -39,6 +39,10 @@ public:
 
 	const aiScene* scene;
 
+	char* modelPath;
+
+	bool modelLoaded = false;
+
 	ModuleModelLoader();
 	~ModuleModelLoader();
 

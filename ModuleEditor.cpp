@@ -59,7 +59,13 @@ update_status ModuleEditor::Update()
 		}
 		if (ImGui::BeginMenu("3D Tools"))
 		{
-			ImGui::MenuItem("Grid");
+			if (ImGui::MenuItem("Grid"))
+			{
+				if (App->renderer->showGrid == true)
+					App->renderer->showGrid = false;
+				else
+					App->renderer->showGrid = true;
+			}
 			ImGui::MenuItem("Option 2");
 			ImGui::MenuItem("Option 3");
 			ImGui::EndMenu();
@@ -70,27 +76,53 @@ update_status ModuleEditor::Update()
 			ImGui::MenuItem("Option B");
 			ImGui::EndMenu();
 		}
-		if (ImGui::BeginMenu("Help"))
+		if (ImGui::BeginMenu("Misc"))
 		{
-			ImGui::Text("Try Harder MOFO!");
+			if (ImGui::MenuItem("Github"))
+			{
+				ShellExecuteA(NULL, "open", "https://github.com/AniolAndres/CITADEL", NULL , NULL, SW_SHOWNORMAL);
+			}
+			if (ImGui::MenuItem("About"))
+			{
+				show_info_window = true;
+			}
 			ImGui::EndMenu();
 		}
-		
 	}
 	ImGui::EndMainMenuBar();
 
-	ImGui::SetNextWindowPos({ SCREEN_WIDTH-800,500 });
+	ImGui::Spacing();
 
-	if (ImGui::BeginMenu("Varibales"))
+	if (show_info_window)
 	{
-		if (ImGui::MenuItem("Show/hide Grid"))
-			if (App->renderer->showGrid == true)
-				App->renderer->showGrid = false;
-			else
-				App->renderer->showGrid = true;
-
-		ImGui::EndMenu();
+		if (ImGui::CollapsingHeader("About"))
+		{
+			ImGui::Text("Engine Name: Citadel");
+			ImGui::Text("Author: Aniol Andres Guiu");
+			ImGui::Text("Libraries used");
+			ImGui::BulletText("SDL");
+			ImGui::BulletText("GLEW");
+			ImGui::BulletText("IMGUI");
+			ImGui::BulletText("ASSIMP");
+			ImGui::BulletText("MATHGEOLIB");
+			ImGui::BulletText("DEVIL");
+			ImGui::BulletText("BROFILER");
+		}
 	}
+
+
+	//ImGui::SetNextWindowPos({ SCREEN_WIDTH-800,500 });
+
+	//if (ImGui::BeginMenu("Varibales"))
+	//{
+	//	if (ImGui::MenuItem("Show/hide Grid"))
+	//		if (App->renderer->showGrid == true)
+	//			App->renderer->showGrid = false;
+	//		else
+	//			App->renderer->showGrid = true;
+
+	//	ImGui::EndMenu();
+	//}
 
 	return UPDATE_CONTINUE;
 }
