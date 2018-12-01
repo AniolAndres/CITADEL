@@ -2,6 +2,7 @@
 #include "ModuleEditor.h"
 #include "Application.h"
 #include "ModuleInput.h"
+#include "ModuleRender.h"
 #include "SDL/include/SDL.h"
 #include "IMGUI/imgui.h"
 #include "IMGUI/imgui_impl_sdl.h"
@@ -90,6 +91,8 @@ update_status ModuleInput::PreUpdate()
 			break;
 
 			case SDL_WINDOWEVENT:
+				if (event.window.event == SDL_WINDOWEVENT_RESIZED || event.window.event == SDL_WINDOWEVENT_SIZE_CHANGED)
+						App->renderer->WindowResized(event.window.data1, event.window.data2);
 				switch(event.window.event)
 				{
 					//case SDL_WINDOWEVENT_LEAVE:

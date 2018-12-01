@@ -1,4 +1,5 @@
 #include "Application.h"
+#include "Globals.h"
 #include "ModuleCamera.h"
 #include "ModuleInput.h"
 #include "MathGeoLib.h"
@@ -34,16 +35,9 @@ update_status ModuleCamera::PreUpdate()
 		target = { 0,0,0 };
 		eye = { 1,1,5 };
 	}
-	else
+	else if (App->input->GetMouseButtonDown(SDL_BUTTON_RIGHT))
 	{
-		if (App->input->GetKey(SDL_SCANCODE_DOWN)) // Need to tweek glimbal lock
-		{
-			target += cameraSpeed * upwards/4;
-		}
-		if (App->input->GetKey(SDL_SCANCODE_UP))
-		{
-			target -= cameraSpeed * upwards/4;
-		}
+		SDL_ShowCursor(SDL_DISABLE);
 		if (App->input->GetKey(SDL_SCANCODE_Q))
 		{
 			eye += cameraSpeed * up / 5;
@@ -74,13 +68,22 @@ update_status ModuleCamera::PreUpdate()
 			eye -= cameraSpeed * side;
 			target -= cameraSpeed * side;
 		}
-		if (App->input->GetKey(SDL_SCANCODE_LEFT))
+		//Mouse commands feel "steppy" not smooth enough but gets job done
+		if (App->input->GetMouseMotion().x<0)
 		{
-			target += cameraSpeed * side/4;
+			target += cameraSpeed * side / 5;
 		}
-		if (App->input->GetKey(SDL_SCANCODE_RIGHT))
+		if (App->input->GetMouseMotion().x > 0)
 		{
-			target -= cameraSpeed * side/4;
+			target -= cameraSpeed * side / 5;
+		}
+		if (App->input->GetMouseMotion().y > 0)
+		{
+			target += cameraSpeed * upwards / 5;
+		}
+		if (App->input->GetMouseMotion().y < 0)
+		{
+			target -= cameraSpeed * upwards / 5;
 		}
 	}
 	return UPDATE_CONTINUE;

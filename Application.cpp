@@ -25,8 +25,6 @@ Application::Application()
 	modules.push_back(modelLoader = new ModuleModelLoader());
 	modules.push_back(input = new ModuleInput());
 	modules.push_back(camera = new ModuleCamera());
-    modules.push_back(exercise = new ModuleRenderExercise());
-
 }
 
 Application::~Application()

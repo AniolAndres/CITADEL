@@ -160,7 +160,7 @@ float4x4 ModuleRender::Transform(float3 eye, float3 target)
 	viewMatrix[0][3] = -s.Dot(eye); viewMatrix[1][3] = -u.Dot(eye); viewMatrix[2][3] = f.Dot(eye); viewMatrix[3][3] = 1;
 
 	Frustum frustum;
-	float aspect = SCREEN_WIDTH / SCREEN_HEIGHT;
+	float aspect = App->window->windowWidth / App->window->windowHeight;
 	frustum.type = FrustumType::PerspectiveFrustum;
 	frustum.pos = float3::zero;
 	frustum.front = -float3::unitZ;
@@ -183,6 +183,8 @@ float4x4 ModuleRender::Transform(float3 eye, float3 target)
 void ModuleRender::WindowResized(unsigned width, unsigned height)
 {
     glViewport(0, 0, width, height); 
+	App->window->windowHeight = height;
+	App->window->windowWidth = width;
 }
 
 void ModuleRender::drawGrid()
