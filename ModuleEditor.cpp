@@ -110,20 +110,17 @@ update_status ModuleEditor::Update()
 		}
 	}
 
+	ImGui::ShowDemoWindow();
 
-	//ImGui::SetNextWindowPos({ SCREEN_WIDTH-800,500 });
+	ImGui::Begin("Information", NULL, 0);
 
-	//if (ImGui::BeginMenu("Varibales"))
-	//{
-	//	if (ImGui::MenuItem("Show/hide Grid"))
-	//		if (App->renderer->showGrid == true)
-	//			App->renderer->showGrid = false;
-	//		else
-	//			App->renderer->showGrid = true;
-
-	//	ImGui::EndMenu();
-	//}
-
+	if(ImGui::BeginMenuBar())
+		{
+			ImGui::MenuItem("Item1");
+			ImGui::MenuItem("Item2");
+			ImGui::EndMenu();
+		}
+		ImGui::EndMenuBar();
 	return UPDATE_CONTINUE;
 }
 
