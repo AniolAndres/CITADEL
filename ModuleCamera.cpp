@@ -35,6 +35,22 @@ update_status ModuleCamera::PreUpdate()
 		target = { 0,0,0 };
 		eye = { 1,1,5 };
 	}
+	//rotates correctly but depends on distance, needs tweeking
+	else if (App->input->GetKey(SDL_SCANCODE_LALT) && App->input->GetMouseButtonDown(SDL_BUTTON_RIGHT))
+	{
+		target = { 0,0,0 };
+		eye += cameraSpeed * side / 5;
+	}
+	else if (App->input->GetMouseWheel() == WHEEL_OUT)
+	{
+		eye += cameraSpeed * front;
+		target += cameraSpeed * front;
+	}
+	else if (App->input->GetMouseWheel() == WHEEL_IN)
+	{
+		eye -= cameraSpeed * front;
+		target -= cameraSpeed * front;
+	}
 	else if (App->input->GetMouseButtonDown(SDL_BUTTON_RIGHT))
 	{
 		SDL_ShowCursor(SDL_DISABLE);

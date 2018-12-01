@@ -24,6 +24,13 @@ enum KeyState
 	KEY_UP
 };
 
+enum MouseWheel
+{
+	WHEEL_IDLE = 0,
+	WHEEL_IN,
+	WHEEL_OUT
+};
+
 class ModuleInput : public Module
 {
 
@@ -42,6 +49,8 @@ public:
 
 	// Called each loop iteration
 	update_status PreUpdate();
+
+	update_status PostUpdate();
 
 	// Called before quitting
 	bool CleanUp();
@@ -64,10 +73,15 @@ public:
 	const iPoint& GetMouseMotion() const;
 	const iPoint& GetMousePosition() const;
 
+	//Get mouse wheel state
+
+	const int GetMouseWheel() const;
+
 private:
 	bool		windowEvents[WE_COUNT];
 	KeyState*	keyboard;
 	KeyState	mouse_buttons[NUM_MOUSE_BUTTONS];
+	int mouse_wheel = WHEEL_IDLE;
 	iPoint mouse_motion;
 	iPoint mouse;
 };

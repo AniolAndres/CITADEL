@@ -120,6 +120,16 @@ update_status ModuleInput::PreUpdate()
 				mouse_buttons[event.button.button - 1] = KEY_UP;
 			break;
 
+			case SDL_MOUSEWHEEL:
+				if (event.wheel.y > 0) 
+				{
+					mouse_wheel = WHEEL_IN;
+				}
+				else if (event.wheel.y < 0) 
+				{
+					mouse_wheel = WHEEL_OUT;
+				}
+
 			case SDL_MOUSEMOTION:
 				mouse_motion.x = event.motion.xrel / SCREEN_SIZE;
 				mouse_motion.y = event.motion.yrel / SCREEN_SIZE;
@@ -134,6 +144,12 @@ update_status ModuleInput::PreUpdate()
 		ImGui::EndFrame();
 		return UPDATE_STOP;
 	}
+	return UPDATE_CONTINUE;
+}
+
+update_status ModuleInput::PostUpdate()
+{
+	mouse_wheel = WHEEL_IDLE;
 	return UPDATE_CONTINUE;
 }
 
@@ -159,4 +175,9 @@ const iPoint& ModuleInput::GetMousePosition() const
 const iPoint& ModuleInput::GetMouseMotion() const
 {
 	return mouse_motion;
+}
+
+const int ModuleInput::GetMouseWheel() const
+{
+	return mouse_wheel;
 }
