@@ -20,6 +20,7 @@ bool ModuleProgram::Init()
 
 	programGrid = CreateProgram("../vertGrid.txt", "../fragGrid.txt");
 
+	programNoTextures = CreateProgram("../vertNoTextures.txt", "../fragNoTextures.txt");
 
 	return ret;
 }

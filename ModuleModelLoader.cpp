@@ -9,7 +9,6 @@
 bool ModuleModelLoader::Init()
 {
 	bool ret = true;
-	/*LoadFBX("BakerHouse.fbx");*/
 	return ret;
 }
 

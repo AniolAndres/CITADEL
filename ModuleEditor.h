@@ -30,7 +30,7 @@ public:
 		{
 			va_list args;
 			va_start(args, fmt);
-			Buf.appendfv(fmt, args);
+			Buf.appendf(fmt, args);
 			ImGui::NewLine();
 			va_end(args);
 			ScrollToBottom = true;
@@ -40,7 +40,7 @@ public:
 		{
 			ImGui::Begin(title, p_opened);
 			ImGui::TextUnformatted(Buf.begin());
-			
+			//Everything is printed in the same line, needs some more work
 			if (ScrollToBottom)
 				ImGui::SetScrollHere(1.0f);
 			ScrollToBottom = false;

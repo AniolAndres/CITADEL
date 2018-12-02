@@ -23,7 +23,7 @@ update_status ModuleCamera::PreUpdate()
 	upwards = front.Cross(side);
 	upwards.Normalize();
 	side = side / 5;
-	upwards = upwards / 20;
+	upwards = upwards / 5;
 
 	if (App->input->GetKey(SDL_SCANCODE_RSHIFT) || App->input->GetKey(SDL_SCANCODE_LSHIFT))
 		cameraSpeed = 2.5f;

@@ -25,6 +25,8 @@ public:
 	GLuint programLoader;
 
 	GLuint programGrid;
+
+	GLuint programNoTextures;
 };
 
 #endif // __ModuleProgram_H_

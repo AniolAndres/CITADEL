@@ -25,6 +25,8 @@ public:
 	void drawGrid();
 	void* context;
 
+	bool showTextures = true;
+
 	bool showGrid = true;
 
 private:

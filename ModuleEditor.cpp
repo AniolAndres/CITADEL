@@ -142,7 +142,7 @@ update_status ModuleEditor::Update()
 		}
 		else
 		{
-			if (ImGui::CollapsingHeader("Module Camera"))
+			if (ImGui::CollapsingHeader("Module Camera")) //It's hard to track rotations because everything turn according to vectors and not a Quaternion
 			{
 				ImGui::Text("Current camera position:");
 				ImGui::BulletText("(%f,%f,%f)", App->camera->eye.x, App->camera->eye.y, App->camera->eye.z);
@@ -150,6 +150,10 @@ update_status ModuleEditor::Update()
 				ImGui::BulletText("(%f,%f,%f)", App->camera->target.x, App->camera->target.y, App->camera->target.z);
 				ImGui::Text("Front vector:");
 				ImGui::BulletText("(%f,%f,%f)", App->camera->front.x, App->camera->front.y, App->camera->front.z);
+				ImGui::Text("Side vector:");
+				ImGui::BulletText("(%f,%f,%f)", App->camera->side.x, App->camera->side.y, App->camera->side.z);
+				ImGui::Text("Upwards vector:");
+				ImGui::BulletText("(%f,%f,%f)", App->camera->upwards.x, App->camera->upwards.y, App->camera->upwards.z);
 			}
 			if (ImGui::CollapsingHeader("Module Editor"))
 			{
@@ -182,7 +186,7 @@ update_status ModuleEditor::Update()
 			}
 			if (ImGui::CollapsingHeader("Module Textures"))
 			{
-				//Nothing to show yet
+				ImGui::Checkbox("Textures", &App->renderer->showTextures);
 			}
 			if (ImGui::CollapsingHeader("Module Input"))
 			{
@@ -193,6 +197,44 @@ update_status ModuleEditor::Update()
 			{
 				ImGui::Text("Current window size: ");
 				ImGui::BulletText(" %f x %f ", App->window->windowWidth, App->window->windowHeight); //How can I get rid of the decimals?
+			}
+			if (ImGui::CollapsingHeader("Properties: "))
+			{
+				if (App->modelLoader->modelLoaded)
+				{
+					if (ImGui::TreeNode("Transformation"))
+					{
+						ImGui::Text("Current camera position:");
+						ImGui::BulletText("(%f,%f,%f)", App->camera->eye.x, App->camera->eye.y, App->camera->eye.z);
+						ImGui::Text("Current target position:");
+						ImGui::BulletText("(%f,%f,%f)", App->camera->target.x, App->camera->target.y, App->camera->target.z);
+						ImGui::Text("Front vector:");
+						ImGui::BulletText("(%f,%f,%f)", App->camera->front.x, App->camera->front.y, App->camera->front.z);
+						ImGui::Text("Side vector:");
+						ImGui::BulletText("(%f,%f,%f)", App->camera->side.x, App->camera->side.y, App->camera->side.z);
+						ImGui::Text("Upwards vector:");
+						ImGui::BulletText("(%f,%f,%f)", App->camera->upwards.x, App->camera->upwards.y, App->camera->upwards.z);
+						ImGui::TreePop();
+						ImGui::Separator();
+					}
+					if (ImGui::TreeNode("Geometry"))
+					{
+						ImGui::Text("Scale: "); //pending
+						ImGui::TreePop();
+						ImGui::Separator();
+					}
+					if (ImGui::TreeNode("Texture"))
+					{
+						ImGui::Text("Number of meshes: %i", App->modelLoader->scene->mNumMeshes);
+						ImGui::Text("Number of vertices: %i", App->modelLoader->numVerticesTotal);
+						ImGui::TreePop();
+						ImGui::Separator();
+					}
+				}
+				else
+				{
+					ImGui::Text("No scene loaded atm");
+				}
 			}
 			if (ImGui::CollapsingHeader("Configuration"))
 			{

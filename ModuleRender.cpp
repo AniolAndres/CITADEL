@@ -3,6 +3,7 @@
 #include "ModuleRender.h"
 #include "ModuleWindow.h"
 #include "ModuleProgram.h"
+#include "ModuleEditor.h"
 #include "ModuleCamera.h"
 #include "ModuleModelLoader.h"
 #include "IMGUI/imgui.h"
@@ -71,11 +72,18 @@ update_status ModuleRender::Update()
 
 	float4x4 Model(math::float4x4::identity); // Not moving anything
 
-	glUseProgram(App->program->programLoader);
+	if (showTextures)
+		glUseProgram(App->program->programLoader);
+	else
+		glUseProgram(App->program->programNoTextures);
 
 	glUniformMatrix4fv(glGetUniformLocation(App->program->programLoader, "model"), 1, GL_TRUE, &Model[0][0]);
 	glUniformMatrix4fv(glGetUniformLocation(App->program->programLoader, "view"), 1, GL_TRUE, &App->renderer->viewMatrix[0][0]);
 	glUniformMatrix4fv(glGetUniformLocation(App->program->programLoader, "proj"), 1, GL_TRUE, &App->renderer->projectionMatrix[0][0]);
+
+	glUniformMatrix4fv(glGetUniformLocation(App->program->programNoTextures, "model"), 1, GL_TRUE, &Model[0][0]);
+	glUniformMatrix4fv(glGetUniformLocation(App->program->programNoTextures, "view"), 1, GL_TRUE, &App->renderer->viewMatrix[0][0]);
+	glUniformMatrix4fv(glGetUniformLocation(App->program->programNoTextures, "proj"), 1, GL_TRUE, &App->renderer->projectionMatrix[0][0]);
 
 	if (App->modelLoader->modelLoaded)
 	{
@@ -85,26 +93,49 @@ update_status ModuleRender::Update()
 			unsigned vboActual = App->modelLoader->vbos[i];
 			unsigned numVerticesActual = App->modelLoader->numVerticesMesh[i];
 			unsigned numIndexesActual = App->modelLoader->numIndicesMesh[i];
+		
+			if (showTextures)
+			{
+				glActiveTexture(GL_TEXTURE0);
+				glBindTexture(GL_TEXTURE_2D, App->modelLoader->materials[App->modelLoader->textures[i]]);
+				glUniform1i(glGetUniformLocation(App->program->programLoader, "texture0"), 0);
 
-			glActiveTexture(GL_TEXTURE0);
-			glBindTexture(GL_TEXTURE_2D, App->modelLoader->materials[App->modelLoader->textures[i]]);
-			glUniform1i(glGetUniformLocation(App->program->programLoader, "texture0"), 0);
+				glEnableVertexAttribArray(0);
+				glEnableVertexAttribArray(1);
+				glBindBuffer(GL_ARRAY_BUFFER, vboActual);
+				glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
+				glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, (void*)(sizeof(float) * 3 * App->modelLoader->numVerticesMesh[i]));
+				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, App->modelLoader->ibos[i]);
 
-			glEnableVertexAttribArray(0);
-			glEnableVertexAttribArray(1);
-			glBindBuffer(GL_ARRAY_BUFFER, vboActual);
-			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
-			glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, (void*)(sizeof(float) * 3 * App->modelLoader->numVerticesMesh[i]));
-			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, App->modelLoader->ibos[i]);
+				glDrawElements(GL_TRIANGLES, numIndexesActual, GL_UNSIGNED_INT, nullptr);
+				glDisableVertexAttribArray(0);
+				glDisableVertexAttribArray(1);
 
-			glDrawElements(GL_TRIANGLES, numIndexesActual, GL_UNSIGNED_INT, nullptr);
+				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+				glBindBuffer(GL_ARRAY_BUFFER, 0);
+				glBindTexture(GL_TEXTURE_2D, 0);
+			}
+			else
+			{
+				glActiveTexture(GL_TEXTURE0);
+				glBindTexture(GL_TEXTURE_2D, App->modelLoader->materials[App->modelLoader->textures[i]]);
+				glUniform1i(glGetUniformLocation(App->program->programNoTextures, "color"), 0);
 
-			glDisableVertexAttribArray(0);
-			glDisableVertexAttribArray(1);
+				glEnableVertexAttribArray(0);
+				glEnableVertexAttribArray(1);
+				glBindBuffer(GL_ARRAY_BUFFER, vboActual);
+				glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
+				glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, (void*)(sizeof(float) * 3 * App->modelLoader->numVerticesMesh[i]));
+				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, App->modelLoader->ibos[i]);
 
-			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-			glBindBuffer(GL_ARRAY_BUFFER, 0);
-			glBindTexture(GL_TEXTURE_2D, 0);
+				glDrawElements(GL_TRIANGLES, numIndexesActual, GL_UNSIGNED_INT, nullptr);
+				glDisableVertexAttribArray(0);
+				glDisableVertexAttribArray(1);
+
+				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+				glBindBuffer(GL_ARRAY_BUFFER, 0);
+				glBindTexture(GL_TEXTURE_2D, 0);
+			}
 		}
 	}
 
@@ -118,7 +149,6 @@ update_status ModuleRender::Update()
 	glUseProgram(0);
 	ImGui::Render();
 	ImGui_ImplOpenGL2_RenderDrawData(ImGui::GetDrawData());
-	glUseProgram(App->program->programLoader);
 
 	return UPDATE_CONTINUE;
 }
