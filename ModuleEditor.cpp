@@ -3,6 +3,8 @@
 #include "Globals.h"
 #include "ModuleWindow.h"
 #include "ModuleRender.h"
+#include "ModuleCamera.h"
+#include "ModuleInput.h"
 #include "ModuleProgram.h"
 #include "GL/glew.h"
 #include "IMGUI/imgui.h"
@@ -66,7 +68,13 @@ update_status ModuleEditor::Update()
 				else
 					App->renderer->showGrid = true;
 			}
-			ImGui::MenuItem("Option 2");
+			if (ImGui::MenuItem("Editor"))
+			{
+				if (showEditorWindow)
+					showEditorWindow = false;
+				else
+					showEditorWindow = true;
+			}
 			ImGui::MenuItem("Option 3");
 			ImGui::EndMenu();
 		}
@@ -91,10 +99,9 @@ update_status ModuleEditor::Update()
 	}
 	ImGui::EndMainMenuBar();
 
-	ImGui::Spacing();
-
 	if (show_info_window)
 	{
+		ImGui::Begin("Information");
 		if (ImGui::CollapsingHeader("About"))
 		{
 			ImGui::Text("Engine Name: Citadel");
@@ -108,19 +115,71 @@ update_status ModuleEditor::Update()
 			ImGui::BulletText("DEVIL");
 			ImGui::BulletText("BROFILER");
 		}
+		ImGui::End();
 	}
 
-	ImGui::ShowDemoWindow();
+	//ImGui::ShowDemoWindow();
 
-	ImGui::Begin("Information", NULL, 0);
 
-	if(ImGui::BeginMenuBar())
+	//Editor tools Window
+
+	float editorWidth, editorHeight;
+
+	editorWidth = 400;
+	editorHeight = App->window->windowHeight - 20;
+
+	ImGui::SetNextWindowSize({ editorWidth, editorHeight });
+	ImGui::SetNextWindowPos({ App->window->windowWidth - editorWidth, 18});
+
+	if (showEditorWindow)
+	{
+		if (!ImGui::Begin("Editor tools", NULL, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse))
 		{
-			ImGui::MenuItem("Item1");
-			ImGui::MenuItem("Item2");
-			ImGui::EndMenu();
+			ImGui::End();
 		}
-		ImGui::EndMenuBar();
+		else
+		{
+			if (ImGui::CollapsingHeader("Module Camera"))
+			{
+				ImGui::Text("Current camera position:");
+				ImGui::BulletText("(%f,%f,%f)", App->camera->eye.x, App->camera->eye.y, App->camera->eye.z);
+				ImGui::Text("Current target position:");
+				ImGui::BulletText("(%f,%f,%f)", App->camera->target.x, App->camera->target.y, App->camera->target.z);
+			}
+			if (ImGui::CollapsingHeader("Module Editor"))
+			{
+				//Nothing to show yet
+			}
+			if (ImGui::CollapsingHeader("Module ModelLoader"))
+			{
+
+			}
+			if (ImGui::CollapsingHeader("Module Program"))
+			{
+				//Nothing to show yet
+			}
+			if (ImGui::CollapsingHeader("Module Render"))
+			{
+
+			}
+			if (ImGui::CollapsingHeader("Module Textures"))
+			{
+				//Nothing to show yet
+			}
+			if (ImGui::CollapsingHeader("Module Input"))
+			{
+				ImGui::Text("Current mouse position:");
+				ImGui::BulletText(" %f , %f ", App->input->GetMousePosition().x, App->input->GetMousePosition().y);
+			}
+			if (ImGui::CollapsingHeader("Module Window"))
+			{
+				ImGui::Text("Current window size: ");
+				ImGui::BulletText(" %f x %f ", App->window->windowWidth, App->window->windowHeight); //How can I get rid of the decimals?
+			}
+
+			ImGui::End();
+		}
+	}
 	return UPDATE_CONTINUE;
 }
 

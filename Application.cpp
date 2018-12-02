@@ -10,8 +10,6 @@
 #include "ModuleEditor.h"
 #include "ModuleModelLoader.h"
 
-//MIRAR RESIZE DE WINDOW, CASA DISTORSIONADA
-
 using namespace std;
 
 Application::Application()

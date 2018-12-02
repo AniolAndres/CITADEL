@@ -21,7 +21,7 @@ public:
 private:
 	bool show_console_window = false;
 	bool show_info_window = false;
-	bool show_another_window = false;
+	bool showEditorWindow = true;
 };
 
 #endif // __ModuleEditor_H_

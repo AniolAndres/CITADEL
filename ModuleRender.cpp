@@ -120,8 +120,6 @@ update_status ModuleRender::Update()
 	ImGui_ImplOpenGL2_RenderDrawData(ImGui::GetDrawData());
 	glUseProgram(App->program->programLoader);
 
-
-
 	return UPDATE_CONTINUE;
 }
 
