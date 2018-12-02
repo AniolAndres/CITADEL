@@ -1,6 +1,7 @@
 #include "ModuleModelLoader.h"
 #include "MathGeoLib.h"
 #include "ModuleTextures.h"
+#include "ModuleEditor.h"
 #include "Application.h"
 #include "GL/glew.h"
 
@@ -69,9 +70,12 @@ bool ModuleModelLoader::LoadFBX(const char* path)
 	{
 		err = aiGetErrorString();
 		LOG(err);
+		App->editor->consoleApp.AddLog("Failed to import FBX");
 	}
 	else
 	{
+		App->editor->consoleApp.AddLog("Importation succesfull");
+
 		vbos = new unsigned[scene->mNumMeshes];
 		ibos = new unsigned[scene->mNumMeshes];
 		textures = new unsigned[scene->mNumMeshes];
@@ -80,7 +84,9 @@ bool ModuleModelLoader::LoadFBX(const char* path)
 		numIndicesMesh = new unsigned[scene->mNumMeshes];
 
 		GenerateMeshes(scene);
+		App->editor->consoleApp.AddLog("Generating Meshes");
 		GenerateMaterials(scene);
+		App->editor->consoleApp.AddLog("Generating materials");
 	}
 	return true;
 }	

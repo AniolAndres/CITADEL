@@ -3,6 +3,7 @@
 
 #include "GL/glew.h"
 #include "Module.h"
+#include "IMGUI/imgui.h"
 
 class ModuleEditor :
 	public Module
@@ -17,15 +18,47 @@ public:
 
 	void updateFramerate();
 
+
+	struct ExampleAppLog
+	{
+		ImGuiTextBuffer     Buf;
+		bool                ScrollToBottom;
+
+		void    Clear() { Buf.clear(); }
+
+		void    AddLog(const char* fmt, ...)
+		{
+			va_list args;
+			va_start(args, fmt);
+			Buf.appendfv(fmt, args);
+			ImGui::NewLine();
+			va_end(args);
+			ScrollToBottom = true;
+		}
+
+		void    Draw(const char* title, bool* p_opened = NULL)
+		{
+			ImGui::Begin(title, p_opened);
+			ImGui::TextUnformatted(Buf.begin());
+			
+			if (ScrollToBottom)
+				ImGui::SetScrollHere(1.0f);
+			ScrollToBottom = false;
+			ImGui::End();
+		}
+	};
+	ExampleAppLog consoleApp;
+
 	ModuleEditor();
 	~ModuleEditor();
 
 private:
-	bool show_console_window = false;
-	bool show_info_window = false;
+	bool showConsoleWindow = true;
+	bool showInfoWindow = false;
 	bool showEditorWindow = true;
 	bool stopFPS = false;
 	float editorWidth, editorHeight;
+	float consoleWidth, consoleHeight;
 	float currentFrame, lastFrame , currentFPS, currentMs;
 	float fpsLog[50], msLog[50];
 	int fpsIterator;

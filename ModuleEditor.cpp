@@ -16,6 +16,8 @@ bool ModuleEditor::Init()
 {
 	bool ret = true;
 
+	
+
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
 	ImGuiIO& io = ImGui::GetIO();
@@ -51,7 +53,7 @@ update_status ModuleEditor::Update()
 	static int counter = 0;
 
 	ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
-	
+
 	//Main Menu
 
 	if (ImGui::BeginMainMenuBar())
@@ -64,7 +66,7 @@ update_status ModuleEditor::Update()
 			{
 				ImGui::EndMenu();
 				ImGui::EndMainMenuBar();
-				ImGui::EndFrame(); 
+				ImGui::EndFrame();
 				return UPDATE_STOP;
 			}
 			ImGui::EndMenu();
@@ -78,7 +80,13 @@ update_status ModuleEditor::Update()
 				else
 					showEditorWindow = true;
 			}
-			ImGui::MenuItem("Option 3");
+			if (ImGui::MenuItem("Console"))
+			{
+				if (showConsoleWindow)
+					showConsoleWindow = false;
+				else
+					showConsoleWindow = true;
+			}
 			ImGui::EndMenu();
 		}
 		if (ImGui::BeginMenu("Debug"))
@@ -91,35 +99,32 @@ update_status ModuleEditor::Update()
 		{
 			if (ImGui::MenuItem("Github"))
 			{
-				ShellExecuteA(NULL, "open", "https://github.com/AniolAndres/CITADEL", NULL , NULL, SW_SHOWNORMAL);
+				ShellExecuteA(NULL, "open", "https://github.com/AniolAndres/CITADEL", NULL, NULL, SW_SHOWNORMAL);
 			}
 			ImGui::EndMenu();
 		}
 	}
 	ImGui::EndMainMenuBar();
 
-	if (show_info_window)
+	if (showInfoWindow)
 	{
-		ImGui::Begin("Information", 0 , ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize);
+		ImGui::Begin("Information", 0, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize);
 
-			ImGui::Text("Engine Name: Citadel");
-			ImGui::Text("Author: Aniol Andres Guiu");
-			ImGui::Text("Libraries used");
-			ImGui::BulletText("SDL2");
-			ImGui::BulletText("GLEW");
-			ImGui::BulletText("IMGUI");
-			ImGui::BulletText("ASSIMP");
-			ImGui::BulletText("MATHGEOLIB");
-			ImGui::BulletText("DEVIL");
-			ImGui::BulletText("BROFILER");
+		ImGui::Text("Engine Name: Citadel");
+		ImGui::Text("Author: Aniol Andres Guiu");
+		ImGui::Text("Libraries used");
+		ImGui::BulletText("SDL2");
+		ImGui::BulletText("GLEW");
+		ImGui::BulletText("IMGUI");
+		ImGui::BulletText("ASSIMP");
+		ImGui::BulletText("MATHGEOLIB");
+		ImGui::BulletText("DEVIL");
+		ImGui::BulletText("BROFILER");
 
 		ImGui::End();
 	}
 
 	//ImGui::ShowDemoWindow();
-
-	//Console window
-
 
 	//Editor tools Window
 
@@ -127,7 +132,7 @@ update_status ModuleEditor::Update()
 	editorHeight = App->window->windowHeight - 20;
 
 	ImGui::SetNextWindowSize({ editorWidth, editorHeight });
-	ImGui::SetNextWindowPos({ App->window->windowWidth - editorWidth, 18});
+	ImGui::SetNextWindowPos({ App->window->windowWidth - editorWidth, 18 });
 
 	if (showEditorWindow)
 	{
@@ -148,7 +153,7 @@ update_status ModuleEditor::Update()
 			}
 			if (ImGui::CollapsingHeader("Module Editor"))
 			{
-				ImGui::Checkbox("Information", &show_info_window);
+				ImGui::Checkbox("Information", &showInfoWindow);
 			}
 			if (ImGui::CollapsingHeader("Module ModelLoader"))
 			{
@@ -191,13 +196,13 @@ update_status ModuleEditor::Update()
 			}
 			if (ImGui::CollapsingHeader("Configuration"))
 			{
-				
+
 				ImGui::Text("Application Time = %d", SDL_GetTicks() / 1000);
 				ImGui::Checkbox("Stop", &stopFPS);
 				ImGui::Text("Current FPS = %f ", currentFPS);
 				ImGui::PlotHistogram("FPS", fpsLog, 50, 0, "FPS graphic", 0.0f, 100.0f, ImVec2(350, 100));
 				ImGui::Text("Current MS = %f ", currentMs);
-				ImGui::PlotHistogram("MS", msLog, 50, 0, "MS graphic", 0.0f, 25.0f/1000.0f, ImVec2(350, 100));
+				ImGui::PlotHistogram("MS", msLog, 50, 0, "MS graphic", 0.0f, 25.0f / 1000.0f, ImVec2(350, 100));
 				ImGui::Text("Graphics card vendor: %s \n", glGetString(GL_VENDOR));
 				ImGui::Text("Graphics card used: %s \n", glGetString(GL_RENDERER));
 				ImGui::NewLine();
@@ -210,8 +215,23 @@ update_status ModuleEditor::Update()
 			ImGui::End();
 		}
 	}
+
+
+	//Console window
+
+	consoleHeight = 200;
+	consoleWidth = App->window->windowWidth - editorWidth;
+
+	ImGui::SetNextWindowSize({ consoleWidth, consoleHeight });
+	ImGui::SetNextWindowPos({ 0 , App->window->windowHeight - consoleHeight });
+
+	consoleApp.Draw("Console");
+
+
+
 	return UPDATE_CONTINUE;
 }
+
 
 update_status ModuleEditor::PostUpdate()
 {
