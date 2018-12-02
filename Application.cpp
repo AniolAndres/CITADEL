@@ -5,7 +5,6 @@
 #include "ModuleTextures.h"
 #include "ModuleInput.h"
 #include "ModuleProgram.h"
-#include "ModuleRenderExercise.h"
 #include "ModuleCamera.h"
 #include "ModuleEditor.h"
 #include "ModuleModelLoader.h"

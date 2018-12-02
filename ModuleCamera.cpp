@@ -13,13 +13,14 @@ bool ModuleCamera::Init()
 
 update_status ModuleCamera::PreUpdate()
 {
-	float3 front = eye - target;
-	float3 dirX = { 1,0,0 };
+	//rotates by calculating each frame 3 vectors and applying those to target and eye
+
+	front = eye - target;
 	front.Normalize();
-	target = eye - front;
-	float3 side = front.Cross(up);
+	target = eye - front; //to make speed constant
+	side = front.Cross(up);
 	side.Normalize();
-	float3 upwards = front.Cross(side);
+	upwards = front.Cross(side);
 	upwards.Normalize();
 	side = side / 5;
 	upwards = upwards / 20;
@@ -33,12 +34,12 @@ update_status ModuleCamera::PreUpdate()
 	if (App->input->GetKey(SDL_SCANCODE_F))
 	{
 		target = { 0,0,0 };
-		eye = { 1,1,5 };
+		eye = { 2,2,10 };
 	}
 	//rotates correctly but depends on distance, needs tweeking
 	else if (App->input->GetKey(SDL_SCANCODE_LALT) && App->input->GetMouseButtonDown(SDL_BUTTON_RIGHT))
 	{
-		target = { 0,0,0 };
+		target = { 0,0,0 }; //this is not optimal but I'll leave it for now
 		eye += cameraSpeed * side / 5;
 	}
 	else if (App->input->GetMouseWheel() == WHEEL_OUT)

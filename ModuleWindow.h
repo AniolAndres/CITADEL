@@ -28,6 +28,8 @@ public:
 	//The surface contained by the window
 	SDL_Surface* screen_surface = NULL;
 
+	SDL_version version;
+
 	float windowHeight, windowWidth;
 };
 

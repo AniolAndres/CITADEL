@@ -35,6 +35,8 @@ public:
 
 	unsigned* numVerticesMesh;
 
+	unsigned* numVerticesTotal;
+
 	unsigned* numIndicesMesh;
 
 	const aiScene* scene;

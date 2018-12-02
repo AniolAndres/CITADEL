@@ -87,13 +87,13 @@ bool ModuleModelLoader::LoadFBX(const char* path)
 
 void ModuleModelLoader::GenerateMeshes(const aiScene* scene)
 {
-
+	numVerticesTotal = 0;
 	for (unsigned i = 0; i < scene->mNumMeshes; ++i)
 	{
 
 		const aiMesh* sourceMesh = scene->mMeshes[i];
 
-
+		numVerticesTotal += sourceMesh->mNumVertices;
 
 		glGenBuffers(1, &vbos[i]);
 		glBindBuffer(GL_ARRAY_BUFFER, vbos[i]);

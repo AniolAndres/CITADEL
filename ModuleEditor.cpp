@@ -3,6 +3,7 @@
 #include "Globals.h"
 #include "ModuleWindow.h"
 #include "ModuleRender.h"
+#include "ModuleModelLoader.h"
 #include "ModuleCamera.h"
 #include "ModuleInput.h"
 #include "ModuleProgram.h"
@@ -23,6 +24,13 @@ bool ModuleEditor::Init()
 	ImGui_ImplOpenGL2_Init();
 	ImGui::StyleColorsDark();
 
+	//Variables for the FPS configuration
+
+	currentFrame = SDL_GetTicks();
+	lastFrame = SDL_GetTicks();
+	currentFPS = 0;
+	fpsIterator = 0;
+
 	return ret;
 }
 
@@ -31,12 +39,14 @@ update_status ModuleEditor::PreUpdate()
 	ImGui_ImplOpenGL2_NewFrame();
 	ImGui_ImplSDL2_NewFrame(App->window->window);
 	ImGui::NewFrame();
+	if(stopFPS==false)
+		updateFramerate();
+
 	return UPDATE_CONTINUE;
 }
 
 update_status ModuleEditor::Update()
 {
-	
 	static float f = 0.0f;
 	static int counter = 0;
 
@@ -61,13 +71,6 @@ update_status ModuleEditor::Update()
 		}
 		if (ImGui::BeginMenu("3D Tools"))
 		{
-			if (ImGui::MenuItem("Grid"))
-			{
-				if (App->renderer->showGrid == true)
-					App->renderer->showGrid = false;
-				else
-					App->renderer->showGrid = true;
-			}
 			if (ImGui::MenuItem("Editor"))
 			{
 				if (showEditorWindow)
@@ -90,10 +93,6 @@ update_status ModuleEditor::Update()
 			{
 				ShellExecuteA(NULL, "open", "https://github.com/AniolAndres/CITADEL", NULL , NULL, SW_SHOWNORMAL);
 			}
-			if (ImGui::MenuItem("About"))
-			{
-				show_info_window = true;
-			}
 			ImGui::EndMenu();
 		}
 	}
@@ -101,29 +100,28 @@ update_status ModuleEditor::Update()
 
 	if (show_info_window)
 	{
-		ImGui::Begin("Information");
-		if (ImGui::CollapsingHeader("About"))
-		{
+		ImGui::Begin("Information", 0 , ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize);
+
 			ImGui::Text("Engine Name: Citadel");
 			ImGui::Text("Author: Aniol Andres Guiu");
 			ImGui::Text("Libraries used");
-			ImGui::BulletText("SDL");
+			ImGui::BulletText("SDL2");
 			ImGui::BulletText("GLEW");
 			ImGui::BulletText("IMGUI");
 			ImGui::BulletText("ASSIMP");
 			ImGui::BulletText("MATHGEOLIB");
 			ImGui::BulletText("DEVIL");
 			ImGui::BulletText("BROFILER");
-		}
+
 		ImGui::End();
 	}
 
 	//ImGui::ShowDemoWindow();
 
+	//Console window
+
 
 	//Editor tools Window
-
-	float editorWidth, editorHeight;
 
 	editorWidth = 400;
 	editorHeight = App->window->windowHeight - 20;
@@ -145,14 +143,29 @@ update_status ModuleEditor::Update()
 				ImGui::BulletText("(%f,%f,%f)", App->camera->eye.x, App->camera->eye.y, App->camera->eye.z);
 				ImGui::Text("Current target position:");
 				ImGui::BulletText("(%f,%f,%f)", App->camera->target.x, App->camera->target.y, App->camera->target.z);
+				ImGui::Text("Front vector:");
+				ImGui::BulletText("(%f,%f,%f)", App->camera->front.x, App->camera->front.y, App->camera->front.z);
 			}
 			if (ImGui::CollapsingHeader("Module Editor"))
 			{
-				//Nothing to show yet
+				ImGui::Checkbox("Information", &show_info_window);
 			}
 			if (ImGui::CollapsingHeader("Module ModelLoader"))
 			{
-
+				if (App->modelLoader->modelLoaded)
+				{
+					if (ImGui::TreeNode("Scene:"))
+					{
+						ImGui::Text("Number of meshes: %i", App->modelLoader->scene->mNumMeshes);
+						ImGui::Text("Number of vertices: %i", App->modelLoader->numVerticesTotal);
+						ImGui::TreePop();
+						ImGui::Separator();
+					}
+				}
+				else
+				{
+					ImGui::Text("No scene loaded atm");
+				}
 			}
 			if (ImGui::CollapsingHeader("Module Program"))
 			{
@@ -160,7 +173,7 @@ update_status ModuleEditor::Update()
 			}
 			if (ImGui::CollapsingHeader("Module Render"))
 			{
-
+				ImGui::Checkbox("Grid", &App->renderer->showGrid);
 			}
 			if (ImGui::CollapsingHeader("Module Textures"))
 			{
@@ -175,6 +188,23 @@ update_status ModuleEditor::Update()
 			{
 				ImGui::Text("Current window size: ");
 				ImGui::BulletText(" %f x %f ", App->window->windowWidth, App->window->windowHeight); //How can I get rid of the decimals?
+			}
+			if (ImGui::CollapsingHeader("Configuration"))
+			{
+				
+				ImGui::Text("Application Time = %d", SDL_GetTicks() / 1000);
+				ImGui::Checkbox("Stop", &stopFPS);
+				ImGui::Text("Current FPS = %f ", currentFPS);
+				ImGui::PlotHistogram("FPS", fpsLog, 50, 0, "FPS graphic", 0.0f, 100.0f, ImVec2(350, 100));
+				ImGui::Text("Current MS = %f ", currentMs);
+				ImGui::PlotHistogram("MS", msLog, 50, 0, "MS graphic", 0.0f, 25.0f/1000.0f, ImVec2(350, 100));
+				ImGui::Text("Graphics card vendor: %s \n", glGetString(GL_VENDOR));
+				ImGui::Text("Graphics card used: %s \n", glGetString(GL_RENDERER));
+				ImGui::NewLine();
+				ImGui::Text("OpenGL version: %s", glGetString(GL_VERSION));
+				SDL_GetVersion(&App->window->version);
+				ImGui::Text("SDL version: %d.%d.%d \n", App->window->version.major, App->window->version.minor, App->window->version.patch);
+				ImGui::Text("ImGui version: %s \n", ImGui::GetVersion());
 			}
 
 			ImGui::End();
@@ -197,6 +227,26 @@ bool ModuleEditor::CleanUp()
 	ImGui::DestroyContext();
 
 	return ret;
+}
+
+void ModuleEditor::updateFramerate()
+{
+	currentFrame = SDL_GetTicks();
+	currentFPS = 1000 / (currentFrame - lastFrame);
+	currentMs = 1 / currentFPS;
+	lastFrame = currentFrame;
+
+	if (fpsIterator < 49)
+	{
+		fpsLog[fpsIterator] = currentFPS;
+		msLog[fpsIterator] = currentMs;
+		++fpsIterator;
+	}
+	else
+		fpsIterator = 0;
+
+	
+
 }
 
 ModuleEditor::ModuleEditor()
