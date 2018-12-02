@@ -114,7 +114,7 @@ update_status ModuleCamera::Update()
 	return UPDATE_CONTINUE;
 }
 
-// needs more work
+// needs more work, intended to reescale the camera depending on the cubic root of the total vertices in the model
 
 
 //void ModuleCamera::focusCamera()
