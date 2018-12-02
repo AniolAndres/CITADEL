@@ -2,6 +2,7 @@
 #include "Globals.h"
 #include "ModuleCamera.h"
 #include "ModuleInput.h"
+#include "ModuleModelLoader.h"
 #include "MathGeoLib.h"
 
 
@@ -113,6 +114,28 @@ update_status ModuleCamera::Update()
 	return UPDATE_CONTINUE;
 }
 
+// needs more work
+
+
+//void ModuleCamera::focusCamera()
+//{
+//	float objectSize;
+//	memcpy(&objectSize, &App->modelLoader->numVerticesTotal, 32);
+//	objectSize = cbrt(objectSize);
+//	target = { 0,0,0 };
+//	if (objectSize < 30)
+//	{
+//		eye = { 2,2,10 };
+//	}
+//	else if (objectSize >= 30 && objectSize < 60)
+//	{
+//		eye *= 2;
+//	}
+//	else if (objectSize >= 60)
+//	{
+//		eye *= 4;
+//	}
+//}
 
 ModuleCamera::ModuleCamera()
 {

@@ -19,6 +19,7 @@ public:
 	float3 up = { 0,1,0 };
 	float3 front,side,upwards;
 
+	void focusCamera();
 
 	float cameraSpeed;
 
