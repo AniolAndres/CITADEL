@@ -16,11 +16,11 @@ bool ModuleProgram::Init()
 {
 	bool ret = true;
 	
-	programLoader = CreateProgram("../vertModelLoader.txt" , "../fragModelLoader.txt");
+	programLoader = CreateProgram("./vertModelLoader.txt" , "./fragModelLoader.txt");
 
-	programGrid = CreateProgram("../vertGrid.txt", "../fragGrid.txt");
+	programGrid = CreateProgram("./vertGrid.txt", "./fragGrid.txt");
 
-	programNoTextures = CreateProgram("../vertNoTextures.txt", "../fragNoTextures.txt");
+	programNoTextures = CreateProgram("./vertNoTextures.txt", "./fragNoTextures.txt");
 
 	return ret;
 }
