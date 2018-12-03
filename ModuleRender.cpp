@@ -93,7 +93,7 @@ update_status ModuleRender::Update()
 			unsigned vboActual = App->modelLoader->vbos[i];
 			unsigned numVerticesActual = App->modelLoader->numVerticesMesh[i];
 			unsigned numIndexesActual = App->modelLoader->numIndicesMesh[i];
-		
+
 			if (showTextures)
 			{
 				glActiveTexture(GL_TEXTURE0);
@@ -118,7 +118,7 @@ update_status ModuleRender::Update()
 			else
 			{
 				glActiveTexture(GL_TEXTURE0);
-				glBindTexture(GL_TEXTURE_2D, App->modelLoader->materials[App->modelLoader->textures[i]]);
+				glBindTexture(GL_TEXTURE_2D, 0);
 				glUniform1i(glGetUniformLocation(App->program->programNoTextures, "color"), 0);
 
 				glEnableVertexAttribArray(0);

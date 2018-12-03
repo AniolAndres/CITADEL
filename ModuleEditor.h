@@ -30,7 +30,6 @@ public:
 		{
 			va_list args;
 			va_start(args, fmt);
-			//Everything is printed in the same line, needs some more work
 			Buf.appendf(fmt, args);
 			ImGui::NewLine();
 			va_end(args);

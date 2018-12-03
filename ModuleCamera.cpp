@@ -87,13 +87,11 @@ update_status ModuleCamera::PreUpdate()
 			target -= cameraSpeed * side;
 		}
 
-		//Mouse commands feel "steppy" not smooth enough but gets job done,  it must be because it does not track speed, only sign
+		//Mouse commands feel "steppy" not smooth enough but gets job done
 
 	
-		target += cameraSpeed * side * (-App->input->GetMouseMotion().x) / 10;
 		target -= cameraSpeed * side * App->input->GetMouseMotion().x / 10;
 		target += cameraSpeed * upwards * App->input->GetMouseMotion().y / 10;
-		target -= cameraSpeed * upwards * (-App->input->GetMouseMotion().y) / 10;
 
 	}
 	return UPDATE_CONTINUE;

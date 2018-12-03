@@ -73,7 +73,7 @@ bool ModuleModelLoader::LoadFBX(const char* path)
 	}
 	else
 	{
-		App->editor->consoleApp.AddLog("Importation succesfull \n");
+		App->editor->consoleApp.AddLog("Importation succesfull of \n", modelPath);
 
 		vbos = new unsigned[scene->mNumMeshes];
 		ibos = new unsigned[scene->mNumMeshes];
@@ -83,9 +83,8 @@ bool ModuleModelLoader::LoadFBX(const char* path)
 		numIndicesMesh = new unsigned[scene->mNumMeshes];
 
 		GenerateMeshes(scene);
-		App->editor->consoleApp.AddLog("Generating Meshes");
 		GenerateMaterials(scene);
-		App->editor->consoleApp.AddLog("Generating Materials");
+		App->editor->consoleApp.AddLog("Generating Materials \n");
 	}
 	return true;
 }	
@@ -95,6 +94,9 @@ void ModuleModelLoader::GenerateMeshes(const aiScene* scene)
 	numVerticesTotal = 0;
 	for (unsigned i = 0; i < scene->mNumMeshes; ++i)
 	{
+
+		App->editor->consoleApp.AddLog("Generating Mesh number %i \n", i); //no clue what to write to make it work
+		App->editor->consoleApp.AddLog("Total vertices number for this mesh: %f \n", App->modelLoader->numVerticesMesh[i]);
 
 		const aiMesh* sourceMesh = scene->mMeshes[i];
 
