@@ -263,13 +263,11 @@ update_status ModuleEditor::Update()
 
 	consoleHeight = 200;
 	consoleWidth = App->window->windowWidth - editorWidth;
-
+	
 	ImGui::SetNextWindowSize({ consoleWidth, consoleHeight });
 	ImGui::SetNextWindowPos({ 0 , App->window->windowHeight - consoleHeight });
 
 	consoleApp.Draw("Console");
-
-
 
 	return UPDATE_CONTINUE;
 }

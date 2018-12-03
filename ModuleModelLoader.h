@@ -8,6 +8,7 @@
 #include "assimp/scene.h"
 #include "assimp/material.h"
 #include "Module.h"
+
 class ModuleModelLoader :public Module
 {
 public:

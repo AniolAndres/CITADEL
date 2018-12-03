@@ -1,4 +1,5 @@
-#pragma once
+#ifndef __MODULE_H_
+#define __MODULE_H_
 
 #include "Globals.h"
 
@@ -37,3 +38,5 @@ public:
 		return true; 
 	}
 };
+
+#endif // __MODULE_H_

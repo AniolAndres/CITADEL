@@ -97,7 +97,9 @@ update_status ModuleRender::Update()
 			if (showTextures)
 			{
 				glActiveTexture(GL_TEXTURE0);
+
 				glBindTexture(GL_TEXTURE_2D, App->modelLoader->materials[App->modelLoader->textures[i]]);
+
 				glUniform1i(glGetUniformLocation(App->program->programLoader, "texture0"), 0);
 
 				glEnableVertexAttribArray(0);
