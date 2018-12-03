@@ -69,11 +69,11 @@ bool ModuleModelLoader::LoadFBX(const char* path)
 	{
 		err = aiGetErrorString();
 		LOG(err);
-		App->editor->consoleApp.AddLog("Failed to import FBX");
+		App->editor->consoleApp.AddLog("Failed to import FBX ");
 	}
 	else
 	{
-		App->editor->consoleApp.AddLog("Importation succesfull");
+		App->editor->consoleApp.AddLog("Importation succesfull \n");
 
 		vbos = new unsigned[scene->mNumMeshes];
 		ibos = new unsigned[scene->mNumMeshes];
@@ -85,7 +85,7 @@ bool ModuleModelLoader::LoadFBX(const char* path)
 		GenerateMeshes(scene);
 		App->editor->consoleApp.AddLog("Generating Meshes");
 		GenerateMaterials(scene);
-		App->editor->consoleApp.AddLog("Generating materials");
+		App->editor->consoleApp.AddLog("Generating Materials");
 	}
 	return true;
 }	
