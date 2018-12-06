@@ -46,11 +46,11 @@ bool ModuleRender::Init()
 	glClearDepth(1.0f);
 	glClearColor(0.3f, 0.3f, 0.3f, 1.f);
 
-    int width, height;
+ /*   int width, height;
     SDL_GetWindowSize(App->window->window, &width, &height);
-    glViewport(0, 0, width, height);
+    glViewport(0, 0, width, height);*/
 
-	if (!App->program->programLoader || !App->program->programGrid)
+	if (!App->program->programLoader || !App->program->programGrid || !App->program->programNoTextures)
 	{
 		LOG("Error: Program cannot be compiled");
 		return false;
@@ -89,62 +89,45 @@ update_status ModuleRender::Update()
 	{
 		for (int i = 0; i < App->modelLoader->scene->mNumMeshes; ++i) {
 
-
 			unsigned vboActual = App->modelLoader->vbos[i];
 			unsigned numVerticesActual = App->modelLoader->numVerticesMesh[i];
 			unsigned numIndexesActual = App->modelLoader->numIndicesMesh[i];
+	
+			glActiveTexture(GL_TEXTURE0);
 
 			if (showTextures)
 			{
-				glActiveTexture(GL_TEXTURE0);
-
 				glBindTexture(GL_TEXTURE_2D, App->modelLoader->materials[App->modelLoader->textures[i]]);
 
 				glUniform1i(glGetUniformLocation(App->program->programLoader, "texture0"), 0);
-
-				glEnableVertexAttribArray(0);
-				glEnableVertexAttribArray(1);
-				glBindBuffer(GL_ARRAY_BUFFER, vboActual);
-				glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
-				glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, (void*)(sizeof(float) * 3 * App->modelLoader->numVerticesMesh[i]));
-				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, App->modelLoader->ibos[i]);
-
-				glDrawElements(GL_TRIANGLES, numIndexesActual, GL_UNSIGNED_INT, nullptr);
-				glDisableVertexAttribArray(0);
-				glDisableVertexAttribArray(1);
-
-				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-				glBindBuffer(GL_ARRAY_BUFFER, 0);
-				glBindTexture(GL_TEXTURE_2D, 0);
 			}
 			else
 			{
-				glActiveTexture(GL_TEXTURE0);
 				glBindTexture(GL_TEXTURE_2D, 0);
 				glUniform1i(glGetUniformLocation(App->program->programNoTextures, "color"), 0);
-
-				glEnableVertexAttribArray(0);
-				glEnableVertexAttribArray(1);
-				glBindBuffer(GL_ARRAY_BUFFER, vboActual);
-				glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
-				glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, (void*)(sizeof(float) * 3 * App->modelLoader->numVerticesMesh[i]));
-				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, App->modelLoader->ibos[i]);
-
-				glDrawElements(GL_TRIANGLES, numIndexesActual, GL_UNSIGNED_INT, nullptr);
-				glDisableVertexAttribArray(0);
-				glDisableVertexAttribArray(1);
-
-				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-				glBindBuffer(GL_ARRAY_BUFFER, 0);
-				glBindTexture(GL_TEXTURE_2D, 0);
 			}
+
+			glEnableVertexAttribArray(0);
+			glEnableVertexAttribArray(1);
+			glBindBuffer(GL_ARRAY_BUFFER, vboActual);
+			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
+			glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, (void*)(sizeof(float) * 3 * App->modelLoader->numVerticesMesh[i]));
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, App->modelLoader->ibos[i]);
+
+			glDrawElements(GL_TRIANGLES, numIndexesActual, GL_UNSIGNED_INT, nullptr);
+			glDisableVertexAttribArray(0);
+			glDisableVertexAttribArray(1);
+
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+			glBindBuffer(GL_ARRAY_BUFFER, 0);
+			glBindTexture(GL_TEXTURE_2D, 0);
+		
 		}
 	}
 
 	if(showGrid)
 		drawGrid();
 
-	//glDrawArrays(GL_TRIANGLES, 0, 3); // Starting from vertex 0; 3 vertices total -> 1 triangle
 	glDisableVertexAttribArray(0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
@@ -159,6 +142,7 @@ update_status ModuleRender::PostUpdate()
 {
 
 	SDL_GL_SwapWindow(App->window->window);
+
 	return UPDATE_CONTINUE;
 }
 

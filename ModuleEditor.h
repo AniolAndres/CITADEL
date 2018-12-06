@@ -55,9 +55,11 @@ private:
 	bool showConsoleWindow = true;
 	bool showInfoWindow = false;
 	bool showEditorWindow = true;
+	bool showInspectorWindow = true;
 	bool stopFPS = false;
 	float editorWidth, editorHeight;
 	float consoleWidth, consoleHeight;
+	float inspectorWidth, inspectorHeight;
 	float currentFrame, lastFrame , currentFPS, currentMs;
 	float fpsLog[50], msLog[50];
 	int fpsIterator;

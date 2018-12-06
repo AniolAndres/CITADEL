@@ -261,13 +261,38 @@ update_status ModuleEditor::Update()
 
 	//Console window
 
-	consoleHeight = 200;
+	consoleHeight = 150;
 	consoleWidth = App->window->windowWidth - editorWidth;
 	
 	ImGui::SetNextWindowSize({ consoleWidth, consoleHeight });
 	ImGui::SetNextWindowPos({ 0 , App->window->windowHeight - consoleHeight });
 
 	consoleApp.Draw("Console");
+
+	//Inspector window
+
+	inspectorWidth = editorWidth - 100;
+	inspectorHeight = App->window->windowHeight - consoleHeight;
+
+	ImGui::SetNextWindowSize({ inspectorWidth, inspectorHeight-18 });
+	ImGui::SetNextWindowPos({ 0 , 18 });
+
+	if (showInspectorWindow)
+	{
+		if (!ImGui::Begin("Inspector Tools", NULL, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse))
+		{
+			ImGui::End();
+		}
+		else
+		{
+			if (ImGui::CollapsingHeader("Inspector"))
+			{
+				ImGui::Text("Placeholder #1");
+				ImGui::Text("Placeholder #2");
+			}
+			ImGui::End();
+		}
+	}
 
 	return UPDATE_CONTINUE;
 }
