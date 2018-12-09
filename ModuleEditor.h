@@ -46,7 +46,10 @@ public:
 			ImGui::End();
 		}
 	};
+
 	ExampleAppLog consoleApp;
+
+	float drawWidth, drawHeight;
 
 	ModuleEditor();
 	~ModuleEditor();

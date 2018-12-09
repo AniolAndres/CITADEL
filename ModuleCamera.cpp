@@ -127,6 +127,11 @@ update_status ModuleCamera::Update()
 
 ModuleCamera::ModuleCamera()
 {
+	fbo.fbo = 0;
+	fbo.fb_depth = 0;
+	fbo.fb_tex = 0;
+	fbo.fb_width = 0;
+	fbo.fb_height = 0;
 }
 
 

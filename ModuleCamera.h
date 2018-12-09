@@ -6,9 +6,20 @@
 #include "Application.h"
 #include "MathGeoLib.h"
 
+
+struct FBO {
+	unsigned fbo;
+	unsigned fb_depth;
+	unsigned fb_tex;
+	unsigned fb_width;
+	unsigned fb_height;
+};
+
+
 class ModuleCamera : public Module
 {
 public:
+
 
 	bool Init();
 	update_status PreUpdate();
@@ -18,10 +29,9 @@ public:
 	float3 eye = { 2,2,10 };
 	float3 up = { 0,1,0 };
 	float3 front,side,upwards;
-
-	//void focusCamera();
-
 	float cameraSpeed;
+
+	FBO fbo;
 
 	ModuleCamera();
 	~ModuleCamera();

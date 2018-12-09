@@ -277,21 +277,46 @@ update_status ModuleEditor::Update()
 	ImGui::SetNextWindowSize({ inspectorWidth, inspectorHeight-18 });
 	ImGui::SetNextWindowPos({ 0 , 18 });
 
-	if (showInspectorWindow)
+	if (!ImGui::Begin("Inspector.", NULL, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse))
 	{
-		if (!ImGui::Begin("Inspector Tools", NULL, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse))
+		ImGui::End();
+	}
+	else
+	{
+		if (ImGui::CollapsingHeader("Inspector"))
 		{
-			ImGui::End();
+			ImGui::Text("Placeholder #1");
+			ImGui::Text("Placeholder #2");
 		}
-		else
+		ImGui::End();
+	}
+
+	//Draw window
+
+	drawWidth = App->window->windowWidth - inspectorWidth - editorWidth;
+	drawHeight = App->window->windowHeight - 18 - consoleHeight;
+
+	ImGui::SetNextWindowSize({ drawWidth, drawHeight });
+	ImGui::SetNextWindowPos({ inspectorWidth , 18 });
+
+	if (!ImGui::Begin("furture draw", NULL, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse))
+	{
+		ImGui::End();
+	}
+	else
+	{
+		if (ImGui::BeginChild("Editor Canvas", ImVec2(0, 0), true, ImGuiWindowFlags_NoMove))
 		{
-			if (ImGui::CollapsingHeader("Inspector"))
-			{
-				ImGui::Text("Placeholder #1");
-				ImGui::Text("Placeholder #2");
-			}
-			ImGui::End();
+
+			ImGui::GetWindowDrawList()->AddImage(
+				(void*)App->camera->fbo.fb_tex,
+				ImVec2(ImGui::GetCursorScreenPos()),
+				ImVec2(ImGui::GetCursorScreenPos().x + App->camera->fbo.fb_width,
+					ImGui::GetCursorScreenPos().y + App->camera->fbo.fb_height),
+				ImVec2(0, 1), ImVec2(1, 0));
 		}
+		ImGui::EndChild();
+		ImGui::End();
 	}
 
 	return UPDATE_CONTINUE;
