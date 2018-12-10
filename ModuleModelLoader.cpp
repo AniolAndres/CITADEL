@@ -95,7 +95,7 @@ void ModuleModelLoader::GenerateMeshes(const aiScene* scene)
 	for (unsigned i = 0; i < scene->mNumMeshes; ++i)
 	{
 
-		App->editor->consoleApp.AddLog("Generating Mesh number %u \n", i); //no clue what to write to make it work
+		App->editor->consoleApp.AddLog("Generating Mesh number %i \n", i); //no clue what to write to make it work
 		App->editor->consoleApp.AddLog("Total vertices number for this mesh: %i \n", App->modelLoader->numVerticesMesh[i]);
 
 		const aiMesh* sourceMesh = scene->mMeshes[i];

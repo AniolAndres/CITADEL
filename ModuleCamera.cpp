@@ -26,6 +26,7 @@ update_status ModuleCamera::PreUpdate()
 	side = side / 5;
 	upwards = upwards / 5;
 
+
 	if (App->input->GetKey(SDL_SCANCODE_RSHIFT) || App->input->GetKey(SDL_SCANCODE_LSHIFT))
 		cameraSpeed = 2.5f;
 	else
@@ -40,6 +41,7 @@ update_status ModuleCamera::PreUpdate()
 	//rotates correctly but depends on distance, needs tweeking
 	else if (App->input->GetKey(SDL_SCANCODE_LALT) && App->input->GetMouseButtonDown(SDL_BUTTON_RIGHT))
 	{
+		SDL_ShowCursor(SDL_DISABLE);
 		target = { 0,0,0 }; //this is not optimal but I'll leave it for now
 		eye += cameraSpeed * side / 5;
 	}
@@ -89,10 +91,8 @@ update_status ModuleCamera::PreUpdate()
 
 		//Mouse commands feel "steppy" not smooth enough but gets job done
 
-	
-		target -= cameraSpeed * side * App->input->GetMouseMotion().x / 10;
-		target += cameraSpeed * upwards * App->input->GetMouseMotion().y / 10;
-
+			target += cameraSpeed * upwards * App->input->GetMouseMotion().y / 10;
+			target -= cameraSpeed * side * App->input->GetMouseMotion().x / 10;
 	}
 	return UPDATE_CONTINUE;
 }

@@ -29,7 +29,8 @@ public:
 	float3 eye = { 2,2,10 };
 	float3 up = { 0,1,0 };
 	float3 front,side,upwards;
-	float cameraSpeed;
+	float cameraSpeed = 1;
+
 
 	FBO fbo;
 

@@ -87,6 +87,13 @@ update_status ModuleEditor::Update()
 				else
 					showConsoleWindow = true;
 			}
+			if (ImGui::MenuItem("Inspector"))
+			{
+				if (showInspectorWindow)
+					showInspectorWindow = false;
+				else
+					showInspectorWindow = true;
+			}
 			ImGui::EndMenu();
 		}
 		if (ImGui::BeginMenu("Debug"))
@@ -124,18 +131,16 @@ update_status ModuleEditor::Update()
 		ImGui::End();
 	}
 
-	//ImGui::ShowDemoWindow();
-
 	//Editor tools Window
-
-	editorWidth = 400;
-	editorHeight = App->window->windowHeight - 20;
-
-	ImGui::SetNextWindowSize({ editorWidth, editorHeight });
-	ImGui::SetNextWindowPos({ App->window->windowWidth - editorWidth, 18 });
 
 	if (showEditorWindow)
 	{
+		editorWidth = 400;
+		editorHeight = App->window->windowHeight - 20;
+
+		ImGui::SetNextWindowSize({ editorWidth, editorHeight });
+		ImGui::SetNextWindowPos({ App->window->windowWidth - editorWidth, 18 });
+
 		if (!ImGui::Begin("Editor tools", NULL, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse))
 		{
 			ImGui::End();
@@ -257,38 +262,59 @@ update_status ModuleEditor::Update()
 			ImGui::End();
 		}
 	}
+	else
+	{
+		editorWidth = 0;
+		editorHeight = 0;
+	}
 
 
 	//Console window
 
-	consoleHeight = 150;
-	consoleWidth = App->window->windowWidth - editorWidth;
-	
-	ImGui::SetNextWindowSize({ consoleWidth, consoleHeight });
-	ImGui::SetNextWindowPos({ 0 , App->window->windowHeight - consoleHeight });
-
-	consoleApp.Draw("Console");
-
-	//Inspector window
-
-	inspectorWidth = editorWidth - 100;
-	inspectorHeight = App->window->windowHeight - consoleHeight;
-
-	ImGui::SetNextWindowSize({ inspectorWidth, inspectorHeight-18 });
-	ImGui::SetNextWindowPos({ 0 , 18 });
-
-	if (!ImGui::Begin("Inspector.", NULL, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse))
+	if (showConsoleWindow)
 	{
-		ImGui::End();
+		consoleHeight = 150;
+		consoleWidth = App->window->windowWidth - editorWidth;
+
+		ImGui::SetNextWindowSize({ consoleWidth, consoleHeight });
+		ImGui::SetNextWindowPos({ 0 , App->window->windowHeight - consoleHeight });
+
+		consoleApp.Draw("Console");
 	}
 	else
 	{
-		if (ImGui::CollapsingHeader("Inspector"))
+		consoleHeight = 0;
+		consoleWidth = 0;
+	}
+	//Inspector window
+
+	if (showInspectorWindow)
+	{
+		inspectorWidth = 300;
+		inspectorHeight = App->window->windowHeight - consoleHeight;
+
+		ImGui::SetNextWindowSize({ inspectorWidth, inspectorHeight - 18 });
+		ImGui::SetNextWindowPos({ 0 , 18 });
+
+		if (!ImGui::Begin("Inspector.", NULL, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse))
 		{
-			ImGui::Text("Placeholder #1");
-			ImGui::Text("Placeholder #2");
+			ImGui::End();
 		}
-		ImGui::End();
+		else
+		{
+			if (ImGui::CollapsingHeader("Inspector"))
+			{
+				ImGui::Text("Placeholder #1");
+				ImGui::Text("Placeholder #2");
+			}
+			ImGui::End();
+		}
+
+	}
+	else
+	{
+		inspectorWidth = 0;
+		inspectorHeight = 0;
 	}
 
 	//Draw window
@@ -299,7 +325,7 @@ update_status ModuleEditor::Update()
 	ImGui::SetNextWindowSize({ drawWidth, drawHeight });
 	ImGui::SetNextWindowPos({ inspectorWidth , 18 });
 
-	if (!ImGui::Begin("furture draw", NULL, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse))
+	if (!ImGui::Begin("Scene", NULL, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse))
 	{
 		ImGui::End();
 	}
