@@ -22,11 +22,14 @@ public:
 	update_status PostUpdate();
 	bool CleanUp();
 	void WindowResized(unsigned width, unsigned height);
+
+	float4x4 Transform(float3 eye, float3 target);
+
 	void GenerateFBOTexture(unsigned width, unsigned height, FBO* fbo);
 
 	void renderMeshes();
 
-	float4x4 Transform(float3 eye, float3 target);
+	
 
 	void drawGrid();
 

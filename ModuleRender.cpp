@@ -129,7 +129,7 @@ float4x4 ModuleRender::Transform(float3 eye, float3 target)
 	viewMatrix[0][3] = -s.Dot(eye); viewMatrix[1][3] = -u.Dot(eye); viewMatrix[2][3] = f.Dot(eye); viewMatrix[3][3] = 1;
 
 	Frustum frustum;
-	float aspect = App->window->windowWidth / App->window->windowHeight;
+	float aspect = App->editor->drawWidth/ App->editor->drawHeight;
 	frustum.type = FrustumType::PerspectiveFrustum;
 	frustum.pos = float3::zero;
 	frustum.front = -float3::unitZ;

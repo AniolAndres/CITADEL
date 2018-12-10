@@ -4,9 +4,12 @@
 #include "Module.h"
 #include "Point.h"
 
+
 #include "SDL.h"
 
 #define NUM_MOUSE_BUTTONS 5
+
+struct fbo;
 
 enum EventWindow
 {
