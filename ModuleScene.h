@@ -3,7 +3,8 @@
 
 #include<list>
 #include "Module.h"
-#include "GameObject.h"
+
+class GameObject;
 
 class ModuleScene :	public Module
 {
@@ -15,14 +16,16 @@ public:
 	update_status PostUpdate();
 	bool CleanUp();
 
-	GameObject* CreateGameObject();
+	GameObject* CreateGameObject(char* name, bool active, GameObject* parent);
+
+	ModuleScene();
+	~ModuleScene();
 
 private:
 
 	std::list<GameObject*> GOs;
 
-	ModuleScene();
-	~ModuleScene();
+
 };
 
 #endif // __MODULESCENE_H_

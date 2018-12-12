@@ -1,5 +1,5 @@
 #include "ModuleScene.h"
-
+#include "GameObject.h"
 
 
 ModuleScene::ModuleScene()
@@ -35,10 +35,13 @@ update_status ModuleScene::PostUpdate()
 bool ModuleScene::CleanUp()
 {
 	bool ret = true;
+
 	return ret;
 }
 
-GameObject* ModuleScene::CreateGameObject()
+GameObject* ModuleScene::CreateGameObject(char* name, bool active, GameObject* parent)
 {
+	GameObject* my_go = new GameObject(name,active,parent);
 
+	return my_go;
 }

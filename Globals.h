@@ -1,4 +1,6 @@
-#pragma once
+#ifndef __GLOBALS_H_
+#define __GLOBALS_H_
+
 #include <windows.h>
 #include <stdio.h>
 
@@ -11,6 +13,14 @@ enum update_status
 	UPDATE_CONTINUE = 1,
 	UPDATE_STOP,
 	UPDATE_ERROR
+};
+
+enum compType
+{
+	MESH = 0,
+	MATERIAL,
+	TRANSFORM,
+	LIGHT
 };
 
 // Deletes a buffer
@@ -42,3 +52,5 @@ enum update_status
 #define RESIZABLE_WINDOW true
 #define VSYNC true
 #define TITLE "Citadel Motor"
+
+#endif // __GLOBALS_H_
