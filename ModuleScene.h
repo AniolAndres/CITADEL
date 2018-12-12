@@ -18,12 +18,14 @@ public:
 
 	GameObject* CreateGameObject(char* name, bool active, GameObject* parent);
 
+	std::list<GameObject*> GOs; //map or list or vector??
+
 	ModuleScene();
 	~ModuleScene();
 
 private:
 
-	std::list<GameObject*> GOs;
+
 
 
 };

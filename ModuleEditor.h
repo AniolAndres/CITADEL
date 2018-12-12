@@ -5,6 +5,8 @@
 #include "Module.h"
 #include "IMGUI/imgui.h"
 
+class GameObject;
+
 class ModuleEditor :
 	public Module
 {
@@ -50,6 +52,11 @@ public:
 	ExampleAppLog consoleApp;
 
 	float drawWidth, drawHeight;
+
+	void DrawEditor();
+	void DrawInspector();
+	void DrawConsole();
+	void DrawWindow();
 
 	ModuleEditor();
 	~ModuleEditor();

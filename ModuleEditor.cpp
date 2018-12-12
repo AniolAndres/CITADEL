@@ -5,6 +5,7 @@
 #include "ModuleRender.h"
 #include "ModuleModelLoader.h"
 #include "ModuleCamera.h"
+#include "ModuleScene.h"
 #include "ModuleInput.h"
 #include "ModuleProgram.h"
 #include "GL/glew.h"
@@ -52,8 +53,6 @@ update_status ModuleEditor::Update()
 	static float f = 0.0f;
 	static int counter = 0;
 
-	ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
-
 	//Main Menu
 
 	if (ImGui::BeginMainMenuBar())
@@ -71,7 +70,15 @@ update_status ModuleEditor::Update()
 			}
 			ImGui::EndMenu();
 		}
-		if (ImGui::BeginMenu("3D Tools"))
+		if (ImGui::BeginMenu("3D objects"))
+		{
+			if (ImGui::MenuItem("New GO"))
+			{
+				App->scene->CreateGameObject("Gameobject 1", true, nullptr);
+			}
+			ImGui::EndMenu();
+		}
+		if (ImGui::BeginMenu("Windows"))
 		{
 			if (ImGui::MenuItem("Editor"))
 			{
@@ -131,8 +138,121 @@ update_status ModuleEditor::Update()
 		ImGui::End();
 	}
 
-	//Editor tools Window
+	//order matters!!
 
+	DrawEditor();
+
+	DrawConsole();
+
+	DrawInspector();
+
+	DrawWindow();
+
+	return UPDATE_CONTINUE;
+}
+
+
+update_status ModuleEditor::PostUpdate()
+{
+	return UPDATE_CONTINUE;
+}
+
+bool ModuleEditor::CleanUp()
+{
+	bool ret = true;
+
+	ImGui_ImplOpenGL2_Shutdown();
+	ImGui_ImplSDL2_Shutdown();
+	ImGui::DestroyContext();
+
+	return ret;
+}
+
+void ModuleEditor::updateFramerate()
+{
+	currentFrame = SDL_GetTicks();
+	currentFPS = 1000 / (currentFrame - lastFrame);
+	currentMs = 1 / currentFPS;
+	lastFrame = currentFrame;
+
+	if (fpsIterator < 49)
+	{
+		fpsLog[fpsIterator] = currentFPS;
+		msLog[fpsIterator] = currentMs;
+		++fpsIterator;
+	}
+	else
+		fpsIterator = 0;
+
+	
+
+}
+
+ModuleEditor::ModuleEditor()
+{
+}
+
+
+ModuleEditor::~ModuleEditor()
+{
+}
+
+void ModuleEditor::DrawConsole()
+{
+	if (showConsoleWindow)
+	{
+		consoleHeight = 150;
+		consoleWidth = App->window->windowWidth - editorWidth;
+
+		ImGui::SetNextWindowSize({ consoleWidth, consoleHeight });
+		ImGui::SetNextWindowPos({ 0 , App->window->windowHeight - consoleHeight });
+
+		consoleApp.Draw("Console");
+	}
+	else
+	{
+		consoleHeight = 0;
+		consoleWidth = 0;
+	}
+}
+
+void ModuleEditor::DrawInspector()
+{
+	if (showInspectorWindow)
+	{
+
+		inspectorWidth = 300;
+		inspectorHeight = App->window->windowHeight - consoleHeight;
+
+		ImGui::SetNextWindowSize({ inspectorWidth, inspectorHeight - 18 });
+		ImGui::SetNextWindowPos({ 0 , 18 });
+
+		if (!ImGui::Begin("Inspector.", NULL, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse))
+		{
+			ImGui::End();
+		}
+		else
+		{
+			if (ImGui::CollapsingHeader("Inspector"))
+			{
+				for (std::list<GameObject*>::iterator it = App->scene->GOs.begin(); it != App->scene->GOs.end(); ++it)
+				{
+					//ImGui::Text(App->scene->GOs)); //HOW TO ACCESS THE NAME VBLE INSIDE THE LIST??????
+				}
+			}
+			ImGui::End();
+		}
+
+	}
+	else
+	{
+		inspectorWidth = 0;
+		inspectorHeight = 0;
+	}
+}
+
+void ModuleEditor::DrawEditor()
+{
 	if (showEditorWindow)
 	{
 		editorWidth = 400;
@@ -267,58 +387,10 @@ update_status ModuleEditor::Update()
 		editorWidth = 0;
 		editorHeight = 0;
 	}
+}
 
-
-	//Console window
-
-	if (showConsoleWindow)
-	{
-		consoleHeight = 150;
-		consoleWidth = App->window->windowWidth - editorWidth;
-
-		ImGui::SetNextWindowSize({ consoleWidth, consoleHeight });
-		ImGui::SetNextWindowPos({ 0 , App->window->windowHeight - consoleHeight });
-
-		consoleApp.Draw("Console");
-	}
-	else
-	{
-		consoleHeight = 0;
-		consoleWidth = 0;
-	}
-	//Inspector window
-
-	if (showInspectorWindow)
-	{
-		inspectorWidth = 300;
-		inspectorHeight = App->window->windowHeight - consoleHeight;
-
-		ImGui::SetNextWindowSize({ inspectorWidth, inspectorHeight - 18 });
-		ImGui::SetNextWindowPos({ 0 , 18 });
-
-		if (!ImGui::Begin("Inspector.", NULL, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse))
-		{
-			ImGui::End();
-		}
-		else
-		{
-			if (ImGui::CollapsingHeader("Inspector"))
-			{
-				ImGui::Text("Placeholder #1");
-				ImGui::Text("Placeholder #2");
-			}
-			ImGui::End();
-		}
-
-	}
-	else
-	{
-		inspectorWidth = 0;
-		inspectorHeight = 0;
-	}
-
-	//Draw window
-
+void ModuleEditor::DrawWindow()
+{
 	drawWidth = App->window->windowWidth - inspectorWidth - editorWidth;
 	drawHeight = App->window->windowHeight - 18 - consoleHeight;
 
@@ -344,53 +416,4 @@ update_status ModuleEditor::Update()
 		ImGui::EndChild();
 		ImGui::End();
 	}
-
-	return UPDATE_CONTINUE;
 }
-
-
-update_status ModuleEditor::PostUpdate()
-{
-	return UPDATE_CONTINUE;
-}
-
-bool ModuleEditor::CleanUp()
-{
-	bool ret = true;
-
-	ImGui_ImplOpenGL2_Shutdown();
-	ImGui_ImplSDL2_Shutdown();
-	ImGui::DestroyContext();
-
-	return ret;
-}
-
-void ModuleEditor::updateFramerate()
-{
-	currentFrame = SDL_GetTicks();
-	currentFPS = 1000 / (currentFrame - lastFrame);
-	currentMs = 1 / currentFPS;
-	lastFrame = currentFrame;
-
-	if (fpsIterator < 49)
-	{
-		fpsLog[fpsIterator] = currentFPS;
-		msLog[fpsIterator] = currentMs;
-		++fpsIterator;
-	}
-	else
-		fpsIterator = 0;
-
-	
-
-}
-
-ModuleEditor::ModuleEditor()
-{
-}
-
-
-ModuleEditor::~ModuleEditor()
-{
-}
-

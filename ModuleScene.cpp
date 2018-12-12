@@ -42,6 +42,7 @@ bool ModuleScene::CleanUp()
 GameObject* ModuleScene::CreateGameObject(char* name, bool active, GameObject* parent)
 {
 	GameObject* my_go = new GameObject(name,active,parent);
+	GOs.push_back(my_go);
 
 	return my_go;
 }

@@ -29,8 +29,6 @@ public:
 
 	void renderMeshes();
 
-	
-
 	void drawGrid();
 
 	void* context;

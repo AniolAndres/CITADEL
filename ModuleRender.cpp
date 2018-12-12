@@ -83,15 +83,16 @@ update_status ModuleRender::Update()
 
 	//IMGUI stuff
 
-	glUseProgram(0);
-	ImGui::Render();
-	ImGui_ImplOpenGL2_RenderDrawData(ImGui::GetDrawData());
+
 
 	return UPDATE_CONTINUE;
 }
 
 update_status ModuleRender::PostUpdate()
 {
+	glUseProgram(0);
+	ImGui::Render();
+	ImGui_ImplOpenGL2_RenderDrawData(ImGui::GetDrawData());
 
 	SDL_GL_SwapWindow(App->window->window);
 
