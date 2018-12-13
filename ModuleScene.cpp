@@ -1,3 +1,4 @@
+#include "Application.h"
 #include "ModuleScene.h"
 #include "GameObject.h"
 
@@ -14,6 +15,9 @@ ModuleScene::~ModuleScene()
 bool ModuleScene::Init()
 {
 	bool ret = true;
+	Root = new GameObject();
+	Root->name = "Root";
+	Root->active = true;
 	return ret;
 }
 
@@ -42,6 +46,7 @@ bool ModuleScene::CleanUp()
 GameObject* ModuleScene::CreateGameObject(char* name, bool active, GameObject* parent)
 {
 	GameObject* my_go = new GameObject(name,active,parent);
+	parent->children.push_back(my_go);
 	GOs.push_back(my_go);
 
 	return my_go;
@@ -50,6 +55,7 @@ GameObject* ModuleScene::CreateGameObject(char* name, bool active, GameObject* p
 GameObject* ModuleScene::CreateGameObject(char* name, bool active)
 {
 	GameObject* my_go = new GameObject(name, active, Root);
+	Root->children.push_back(my_go);
 	GOs.push_back(my_go);
 	return my_go;
 }

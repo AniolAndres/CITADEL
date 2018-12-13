@@ -30,7 +30,7 @@ public:
 	float3 up = { 0,1,0 };
 	float3 front,side,upwards;
 	float cameraSpeed = 1;
-
+	float smooth = 0.0015f;
 
 	FBO fbo;
 

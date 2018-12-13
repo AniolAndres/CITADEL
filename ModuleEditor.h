@@ -57,6 +57,7 @@ public:
 	void DrawInspector();
 	void DrawConsole();
 	void DrawWindow();
+	void DrawHierarchy();
 
 	ModuleEditor();
 	~ModuleEditor();

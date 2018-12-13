@@ -75,7 +75,7 @@ update_status ModuleEditor::Update()
 		{
 			if (ImGui::MenuItem("New GO"))
 			{
-				App->scene->CreateGameObject("Gameobject 1", true, nullptr);
+				App->scene->CreateGameObject("Gameobject 1", true);
 			}
 			ImGui::EndMenu();
 		}
@@ -236,14 +236,7 @@ void ModuleEditor::DrawInspector()
 		{
 			if (ImGui::CollapsingHeader("Inspector"))
 			{
-				for (std::list<GameObject*>::iterator it = App->scene->GOs.begin(); it != App->scene->GOs.end(); ++it)
-				{
-					ImGui::Text((*it)->name);
-					for (std::list<GameObject*>::iterator it2 = (*it)->children.begin(); it2 != (*it)->children.end(); ++it2)
-					{
-						ImGui::BulletText((*it2)->name);
-					}
-				}
+				App->scene->Root->DrawHierarchy();
 			}
 			ImGui::End();
 		}

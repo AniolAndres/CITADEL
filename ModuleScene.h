@@ -18,8 +18,7 @@ public:
 
 	GameObject* CreateGameObject(char* name, bool active, GameObject* parent);
 	GameObject* CreateGameObject(char* name, bool active);
-
-	GameObject* Root;
+	GameObject* Root = nullptr;
 
 	std::list<GameObject*> GOs; //map or list or vector??
 

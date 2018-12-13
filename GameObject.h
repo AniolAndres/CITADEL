@@ -24,9 +24,11 @@ public:
 	/*Component* CreateComponent(int type);*/
 	GameObject* parent;
 
-	bool hasParent;
 	bool active;
 	char* name;
+
+	void Draw();
+	void DrawHierarchy();
 
 	std::list<GameObject*> children;
 	std::vector<Component*> components;

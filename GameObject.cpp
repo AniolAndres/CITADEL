@@ -1,11 +1,18 @@
 #include "GameObject.h"
 #include "Component.h"
+#include "Application.h"
+#include "ModuleScene.h"
+#include "GameObject.h"
 #include "ComponentLight.h"
 #include "ComponentMaterial.h"
 #include "ComponentMesh.h"
 #include "ComponentTransform.h"
 #include "Globals.h"
+#include "IMGUI/imgui.h"
+#include "IMGUI/imgui_impl_sdl.h"
+#include "IMGUI/imgui_impl_opengl2.h"
 #include<vector>
+#include<list>
 
 GameObject::GameObject()
 {
@@ -22,7 +29,7 @@ GameObject::GameObject(char* name, bool active)
 
 	this->name = name;
 	this->active = active;
-	this->hasParent = false;
+	this->parent = App->scene->Root;
 }
 
 
@@ -37,8 +44,6 @@ GameObject::GameObject(char* name,bool active, GameObject* parent)
 	this->name = name;
 	this->active = active;
 	this->parent = parent;
-	this->hasParent = true;
-
 }
 
 
@@ -46,6 +51,26 @@ GameObject::~GameObject()
 {
 }
 
+
+void GameObject::Draw()
+{
+	//Draw yourself
+
+
+	//Draw your children
+}
+
+void GameObject::DrawHierarchy()
+{
+	//Draw yourself
+	ImGui::Text(this->name);
+	ImGui::SetCursorPosX(ImGui::GetCursorPosX() + 15);
+	//Draw your children
+	for (std::list<GameObject*>::iterator it = this->children.begin(); it != this->children.end(); ++it)
+	{
+		(*it)->DrawHierarchy();
+	}
+}
 
 //Component* GameObject::CreateComponent(int type)
 //{
