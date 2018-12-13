@@ -56,8 +56,14 @@ void GameObject::Draw()
 {
 	//Draw yourself
 
+	/*this->Draw();*/
 
 	//Draw your children
+
+	for (std::list<GameObject*>::iterator it = this->children.begin(); it != this->children.end(); ++it)
+	{
+		/*(*it)->Draw();*/
+	}
 }
 
 void GameObject::DrawHierarchy()
