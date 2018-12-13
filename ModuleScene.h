@@ -17,11 +17,16 @@ public:
 	bool CleanUp();
 
 	GameObject* CreateGameObject(char* name, bool active, GameObject* parent);
+	GameObject* CreateGameObject(char* name, bool active);
+
+	GameObject* Root;
 
 	std::list<GameObject*> GOs; //map or list or vector??
 
 	ModuleScene();
 	~ModuleScene();
+
+
 
 private:
 

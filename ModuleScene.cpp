@@ -46,3 +46,10 @@ GameObject* ModuleScene::CreateGameObject(char* name, bool active, GameObject* p
 
 	return my_go;
 }
+
+GameObject* ModuleScene::CreateGameObject(char* name, bool active)
+{
+	GameObject* my_go = new GameObject(name, active, Root);
+	GOs.push_back(my_go);
+	return my_go;
+}

@@ -6,6 +6,7 @@
 #include "ModuleModelLoader.h"
 #include "ModuleCamera.h"
 #include "ModuleScene.h"
+#include "GameObject.h"
 #include "ModuleInput.h"
 #include "ModuleProgram.h"
 #include "GL/glew.h"
@@ -237,7 +238,11 @@ void ModuleEditor::DrawInspector()
 			{
 				for (std::list<GameObject*>::iterator it = App->scene->GOs.begin(); it != App->scene->GOs.end(); ++it)
 				{
-					//ImGui::Text(App->scene->GOs)); //HOW TO ACCESS THE NAME VBLE INSIDE THE LIST??????
+					ImGui::Text((*it)->name);
+					for (std::list<GameObject*>::iterator it2 = (*it)->children.begin(); it2 != (*it)->children.end(); ++it2)
+					{
+						ImGui::BulletText((*it2)->name);
+					}
 				}
 			}
 			ImGui::End();

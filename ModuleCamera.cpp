@@ -23,8 +23,10 @@ update_status ModuleCamera::PreUpdate()
 	side.Normalize();
 	upwards = front.Cross(side);
 	upwards.Normalize();
-	side = side / 5;
 	upwards = upwards / 5;
+	side = side / 5;
+	
+
 
 
 	if (App->input->GetKey(SDL_SCANCODE_RSHIFT) || App->input->GetKey(SDL_SCANCODE_LSHIFT))
@@ -90,9 +92,8 @@ update_status ModuleCamera::PreUpdate()
 		}
 
 		//Mouse commands feel "steppy" not smooth enough but gets job done
-
-			target += cameraSpeed * upwards * App->input->GetMouseMotion().y / 10;
-			target -= cameraSpeed * side * App->input->GetMouseMotion().x / 10;
+		target += cameraSpeed * upwards * App->input->GetMouseMotion().y / 10;
+		target -= cameraSpeed * side * App->input->GetMouseMotion().x / 10;
 	}
 	return UPDATE_CONTINUE;
 }

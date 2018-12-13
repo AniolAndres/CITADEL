@@ -4,6 +4,7 @@
 #include "Globals.h"
 #include "Component.h"
 #include <vector>
+#include<list>
 
 class Component;
 class ComponentMesh;
@@ -26,7 +27,8 @@ public:
 	bool hasParent;
 	bool active;
 	char* name;
-	std::vector<GameObject*> children;
+
+	std::list<GameObject*> children;
 	std::vector<Component*> components;
 
 	ComponentMesh* mesh = nullptr;
