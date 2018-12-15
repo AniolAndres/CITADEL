@@ -21,7 +21,7 @@ public:
 	~GameObject();
 
 	void Update();
-	/*Component* CreateComponent(int type);*/
+	Component* CreateComponent(int type);
 	GameObject* parent;
 
 	bool active;

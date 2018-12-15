@@ -57,7 +57,6 @@ public:
 	void DrawInspector();
 	void DrawConsole();
 	void DrawWindow();
-	void DrawHierarchy();
 
 	ModuleEditor();
 	~ModuleEditor();
@@ -67,6 +66,7 @@ private:
 	bool showInfoWindow = false;
 	bool showEditorWindow = true;
 	bool showInspectorWindow = true;
+	bool showDrawWindow = true;
 	bool stopFPS = false;
 	float editorWidth, editorHeight;
 	float consoleWidth, consoleHeight;

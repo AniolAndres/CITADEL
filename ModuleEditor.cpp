@@ -75,7 +75,7 @@ update_status ModuleEditor::Update()
 		{
 			if (ImGui::MenuItem("New GO"))
 			{
-				App->scene->CreateGameObject("Gameobject 1", true);
+				App->scene->CreateGameObject("Gameobject 1", true, App->scene->SelectedGO);
 			}
 			ImGui::EndMenu();
 		}
@@ -101,6 +101,13 @@ update_status ModuleEditor::Update()
 					showInspectorWindow = false;
 				else
 					showInspectorWindow = true;
+			}
+			if (ImGui::MenuItem("Draw window"))
+			{
+				if (showDrawWindow)
+					showDrawWindow = false;
+				else
+					showDrawWindow = true;
 			}
 			ImGui::EndMenu();
 		}
@@ -140,6 +147,8 @@ update_status ModuleEditor::Update()
 	}
 
 	//order matters!!
+
+	ImGui::ShowDemoWindow();
 
 	DrawEditor();
 
@@ -258,127 +267,137 @@ void ModuleEditor::DrawEditor()
 
 		ImGui::SetNextWindowSize({ editorWidth, editorHeight });
 		ImGui::SetNextWindowPos({ App->window->windowWidth - editorWidth, 18 });
-
 		if (!ImGui::Begin("Editor tools", NULL, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse))
 		{
 			ImGui::End();
 		}
-		else
-		{
-			if (ImGui::CollapsingHeader("Module Camera")) //It's hard to track rotations because everything turn according to vectors and not a Quaternion
+		else {
+			ImGui::BeginTabBar("Tools");
+			if (ImGui::BeginTabItem("Modules"))
 			{
-				ImGui::Text("Current camera position:");
-				ImGui::BulletText("(%f,%f,%f)", App->camera->eye.x, App->camera->eye.y, App->camera->eye.z);
-				ImGui::Text("Current target position:");
-				ImGui::BulletText("(%f,%f,%f)", App->camera->target.x, App->camera->target.y, App->camera->target.z);
-				ImGui::Text("Front vector:");
-				ImGui::BulletText("(%f,%f,%f)", App->camera->front.x, App->camera->front.y, App->camera->front.z);
-				ImGui::Text("Side vector:");
-				ImGui::BulletText("(%f,%f,%f)", App->camera->side.x, App->camera->side.y, App->camera->side.z);
-				ImGui::Text("Upwards vector:");
-				ImGui::BulletText("(%f,%f,%f)", App->camera->upwards.x, App->camera->upwards.y, App->camera->upwards.z);
-			}
-			if (ImGui::CollapsingHeader("Module Editor"))
-			{
-				ImGui::Checkbox("Information", &showInfoWindow);
-			}
-			if (ImGui::CollapsingHeader("Module ModelLoader"))
-			{
-				if (App->modelLoader->modelLoaded)
+				if (ImGui::CollapsingHeader("Module Camera")) //It's hard to track rotations because everything turn according to vectors and not a Quaternion
 				{
-					if (ImGui::TreeNode("Scene:"))
+					ImGui::Text("Current camera position:");
+					ImGui::BulletText("(%f,%f,%f)", App->camera->eye.x, App->camera->eye.y, App->camera->eye.z);
+					ImGui::Text("Current target position:");
+					ImGui::BulletText("(%f,%f,%f)", App->camera->target.x, App->camera->target.y, App->camera->target.z);
+					ImGui::Text("Front vector:");
+					ImGui::BulletText("(%f,%f,%f)", App->camera->front.x, App->camera->front.y, App->camera->front.z);
+					ImGui::Text("Side vector:");
+					ImGui::BulletText("(%f,%f,%f)", App->camera->side.x, App->camera->side.y, App->camera->side.z);
+					ImGui::Text("Upwards vector:");
+					ImGui::BulletText("(%f,%f,%f)", App->camera->upwards.x, App->camera->upwards.y, App->camera->upwards.z);
+				}
+				if (ImGui::CollapsingHeader("Module Editor"))
+				{
+					ImGui::Checkbox("Information", &showInfoWindow);
+				}
+				if (ImGui::CollapsingHeader("Module ModelLoader"))
+				{
+					if (App->modelLoader->modelLoaded)
 					{
-						ImGui::Text("Number of meshes: %i", App->modelLoader->scene->mNumMeshes);
-						ImGui::Text("Number of vertices: %i", App->modelLoader->numVerticesTotal);
-						ImGui::TreePop();
-						ImGui::Separator();
+						if (ImGui::TreeNode("Scene:"))
+						{
+							ImGui::Text("Number of meshes: %i", App->modelLoader->scene->mNumMeshes);
+							ImGui::Text("Number of vertices: %i", App->modelLoader->numVerticesTotal);
+							ImGui::TreePop();
+							ImGui::Separator();
+						}
+					}
+					else
+					{
+						ImGui::Text("No scene loaded atm");
 					}
 				}
-				else
+				if (ImGui::CollapsingHeader("Module Program"))
 				{
-					ImGui::Text("No scene loaded atm");
+					//Nothing to show yet
 				}
-			}
-			if (ImGui::CollapsingHeader("Module Program"))
-			{
-				//Nothing to show yet
-			}
-			if (ImGui::CollapsingHeader("Module Render"))
-			{
-				ImGui::Checkbox("Grid", &App->renderer->showGrid);
-			}
-			if (ImGui::CollapsingHeader("Module Textures"))
-			{
-				ImGui::Checkbox("Textures", &App->renderer->showTextures);
-			}
-			if (ImGui::CollapsingHeader("Module Input"))
-			{
-				ImGui::Text("Current mouse position:");
-				ImGui::BulletText(" %f , %f ", App->input->GetMousePosition().x, App->input->GetMousePosition().y);
-			}
-			if (ImGui::CollapsingHeader("Module Window"))
-			{
-				ImGui::Text("Current window size: ");
-				ImGui::BulletText(" %f x %f ", App->window->windowWidth, App->window->windowHeight); //How can I get rid of the decimals?
-			}
-			if (ImGui::CollapsingHeader("Properties: "))
-			{
-				if (App->modelLoader->modelLoaded)
+				if (ImGui::CollapsingHeader("Module Render"))
 				{
-					if (ImGui::TreeNode("Transformation"))
-					{
-						ImGui::Text("Current camera position:");
-						ImGui::BulletText("(%f,%f,%f)", App->camera->eye.x, App->camera->eye.y, App->camera->eye.z);
-						ImGui::Text("Current target position:");
-						ImGui::BulletText("(%f,%f,%f)", App->camera->target.x, App->camera->target.y, App->camera->target.z);
-						ImGui::Text("Front vector:");
-						ImGui::BulletText("(%f,%f,%f)", App->camera->front.x, App->camera->front.y, App->camera->front.z);
-						ImGui::Text("Side vector:");
-						ImGui::BulletText("(%f,%f,%f)", App->camera->side.x, App->camera->side.y, App->camera->side.z);
-						ImGui::Text("Upwards vector:");
-						ImGui::BulletText("(%f,%f,%f)", App->camera->upwards.x, App->camera->upwards.y, App->camera->upwards.z);
-						ImGui::TreePop();
-						ImGui::Separator();
-					}
-					if (ImGui::TreeNode("Geometry"))
-					{
-						ImGui::Text("Scale: "); //pending
-						ImGui::TreePop();
-						ImGui::Separator();
-					}
-					if (ImGui::TreeNode("Texture"))
-					{
-						ImGui::Text("Number of meshes: %i", App->modelLoader->scene->mNumMeshes);
-						ImGui::Text("Number of vertices: %i", App->modelLoader->numVerticesTotal);
-						ImGui::TreePop();
-						ImGui::Separator();
-					}
+					ImGui::Checkbox("Grid", &App->renderer->showGrid);
 				}
-				else
+				if (ImGui::CollapsingHeader("Module Textures"))
 				{
-					ImGui::Text("No scene loaded atm");
+					ImGui::Checkbox("Textures", &App->renderer->showTextures);
 				}
-			}
-			if (ImGui::CollapsingHeader("Configuration"))
-			{
+				if (ImGui::CollapsingHeader("Module Input"))
+				{
+					ImGui::Text("Current mouse position:");
+					ImGui::BulletText(" %f , %f ", App->input->GetMousePosition().x, App->input->GetMousePosition().y);
+				}
+				if (ImGui::CollapsingHeader("Module Window"))
+				{
+					ImGui::Text("Current window size: ");
+					ImGui::BulletText(" %f x %f ", App->window->windowWidth, App->window->windowHeight); //How can I get rid of the decimals?
+				}
+				if (ImGui::CollapsingHeader("Properties: "))
+				{
+					if (App->modelLoader->modelLoaded)
+					{
+						if (ImGui::TreeNode("Transformation"))
+						{
+							ImGui::Text("Current camera position:");
+							ImGui::BulletText("(%f,%f,%f)", App->camera->eye.x, App->camera->eye.y, App->camera->eye.z);
+							ImGui::Text("Current target position:");
+							ImGui::BulletText("(%f,%f,%f)", App->camera->target.x, App->camera->target.y, App->camera->target.z);
+							ImGui::Text("Front vector:");
+							ImGui::BulletText("(%f,%f,%f)", App->camera->front.x, App->camera->front.y, App->camera->front.z);
+							ImGui::Text("Side vector:");
+							ImGui::BulletText("(%f,%f,%f)", App->camera->side.x, App->camera->side.y, App->camera->side.z);
+							ImGui::Text("Upwards vector:");
+							ImGui::BulletText("(%f,%f,%f)", App->camera->upwards.x, App->camera->upwards.y, App->camera->upwards.z);
+							ImGui::TreePop();
+							ImGui::Separator();
+						}
+						if (ImGui::TreeNode("Geometry"))
+						{
+							ImGui::Text("Scale: "); //pending
+							ImGui::TreePop();
+							ImGui::Separator();
+						}
+						if (ImGui::TreeNode("Texture"))
+						{
+							ImGui::Text("Number of meshes: %i", App->modelLoader->scene->mNumMeshes);
+							ImGui::Text("Number of vertices: %i", App->modelLoader->numVerticesTotal);
+							ImGui::TreePop();
+							ImGui::Separator();
+						}
+					}
+					else
+					{
+						ImGui::Text("No scene loaded atm");
+					}
+				}
+				if (ImGui::CollapsingHeader("Configuration"))
+				{
 
-				ImGui::Text("Application Time = %d", SDL_GetTicks() / 1000);
-				ImGui::Checkbox("Stop", &stopFPS);
-				ImGui::Text("Current FPS = %f ", currentFPS);
-				ImGui::PlotHistogram("FPS", fpsLog, 50, 0, "FPS graphic", 0.0f, 100.0f, ImVec2(350, 100));
-				ImGui::Text("Current MS = %f ", currentMs);
-				ImGui::PlotHistogram("MS", msLog, 50, 0, "MS graphic", 0.0f, 25.0f / 1000.0f, ImVec2(350, 100));
-				ImGui::Text("Graphics card vendor: %s \n", glGetString(GL_VENDOR));
-				ImGui::Text("Graphics card used: %s \n", glGetString(GL_RENDERER));
-				ImGui::NewLine();
-				ImGui::Text("OpenGL version: %s", glGetString(GL_VERSION));
-				SDL_GetVersion(&App->window->version);
-				ImGui::Text("SDL version: %d.%d.%d \n", App->window->version.major, App->window->version.minor, App->window->version.patch);
-				ImGui::Text("ImGui version: %s \n", ImGui::GetVersion());
-			}
+					ImGui::Text("Application Time = %d", SDL_GetTicks() / 1000);
+					ImGui::Checkbox("Stop", &stopFPS);
+					ImGui::Text("Current FPS = %f ", currentFPS);
+					ImGui::PlotHistogram("FPS", fpsLog, 50, 0, "FPS graphic", 0.0f, 100.0f, ImVec2(350, 100));
+					ImGui::Text("Current MS = %f ", currentMs);
+					ImGui::PlotHistogram("MS", msLog, 50, 0, "MS graphic", 0.0f, 25.0f / 1000.0f, ImVec2(350, 100));
+					ImGui::Text("Graphics card vendor: %s \n", glGetString(GL_VENDOR));
+					ImGui::Text("Graphics card used: %s \n", glGetString(GL_RENDERER));
+					ImGui::NewLine();
+					ImGui::Text("OpenGL version: %s", glGetString(GL_VERSION));
+					SDL_GetVersion(&App->window->version);
+					ImGui::Text("SDL version: %d.%d.%d \n", App->window->version.major, App->window->version.minor, App->window->version.patch);
+					ImGui::Text("ImGui version: %s \n", ImGui::GetVersion());
+				}
 
-			ImGui::End();
+				ImGui::EndTabItem();
+
+			}
+			if (ImGui::BeginTabItem("Editor"))
+			{
+				ImGui::Text("did it work?");
+				ImGui::EndTabItem();
+			}
+			ImGui::EndTabBar();
 		}
+		ImGui::End();		
 	}
 	else
 	{
@@ -389,29 +408,32 @@ void ModuleEditor::DrawEditor()
 
 void ModuleEditor::DrawWindow()
 {
-	drawWidth = App->window->windowWidth - inspectorWidth - editorWidth;
-	drawHeight = App->window->windowHeight - 18 - consoleHeight;
-
-	ImGui::SetNextWindowSize({ drawWidth, drawHeight });
-	ImGui::SetNextWindowPos({ inspectorWidth , 18 });
-
-	if (!ImGui::Begin("Scene", NULL, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse))
+	if (showDrawWindow)
 	{
-		ImGui::End();
-	}
-	else
-	{
-		if (ImGui::BeginChild("Editor Canvas", ImVec2(0, 0), true, ImGuiWindowFlags_NoMove))
+		drawWidth = App->window->windowWidth - inspectorWidth - editorWidth;
+		drawHeight = App->window->windowHeight - 18 - consoleHeight;
+
+		ImGui::SetNextWindowSize({ drawWidth, drawHeight });
+		ImGui::SetNextWindowPos({ inspectorWidth , 18 });
+
+		if (!ImGui::Begin("Scene", NULL, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse))
 		{
-
-			ImGui::GetWindowDrawList()->AddImage(
-				(void*)App->camera->fbo.fb_tex,
-				ImVec2(ImGui::GetCursorScreenPos()),
-				ImVec2(ImGui::GetCursorScreenPos().x + App->camera->fbo.fb_width,
-					ImGui::GetCursorScreenPos().y + App->camera->fbo.fb_height),
-				ImVec2(0, 1), ImVec2(1, 0));
+			ImGui::End();
 		}
-		ImGui::EndChild();
-		ImGui::End();
+		else
+		{
+			if (ImGui::BeginChild("Editor Canvas", ImVec2(0, 0), true, ImGuiWindowFlags_NoMove))
+			{
+
+				ImGui::GetWindowDrawList()->AddImage(
+					(void*)App->camera->fbo.fb_tex,
+					ImVec2(ImGui::GetCursorScreenPos()),
+					ImVec2(ImGui::GetCursorScreenPos().x + App->camera->fbo.fb_width,
+						ImGui::GetCursorScreenPos().y + App->camera->fbo.fb_height),
+					ImVec2(0, 1), ImVec2(1, 0));
+			}
+			ImGui::EndChild();
+			ImGui::End();
+		}
 	}
 }
