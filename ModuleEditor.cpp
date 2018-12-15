@@ -148,7 +148,7 @@ update_status ModuleEditor::Update()
 
 	//order matters!!
 
-	ImGui::ShowDemoWindow();
+	//ImGui::ShowDemoWindow();
 
 	DrawEditor();
 
@@ -243,11 +243,8 @@ void ModuleEditor::DrawInspector()
 		}
 		else
 		{
-			if (ImGui::CollapsingHeader("Inspector"))
-			{
-				App->scene->Root->DrawHierarchy();
-			}
-			ImGui::End();
+		App->scene->Root->DrawHierarchy();
+		ImGui::End();
 		}
 
 	}
@@ -392,7 +389,44 @@ void ModuleEditor::DrawEditor()
 			}
 			if (ImGui::BeginTabItem("Editor"))
 			{
-				ImGui::Text("did it work?");
+				if (App->scene->SelectedGO == nullptr)
+				{
+					ImGui::Text("No object selected");
+				}
+				else
+				{
+					ImGui::Text("Selected %s", App->scene->SelectedGO->name);
+					//This will be used to modify the components of the selected GameObject
+					if (ImGui::CollapsingHeader("Component Mesh"))
+					{
+
+						if (ImGui::Button("Create New Component"))
+						{
+							App->scene->SelectedGO->CreateComponent(MESH);
+						}
+					}
+					if (ImGui::CollapsingHeader("Component Material"))
+					{
+						if (ImGui::Button("Create New Component"))
+						{
+							App->scene->SelectedGO->CreateComponent(MATERIAL);
+						}
+					}
+					if (ImGui::CollapsingHeader("Component Transform"))
+					{
+						if (ImGui::Button("Create New Component"))
+						{
+							App->scene->SelectedGO->CreateComponent(TRANSFORM);
+						}
+					}
+					if (ImGui::CollapsingHeader("Component Light"))
+					{
+						if (ImGui::Button("Create New Component"))
+						{
+							App->scene->SelectedGO->CreateComponent(LIGHT);
+						}
+					}
+				}
 				ImGui::EndTabItem();
 			}
 			ImGui::EndTabBar();

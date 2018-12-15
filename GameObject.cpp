@@ -88,6 +88,24 @@ void GameObject::DrawHierarchy()
 	
 }
 
+void GameObject::DrawComponents(GameObject* GO, int type)
+{
+	for (std::vector<Component*>::iterator it = GO->components.begin(); it != GO->components.end(); ++it)
+	{
+		switch (type)
+		{
+		case MESH:
+			break;
+		case MATERIAL:
+			break;
+		case TRANSFORM:
+			break;
+		case LIGHT:
+			break;
+		}
+	}
+}
+
 Component* GameObject::CreateComponent(int type)
 {
 	Component* comp = nullptr;
@@ -107,6 +125,7 @@ Component* GameObject::CreateComponent(int type)
 		comp = new(ComponentTransform);
 		break;
 	}
+	components.push_back(comp);
 	return comp;
 }
 
