@@ -96,7 +96,7 @@ void GameObject::DrawComponents(int type)
 	case MESH:
 		for (std::vector<Component*>::iterator it = this->MeshComponents.begin(); it != this->MeshComponents.end(); ++it, ++i)
 		{
-			ImGui::Text("Component Mesh %i",i);
+			ImGui::Text("Component Mesh %i", i);
 		}
 		break;
 	case MATERIAL:
@@ -118,26 +118,6 @@ void GameObject::DrawComponents(int type)
 		}
 		break;
 	}
-
-
-	/*for (std::vector<Component*>::iterator it = this->components.begin(); it != this->components.end(); ++it)
-	{
-		switch ((*it)->type && type)
-		{
-		case MESH:
-			ImGui::Text("Component MESH");
-			break;
-		case MATERIAL:
-			ImGui::Text("Component MATERIAL");
-			break;
-		case TRANSFORM:
-			ImGui::Text("Component TRANSFORM");
-			break;
-		case LIGHT:
-			ImGui::Text("Component LIGHT");
-			break;
-		}
-	}*/
 }
 
 Component* GameObject::CreateComponent(int type)
