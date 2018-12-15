@@ -34,6 +34,11 @@ public:
 	std::list<GameObject*> children;
 	std::vector<Component*> components;
 
+	std::vector<Component*> MeshComponents;
+	std::vector<Component*> MaterialComponents;
+	std::vector<Component*> TransformComponents;
+	std::vector<Component*> LightComponents;
+
 	ComponentMesh* mesh = nullptr;
 	ComponentMaterial* material = nullptr;
 	ComponentTransform* transform = nullptr;

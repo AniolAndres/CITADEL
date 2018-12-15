@@ -9,7 +9,6 @@ class ComponentMaterial :
 public:
 	ComponentMaterial();
 	~ComponentMaterial();
-	int type = MATERIAL;
 };
 
 #endif // __COMPONENTMATERIAL_H_

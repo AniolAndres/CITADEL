@@ -400,7 +400,7 @@ void ModuleEditor::DrawEditor()
 					if (ImGui::CollapsingHeader("Component Mesh"))
 					{
 						App->scene->SelectedGO->DrawComponents(MESH);
-						if (ImGui::Button("Create New Component"))
+						if (ImGui::Button("Create New Component Mesh"))
 						{
 							App->scene->SelectedGO->CreateComponent(MESH);
 						}
@@ -408,7 +408,7 @@ void ModuleEditor::DrawEditor()
 					if (ImGui::CollapsingHeader("Component Material"))
 					{
 						App->scene->SelectedGO->DrawComponents(MATERIAL);
-						if (ImGui::Button("Create New Component"))
+						if (ImGui::Button("Create New Component Material"))
 						{
 							App->scene->SelectedGO->CreateComponent(MATERIAL);
 						}
@@ -416,7 +416,7 @@ void ModuleEditor::DrawEditor()
 					if (ImGui::CollapsingHeader("Component Transform"))
 					{
 						App->scene->SelectedGO->DrawComponents(TRANSFORM);
-						if (ImGui::Button("Create New Component"))
+						if (ImGui::Button("Create New Component Transform"))
 						{
 							App->scene->SelectedGO->CreateComponent(TRANSFORM);
 						}
@@ -424,7 +424,7 @@ void ModuleEditor::DrawEditor()
 					if (ImGui::CollapsingHeader("Component Light"))
 					{
 						App->scene->SelectedGO->DrawComponents(LIGHT);
-						if (ImGui::Button("Create New Component"))
+						if (ImGui::Button("Create New Component Light"))
 						{
 							App->scene->SelectedGO->CreateComponent(LIGHT);
 						}

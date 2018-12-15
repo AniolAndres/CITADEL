@@ -18,7 +18,6 @@ public:
 	~ComponentLight();
 
 	int LightType;
-	int type = LIGHT;
 	void SetLightType(int type);
 };
 

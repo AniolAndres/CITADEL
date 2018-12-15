@@ -90,7 +90,37 @@ void GameObject::DrawHierarchy()
 
 void GameObject::DrawComponents(int type)
 {
-	for (std::vector<Component*>::iterator it = this->components.begin(); it != this->components.end(); ++it)
+	int i = 0;
+	switch (type)
+	{
+	case MESH:
+		for (std::vector<Component*>::iterator it = this->MeshComponents.begin(); it != this->MeshComponents.end(); ++it, ++i)
+		{
+			ImGui::Text("Component Mesh %i",i);
+		}
+		break;
+	case MATERIAL:
+		for (std::vector<Component*>::iterator it = this->MaterialComponents.begin(); it != this->MaterialComponents.end(); ++it, ++i)
+		{
+			ImGui::Text("Component Material %i", i);
+		}
+		break;
+	case TRANSFORM:
+		for (std::vector<Component*>::iterator it = this->TransformComponents.begin(); it != this->TransformComponents.end(); ++it, ++i)
+		{
+			ImGui::Text("Component Transform %i", i);
+		}
+		break;
+	case LIGHT:
+		for (std::vector<Component*>::iterator it = this->LightComponents.begin(); it != this->LightComponents.end(); ++it, ++i)
+		{
+			ImGui::Text("Component Light %i", i);
+		}
+		break;
+	}
+
+
+	/*for (std::vector<Component*>::iterator it = this->components.begin(); it != this->components.end(); ++it)
 	{
 		switch ((*it)->type && type)
 		{
@@ -107,7 +137,7 @@ void GameObject::DrawComponents(int type)
 			ImGui::Text("Component LIGHT");
 			break;
 		}
-	}
+	}*/
 }
 
 Component* GameObject::CreateComponent(int type)
@@ -118,14 +148,18 @@ Component* GameObject::CreateComponent(int type)
 	{
 	case MESH:
 		comp = new(ComponentMesh);
+		this->MeshComponents.push_back(comp);
 		break;
 	case MATERIAL:
 		comp = new(ComponentMaterial);
+		this->MaterialComponents.push_back(comp);
 		break;
 	case LIGHT:
 		comp = new(ComponentLight);
+		this->LightComponents.push_back(comp);
 		break;
-	case TRANSFORM: 
+	case TRANSFORM: 	
+		this->TransformComponents.push_back(comp);
 		comp = new(ComponentTransform);
 		break;
 	}

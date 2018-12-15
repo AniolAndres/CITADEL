@@ -10,7 +10,6 @@ class ComponentTransform :
 public:
 	ComponentTransform();
 	~ComponentTransform();
-	int type = TRANSFORM;
 
 	float3 position, scale;
 	Quat rotation;
