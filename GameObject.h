@@ -28,7 +28,7 @@ public:
 	char* name;
 
 	void Draw();
-	void DrawComponents(GameObject* GO, int type);
+	void DrawComponents(int type);
 	void DrawHierarchy();
 
 	std::list<GameObject*> children;

@@ -4,6 +4,7 @@
 
 ComponentMesh::ComponentMesh()
 {
+	type = MESH;
 }
 
 

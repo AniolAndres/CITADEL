@@ -399,7 +399,7 @@ void ModuleEditor::DrawEditor()
 					//This will be used to modify the components of the selected GameObject
 					if (ImGui::CollapsingHeader("Component Mesh"))
 					{
-
+						App->scene->SelectedGO->DrawComponents(MESH);
 						if (ImGui::Button("Create New Component"))
 						{
 							App->scene->SelectedGO->CreateComponent(MESH);
@@ -407,6 +407,7 @@ void ModuleEditor::DrawEditor()
 					}
 					if (ImGui::CollapsingHeader("Component Material"))
 					{
+						App->scene->SelectedGO->DrawComponents(MATERIAL);
 						if (ImGui::Button("Create New Component"))
 						{
 							App->scene->SelectedGO->CreateComponent(MATERIAL);
@@ -414,6 +415,7 @@ void ModuleEditor::DrawEditor()
 					}
 					if (ImGui::CollapsingHeader("Component Transform"))
 					{
+						App->scene->SelectedGO->DrawComponents(TRANSFORM);
 						if (ImGui::Button("Create New Component"))
 						{
 							App->scene->SelectedGO->CreateComponent(TRANSFORM);
@@ -421,6 +423,7 @@ void ModuleEditor::DrawEditor()
 					}
 					if (ImGui::CollapsingHeader("Component Light"))
 					{
+						App->scene->SelectedGO->DrawComponents(LIGHT);
 						if (ImGui::Button("Create New Component"))
 						{
 							App->scene->SelectedGO->CreateComponent(LIGHT);

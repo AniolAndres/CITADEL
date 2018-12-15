@@ -2,7 +2,7 @@
 
 void ComponentLight::SetLightType(int t)
 {
-	this->type = t;
+	this->LightType = t;
 }
 
 ComponentLight::ComponentLight()
