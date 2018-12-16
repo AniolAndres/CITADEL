@@ -403,7 +403,7 @@ void ModuleEditor::DrawEditor()
 				}
 				else
 				{
-					ImGui::Text("Selected %s", App->scene->SelectedGO->name);
+					ImGui::Text("Selected %s #%d", App->scene->SelectedGO->name, App->scene->SelectedGO->id);
 					//This will be used to modify the components of the selected GameObject
 					if (ImGui::CollapsingHeader("Component Mesh"))
 					{

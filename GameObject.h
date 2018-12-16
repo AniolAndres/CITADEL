@@ -28,6 +28,9 @@ public:
 	char* name;
 	int id;
 
+	bool showPopup = false;
+
+	void BeginPopup(GameObject* GO);
 	void Draw();
 	void DrawComponents(int type);
 	void DrawHierarchy();

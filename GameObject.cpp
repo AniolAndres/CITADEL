@@ -23,7 +23,7 @@ GameObject::GameObject()
 GameObject::GameObject(char* name, bool active)
 {
 	this->id = App->scene->GOcounter;
-	this->name = name;
+	this->name =name;
 	this->active = active;
 	this->parent = App->scene->Root;
 }
@@ -32,7 +32,7 @@ GameObject::GameObject(char* name, bool active)
 GameObject::GameObject(char* name,bool active, GameObject* parent)
 {
 	this->id = App->scene->GOcounter;
-	this->name = name;
+	this->name =  name;
 	this->active = active;
 	this->parent = parent;
 }
@@ -61,11 +61,19 @@ void GameObject::DrawHierarchy()
 {
 	//Draw yourself
 
-	ImGuiTreeNodeFlags node_flags = (ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick | ImGuiTreeNodeFlags_Selected);
+	if (showPopup)
+		BeginPopup(this);
 
-	if (ImGui::TreeNodeEx((void*)0,node_flags, "%s %i", this->name, this->id))
+	ImGuiTreeNodeFlags	node_flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick | (App->scene->SelectedGO == this ? ImGuiTreeNodeFlags_Selected:0);
+
+	if (ImGui::TreeNodeEx(this,node_flags, "%s %d", this->name, this->id))
 	{
-		if (ImGui::IsItemHovered() && App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_DOWN)
+		if (ImGui::IsItemHovered() && App->input->GetMouseButtonDown(SDL_BUTTON_RIGHT))
+		{
+			showPopup = true;
+		}
+
+		if (ImGui::IsItemHovered() && App->input->GetMouseButtonDown(SDL_BUTTON_LEFT))
 		{
 			App->scene->SelectedGO = this;
 		}
@@ -74,10 +82,13 @@ void GameObject::DrawHierarchy()
 		{
 			(*it)->DrawHierarchy();
 		}
-
 		ImGui::TreePop();
 	}
-	
+}
+
+void GameObject::BeginPopup(GameObject* GO)
+{
+	ImGui::InputText("Input text", GO->name, 256);
 }
 
 void GameObject::DrawComponents(int type)

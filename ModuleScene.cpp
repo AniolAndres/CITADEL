@@ -16,6 +16,7 @@ bool ModuleScene::Init()
 {
 	bool ret = true;
 	Root = new GameObject();
+	Root->id = NULL;
 	Root->name = "Root";
 	Root->active = true;
 	return ret;
