@@ -70,7 +70,10 @@ void GameObject::DrawHierarchy()
 	{
 		if (ImGui::IsItemHovered() && App->input->GetMouseButtonDown(SDL_BUTTON_RIGHT))
 		{
-			showPopup = true;
+			if (showPopup)
+				showPopup = false;
+			else
+				showPopup = true;
 		}
 
 		if (ImGui::IsItemHovered() && App->input->GetMouseButtonDown(SDL_BUTTON_LEFT))
@@ -88,7 +91,7 @@ void GameObject::DrawHierarchy()
 
 void GameObject::BeginPopup(GameObject* GO)
 {
-	ImGui::InputText("Input text", GO->name, 256);
+	ImGui::InputText("New name", GO->newName, ARRAYSIZE(GO->newName), ImGuiInputTextFlags_AlwaysInsertMode | ImGuiInputTextFlags_CharsHexadecimal);
 }
 
 void GameObject::DrawComponents(int type)
@@ -134,6 +137,7 @@ void GameObject::DrawTransforms()
 	for (std::vector<Component*>::iterator it = this->TransformComponents.begin(); it != this->TransformComponents.end(); ++it, ++i)
 	{
 		ImGui::Text("Component Transform %i", i);
+	/*	ImGui::SliderFloat("POS", (*it)->position.x,0.0f,10.0f, "%.4f", 2.0f)*/
 	}
 }
 

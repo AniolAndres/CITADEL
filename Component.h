@@ -23,6 +23,7 @@ public:
 	int type;
 	bool active;
 	GameObject* my_go;
+
 };
 
 

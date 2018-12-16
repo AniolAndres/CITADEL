@@ -9,6 +9,7 @@
 #include "GameObject.h"
 #include "ModuleInput.h"
 #include "ModuleProgram.h"
+#include "SDL.h"
 #include "GL/glew.h"
 #include "IMGUI/imgui.h"
 #include "IMGUI/imgui_impl_sdl.h"
@@ -23,6 +24,8 @@ bool ModuleEditor::Init()
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
 	ImGuiIO& io = ImGui::GetIO();
+	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
+	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 	io.IniFilename = "Settings/imgui.ini";
 	ImGui_ImplSDL2_InitForOpenGL(App->window->window, App->renderer->context);
 	ImGui_ImplOpenGL2_Init();
@@ -43,6 +46,9 @@ update_status ModuleEditor::PreUpdate()
 	ImGui_ImplOpenGL2_NewFrame();
 	ImGui_ImplSDL2_NewFrame(App->window->window);
 	ImGui::NewFrame();
+
+
+
 	if(stopFPS==false)
 		updateFramerate();
 

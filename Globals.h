@@ -43,6 +43,7 @@ enum compType
 		 }\
 	 }
 
+#define ARRAYSIZE(_ARR)  ((int)(sizeof(_ARR)/sizeof(*_ARR)))
 
 // Configuration -----------
 #define SCREEN_WIDTH 1024

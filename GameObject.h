@@ -28,6 +28,8 @@ public:
 	char* name;
 	int id;
 
+	char newName[20];
+
 	bool showPopup = false;
 
 	void BeginPopup(GameObject* GO);
