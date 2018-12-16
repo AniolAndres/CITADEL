@@ -4,6 +4,7 @@
 #include "ModuleScene.h"
 #include "GameObject.h"
 #include "ComponentLight.h"
+#include "ModuleInput.h"
 #include "ComponentMaterial.h"
 #include "ComponentMesh.h"
 #include "ComponentTransform.h"
@@ -21,12 +22,7 @@ GameObject::GameObject()
 
 GameObject::GameObject(char* name, bool active)
 {
-	//this->components.reserve(5);
-	//this->components.push_back(mesh = new ComponentMesh());
-	//this->components.push_back(material = new ComponentMaterial());
-	//this->components.push_back(transform = new ComponentTransform());
-	//this->components.push_back(light = new ComponentLight());
-
+	this->id = App->scene->GOcounter;
 	this->name = name;
 	this->active = active;
 	this->parent = App->scene->Root;
@@ -35,12 +31,7 @@ GameObject::GameObject(char* name, bool active)
 
 GameObject::GameObject(char* name,bool active, GameObject* parent)
 {
-	//this->components.reserve(5);
-	//this->components.push_back(mesh = new ComponentMesh());
-	//this->components.push_back(material = new ComponentMaterial());
-	//this->components.push_back(transform = new ComponentTransform());
-	//this->components.push_back(light = new ComponentLight());
-
+	this->id = App->scene->GOcounter;
 	this->name = name;
 	this->active = active;
 	this->parent = parent;
@@ -69,20 +60,21 @@ void GameObject::Draw()
 void GameObject::DrawHierarchy()
 {
 	//Draw yourself
-	/*ImGuiTreeNodeFlags node_flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick | ImGuiTreeNodeFlags_Selected;*/
 
+	ImGuiTreeNodeFlags node_flags = (ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick | ImGuiTreeNodeFlags_Selected);
 
-	//-----------------------
-
-	if (ImGui::TreeNode(this->name))
+	if (ImGui::TreeNodeEx((void*)0,node_flags, "%s %i", this->name, this->id))
 	{
-		App->scene->SelectedGO = this;
-
+		if (ImGui::IsItemHovered() && App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_DOWN)
+		{
+			App->scene->SelectedGO = this;
+		}
 		//Draw your children
 		for (std::list<GameObject*>::iterator it = this->children.begin(); it != this->children.end(); ++it)
 		{
 			(*it)->DrawHierarchy();
 		}
+
 		ImGui::TreePop();
 	}
 	
@@ -90,33 +82,56 @@ void GameObject::DrawHierarchy()
 
 void GameObject::DrawComponents(int type)
 {
-	int i = 0;
 	switch (type)
 	{
 	case MESH:
-		for (std::vector<Component*>::iterator it = this->MeshComponents.begin(); it != this->MeshComponents.end(); ++it, ++i)
-		{
-			ImGui::Text("Component Mesh %i", i);
-		}
+		this->DrawMeshes();
 		break;
 	case MATERIAL:
-		for (std::vector<Component*>::iterator it = this->MaterialComponents.begin(); it != this->MaterialComponents.end(); ++it, ++i)
-		{
-			ImGui::Text("Component Material %i", i);
-		}
+		this->DrawMaterials();
 		break;
 	case TRANSFORM:
-		for (std::vector<Component*>::iterator it = this->TransformComponents.begin(); it != this->TransformComponents.end(); ++it, ++i)
-		{
-			ImGui::Text("Component Transform %i", i);
-		}
+		this->DrawTransforms();
 		break;
 	case LIGHT:
-		for (std::vector<Component*>::iterator it = this->LightComponents.begin(); it != this->LightComponents.end(); ++it, ++i)
-		{
-			ImGui::Text("Component Light %i", i);
-		}
+		this->DrawLights();
 		break;
+	}
+}
+
+void GameObject::DrawMeshes()
+{
+	int i = 0;
+	for (std::vector<Component*>::iterator it = this->MeshComponents.begin(); it != this->MeshComponents.end(); ++it, ++i)
+	{
+		ImGui::Text("Component Mesh %i", i);
+	}
+}
+
+void GameObject::DrawMaterials()
+{
+	int i = 0;
+	for (std::vector<Component*>::iterator it = this->MaterialComponents.begin(); it != this->MaterialComponents.end(); ++it, ++i)
+	{
+		ImGui::Text("Component Material %i", i);
+	}
+}
+
+void GameObject::DrawTransforms()
+{
+	int i = 0;
+	for (std::vector<Component*>::iterator it = this->TransformComponents.begin(); it != this->TransformComponents.end(); ++it, ++i)
+	{
+		ImGui::Text("Component Transform %i", i);
+	}
+}
+
+void GameObject::DrawLights()
+{
+	int i = 0;
+	for (std::vector<Component*>::iterator it = this->LightComponents.begin(); it != this->LightComponents.end(); ++it, ++i)
+	{
+		ImGui::Text("Component Light %i", i);
 	}
 }
 

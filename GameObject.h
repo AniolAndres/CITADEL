@@ -26,10 +26,15 @@ public:
 
 	bool active;
 	char* name;
+	int id;
 
 	void Draw();
 	void DrawComponents(int type);
 	void DrawHierarchy();
+	void DrawMeshes();
+	void DrawMaterials();
+	void DrawTransforms();
+	void DrawLights();
 
 	std::list<GameObject*> children;
 	std::vector<Component*> components;

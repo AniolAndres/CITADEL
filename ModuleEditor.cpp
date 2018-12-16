@@ -75,7 +75,15 @@ update_status ModuleEditor::Update()
 		{
 			if (ImGui::MenuItem("New GO"))
 			{
-				App->scene->CreateGameObject("Gameobject 1", true, App->scene->SelectedGO);
+				if (App->scene->SelectedGO != nullptr)
+				{
+					App->scene->CreateGameObject("GameObject", true, App->scene->SelectedGO);
+				}
+				else
+				{
+					App->scene->CreateGameObject("GameObject", true);
+				}
+				++App->scene->GOcounter;
 			}
 			ImGui::EndMenu();
 		}
@@ -148,7 +156,7 @@ update_status ModuleEditor::Update()
 
 	//order matters!!
 
-	//ImGui::ShowDemoWindow();
+	ImGui::ShowDemoWindow();
 
 	DrawEditor();
 

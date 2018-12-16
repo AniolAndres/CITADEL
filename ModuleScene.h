@@ -21,6 +21,8 @@ public:
 	GameObject* Root = nullptr;
 	GameObject* SelectedGO = nullptr;
 
+	int GOcounter = 1;
+
 	std::list<GameObject*> GOs; //map or list or vector??
 
 	ModuleScene();

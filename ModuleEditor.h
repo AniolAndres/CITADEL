@@ -68,6 +68,9 @@ private:
 	bool showInspectorWindow = true;
 	bool showDrawWindow = true;
 	bool stopFPS = false;
+
+	char b[30];
+
 	float editorWidth, editorHeight;
 	float consoleWidth, consoleHeight;
 	float inspectorWidth, inspectorHeight;
