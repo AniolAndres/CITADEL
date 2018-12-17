@@ -61,9 +61,6 @@ void GameObject::DrawHierarchy()
 {
 	//Draw yourself
 
-	if (showPopup)
-		BeginPopup(this);
-
 	ImGuiTreeNodeFlags	node_flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick | (App->scene->SelectedGO == this ? ImGuiTreeNodeFlags_Selected:0);
 
 	if (ImGui::TreeNodeEx(this,node_flags, "%s %d", this->name, this->id))
@@ -76,7 +73,7 @@ void GameObject::DrawHierarchy()
 				showPopup = true;
 		}
 
-		if (ImGui::IsItemHovered() && App->input->GetMouseButtonDown(SDL_BUTTON_LEFT))
+		if (ImGui::IsItemClicked())
 		{
 			App->scene->SelectedGO = this;
 		}
@@ -87,11 +84,6 @@ void GameObject::DrawHierarchy()
 		}
 		ImGui::TreePop();
 	}
-}
-
-void GameObject::BeginPopup(GameObject* GO)
-{
-	ImGui::InputText("New name", GO->newName, ARRAYSIZE(GO->newName), ImGuiInputTextFlags_AlwaysInsertMode | ImGuiInputTextFlags_CharsHexadecimal);
 }
 
 void GameObject::DrawComponents(int type)
@@ -137,7 +129,7 @@ void GameObject::DrawTransforms()
 	for (std::vector<Component*>::iterator it = this->TransformComponents.begin(); it != this->TransformComponents.end(); ++it, ++i)
 	{
 		ImGui::Text("Component Transform %i", i);
-	/*	ImGui::SliderFloat("POS", (*it)->position.x,0.0f,10.0f, "%.4f", 2.0f)*/
+		ImGui::SliderFloat("POS", (*it)->position.x, 0.0f, 10.0f, "%.4f", 2.0f);
 	}
 }
 
