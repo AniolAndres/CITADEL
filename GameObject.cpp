@@ -133,7 +133,7 @@ void GameObject::DrawTransforms()
 	for (std::vector<Component*>::iterator it = this->TransformComponents.begin(); it != this->TransformComponents.end(); ++it, ++i)
 	{
 		ImGui::Text("Component Transform %i", i);
-		/*ImGui::SliderFloat("POS", &(*it)->position.x, 0.0f, 10.0f, "%.4f", 2.0f);*/
+		/*ImGui::SliderFloat("POS", , 0.0f, 10.0f, "%.4f", 2.0f);*/
 	}
 }
 
