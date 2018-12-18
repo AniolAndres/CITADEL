@@ -60,30 +60,34 @@ void GameObject::Draw()
 void GameObject::DrawHierarchy()
 {
 	//Draw yourself
+	ImGui::PushID(this);
 
-	ImGuiTreeNodeFlags	node_flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick | (App->scene->SelectedGO == this ? ImGuiTreeNodeFlags_Selected:0);
+	ImGuiTreeNodeFlags	node_flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick | (App->scene->SelectedGO == this ? ImGuiTreeNodeFlags_Selected : 0);
 
-	if (ImGui::TreeNodeEx(this,node_flags, "%s %d", this->name, this->id))
+	if (this->children.empty()) {
+		node_flags |= ImGuiTreeNodeFlags_Leaf | ImGuiTreeNodeFlags_NoTreePushOnOpen;
+	}
+
+	bool treeOpen = ImGui::TreeNodeEx(this, node_flags, "%s %d", this->name, this->id);
+
+	if (ImGui::IsItemClicked()) 
+		App->scene->SelectedGO = this;
+	
+
+	if (treeOpen)
 	{
-		if (ImGui::IsItemHovered() && App->input->GetMouseButtonDown(SDL_BUTTON_RIGHT))
-		{
-			if (showPopup)
-				showPopup = false;
-			else
-				showPopup = true;
-		}
-
-		if (ImGui::IsItemClicked())
-		{
-			App->scene->SelectedGO = this;
-		}
 		//Draw your children
 		for (std::list<GameObject*>::iterator it = this->children.begin(); it != this->children.end(); ++it)
 		{
 			(*it)->DrawHierarchy();
 		}
-		ImGui::TreePop();
+		if (!(node_flags & ImGuiTreeNodeFlags_NoTreePushOnOpen)) {
+			ImGui::TreePop();
+		}
 	}
+
+	ImGui::PopID();
+
 }
 
 void GameObject::DrawComponents(int type)
@@ -129,7 +133,7 @@ void GameObject::DrawTransforms()
 	for (std::vector<Component*>::iterator it = this->TransformComponents.begin(); it != this->TransformComponents.end(); ++it, ++i)
 	{
 		ImGui::Text("Component Transform %i", i);
-		ImGui::SliderFloat("POS", (*it)->position.x, 0.0f, 10.0f, "%.4f", 2.0f);
+		/*ImGui::SliderFloat("POS", &(*it)->position.x, 0.0f, 10.0f, "%.4f", 2.0f);*/
 	}
 }
 
@@ -161,8 +165,8 @@ Component* GameObject::CreateComponent(int type)
 		this->LightComponents.push_back(comp);
 		break;
 	case TRANSFORM: 	
-		this->TransformComponents.push_back(comp);
 		comp = new(ComponentTransform);
+		this->TransformComponents.push_back(comp);
 		break;
 	}
 	this->components.push_back(comp);
