@@ -66,6 +66,26 @@ void ComponentMesh::CheckMesh(aiMesh* mesh)
 	materialIndex = mesh->mMaterialIndex;
 }
 
+void ComponentMesh::Draw(unsigned shaderProgram, const Texture* texture) const 
+{
+
+	glActiveTexture(GL_TEXTURE0);
+
+	if (texture != nullptr) {
+		glBindTexture(GL_TEXTURE_2D, texture->id);
+	}
+
+	glUniform1i(glGetUniformLocation(shaderProgram, "texture0"), 0);
+
+	glBindVertexArray(vao);
+	glDrawElements(GL_TRIANGLES, numIndices, GL_UNSIGNED_INT, 0);
+
+	glBindVertexArray(0);
+	glBindTexture(GL_TEXTURE_2D, 0);
+
+}
+
+
 ComponentMesh::ComponentMesh()
 {
 	type = MESH;

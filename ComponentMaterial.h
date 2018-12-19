@@ -12,6 +12,8 @@ class ComponentMaterial :
 public:
 
 	void CheckMaterial(const aiMaterial* material);
+	unsigned GetShader() {return shader; }
+	Texture* GetTexture() { return texture; }
 
 	void DeleteTexture();
 
@@ -20,7 +22,7 @@ public:
 
 private:
 	unsigned shader = 0u;
-	SDL_Texture* texture = nullptr;
+	Texture* texture = nullptr;
 };
 
 #endif // __COMPONENTMATERIAL_H_

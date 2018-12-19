@@ -27,8 +27,6 @@ update_status ModuleCamera::PreUpdate()
 	side = side / 5;
 	
 
-
-
 	if (App->input->GetKey(SDL_SCANCODE_RSHIFT) || App->input->GetKey(SDL_SCANCODE_LSHIFT))
 		cameraSpeed = 2.5f;
 	else

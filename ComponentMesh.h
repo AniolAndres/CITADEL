@@ -3,6 +3,7 @@
 
 #include "assert.h"
 #include "Component.h"
+#include "ModuleTextures.h"
 #include <assimp/mesh.h>
 #include "Math/float3.h"
 #include "GL/glew.h"
@@ -13,6 +14,7 @@ class ComponentMesh : public Component
 public:
 
 	void CheckMesh(aiMesh* mesh);
+	void Draw(unsigned shaderProgram, const Texture* textures) const;
 
 	std::vector<math::float3> vertices;
 	const char*	name = nullptr;

@@ -48,31 +48,43 @@ void GameObject::Draw()
 {
 	//Draw yourself
 
-	/*this->Draw();*/
-
 	ComponentMaterial* material = (ComponentMaterial*)this->MaterialComponents.front();
 
 	unsigned shader = 0u;
 
-	SDL_Texture* texture = nullptr;
+	Texture* texture = nullptr;
 
 	if (material != nullptr) {
 		shader = material->GetShader();
 		texture = material->GetTexture();
 	}
 	else {
-		shader = App->program->textureProgram;
+		shader = App->program->programLoader;
 	}
 
 	if (texture == nullptr) {
 		texture = App->textures->defaultTexture;
 	}
 
+
+	glUseProgram(shader);
+	ModelTransform(shader);
+
+	for (std::vector<Component*>::iterator it = this->MeshComponents.begin(); it != this->MeshComponents.end(); ++it)
+	{
+		if (mesh != nullptr)
+		{
+			((ComponentMesh*)(*it))->Draw(shader, texture);
+		}
+	}
+
+	glUseProgram(0);
+
 	//Draw your children
 
 	for (std::list<GameObject*>::iterator it = this->children.begin(); it != this->children.end(); ++it)
 	{
-		/*(*it)->Draw();*/
+		(*it)->Draw();
 	}
 }
 
@@ -188,12 +200,40 @@ Component* GameObject::CreateComponent(int type)
 		this->TransformComponents.push_back(comp);
 		break;
 	}
+	comp->my_go = this;
 	this->components.push_back(comp);
 	return comp;
 }
 
-
-void GameObject::Update()
+std::string GameObject::getFileFolder()
 {
+	std::string s(filePath);
+	std::size_t found = s.find_last_of("/\\");
+	s = s.substr(0, found + 1);
+	return s;
+}
 
+void GameObject::ModelTransform(unsigned shader) const 
+{
+	glUniformMatrix4fv(glGetUniformLocation(shader, "model"), 1, GL_TRUE, &GetGlobalTransform()[0][0]);
+}
+
+
+math::float4x4 GameObject::GetGlobalTransform() const 
+{
+	if (parent != nullptr) 
+	{
+		return parent->GetGlobalTransform() * GetLocalTransform();
+	}
+
+	return GetLocalTransform();
+}
+
+math::float4x4 GameObject::GetLocalTransform() const {
+	if (transform == nullptr) 
+	{
+		return float4x4::identity;
+	}
+
+	return float4x4::FromTRS(transform->position, transform->rotation, transform->scale);
 }

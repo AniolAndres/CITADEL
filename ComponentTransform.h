@@ -2,7 +2,8 @@
 #define __COMPONENTTRANSFORM_H_
 
 #include "Component.h"
-#include "MathGeoLib.h"
+#include "MathGeoLib/include/Math/float3.h"
+#include "MathGeoLib/include/Math/Quat.h"
 
 class ComponentTransform :
 	public Component
@@ -11,8 +12,9 @@ public:
 	ComponentTransform();
 	~ComponentTransform();
 
-	float3 position, scale;
-	Quat rotation;
+	float3 position = float3::zero;
+	float3 scale = float3::zero;
+	Quat rotation = Quat::identity;
 
 };
 

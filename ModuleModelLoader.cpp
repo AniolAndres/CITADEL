@@ -50,7 +50,7 @@ void ModuleModelLoader::GenerateMaterials(const aiScene* scene)
 
 		if (sourceMaterial->GetTexture(aiTextureType_DIFFUSE, 0, &file, &map, &UVindex) == AI_SUCCESS)
 		{
-			finalMaterial = App->textures->loadImg(file.C_Str());
+			/*finalMaterial = App->textures->loadImg(file.C_Str());*/
 		}
 
 		materials[i] = finalMaterial;

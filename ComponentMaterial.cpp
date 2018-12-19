@@ -8,7 +8,7 @@ void ComponentMaterial::CheckMaterial(const aiMaterial* material)
 		aiTextureMapping mapping = aiTextureMapping_UV;
 		aiString file;
 		material->GetTexture(aiTextureType_DIFFUSE, 0, &file, &mapping, 0);
-		texturePath = goContainer->GetFileFolder() + file.C_Str();
+		texturePath = my_go->getFileFolder() + file.C_Str();
 	}
 	else {
 		texture = App->textures->defaultTexture;
