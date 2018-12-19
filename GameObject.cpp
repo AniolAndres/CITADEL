@@ -48,38 +48,42 @@ void GameObject::Draw()
 {
 	//Draw yourself
 
-	ComponentMaterial* material = (ComponentMaterial*)this->MaterialComponents.front();
 
-	unsigned shader = 0u;
-
-	Texture* texture = nullptr;
-
-	if (material != nullptr) {
-		shader = material->GetShader();
-		texture = material->GetTexture();
-	}
-	else {
-		shader = App->program->programLoader;
-	}
-
-	if (texture == nullptr) {
-		texture = App->textures->defaultTexture;
-	}
-
-
-	glUseProgram(shader);
-	ModelTransform(shader);
-
-	for (std::vector<Component*>::iterator it = this->MeshComponents.begin(); it != this->MeshComponents.end(); ++it)
+	if (!this->MaterialComponents.empty())
 	{
-		if (mesh != nullptr)
-		{
-			((ComponentMesh*)(*it))->Draw(shader, texture);
+		ComponentMaterial* material = (ComponentMaterial*)this->MaterialComponents.front();
+
+		unsigned shader = 0u;
+
+		Texture* texture = nullptr;
+
+		if (material != nullptr) {
+			shader = material->GetShader();
+			texture = material->GetTexture();
 		}
+		else {
+			shader = App->program->programLoader;
+		}
+
+		if (texture == nullptr) {
+			texture = App->textures->defaultTexture;
+		}
+
+
+		glUseProgram(shader);
+		ModelTransform(shader);
+
+		for (std::vector<Component*>::iterator it = this->MeshComponents.begin(); it != this->MeshComponents.end(); ++it)
+		{
+			if (mesh != nullptr)
+			{
+				((ComponentMesh*)(*it))->Draw(shader, texture);
+			}
+		}
+
+		glUseProgram(0);
+
 	}
-
-	glUseProgram(0);
-
 	//Draw your children
 
 	for (std::list<GameObject*>::iterator it = this->children.begin(); it != this->children.end(); ++it)
@@ -221,9 +225,9 @@ void GameObject::ModelTransform(unsigned shader) const
 
 math::float4x4 GameObject::GetGlobalTransform() const 
 {
-	if (parent != nullptr) 
+	if (this->parent != nullptr) 
 	{
-		return parent->GetGlobalTransform() * GetLocalTransform();
+		return this->parent->GetGlobalTransform() * GetLocalTransform();
 	}
 
 	return GetLocalTransform();

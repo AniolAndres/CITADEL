@@ -25,7 +25,7 @@ public:
 
 	void Update();
 	Component* CreateComponent(int type);
-	GameObject* parent;
+	GameObject* parent = nullptr;
 
 	bool active;
 	char* name;

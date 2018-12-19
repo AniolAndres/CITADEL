@@ -16,6 +16,8 @@ public:
 	update_status PostUpdate();
 	bool CleanUp();
 
+	void Draw();
+
 	GameObject* CreateGameObject(char* name, bool active, GameObject* parent);
 	GameObject* CreateGameObject(char* name, bool active);
 	GameObject* Root = nullptr;

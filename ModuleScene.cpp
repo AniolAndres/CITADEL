@@ -29,6 +29,7 @@ update_status ModuleScene::PreUpdate()
 
 update_status ModuleScene::Update()
 {
+	this->Draw();
 	return UPDATE_CONTINUE;
 }
 
@@ -42,6 +43,11 @@ bool ModuleScene::CleanUp()
 	bool ret = true;
 
 	return ret;
+}
+
+void ModuleScene::Draw()
+{
+	Root->Draw();
 }
 
 GameObject* ModuleScene::CreateGameObject(char* name, bool active, GameObject* parent)
