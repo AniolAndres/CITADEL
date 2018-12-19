@@ -8,6 +8,7 @@
 #include "ComponentMaterial.h"
 #include "ComponentMesh.h"
 #include "ComponentTransform.h"
+#include "Assimp/material.h"
 #include "Globals.h"
 #include "IMGUI/imgui.h"
 #include "IMGUI/imgui_impl_sdl.h"
@@ -48,6 +49,24 @@ void GameObject::Draw()
 	//Draw yourself
 
 	/*this->Draw();*/
+
+	ComponentMaterial* material = (ComponentMaterial*)this->MaterialComponents.front();
+
+	unsigned shader = 0u;
+
+	SDL_Texture* texture = nullptr;
+
+	if (material != nullptr) {
+		shader = material->GetShader();
+		texture = material->GetTexture();
+	}
+	else {
+		shader = App->program->textureProgram;
+	}
+
+	if (texture == nullptr) {
+		texture = App->textures->defaultTexture;
+	}
 
 	//Draw your children
 

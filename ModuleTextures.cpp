@@ -47,85 +47,86 @@ bool ModuleTextures::CleanUp()
 }
 
 // Load new texture from file path
-GLuint ModuleTextures::loadImg(const char* path)
+Texture* ModuleTextures::loadImg(const char* path)
 {
-	ILuint imageID;				// Create an image ID as a ULuint
+	assert(path != nullptr);
 
-	GLuint textureID;			// Create a texture ID as a GLuint
+	ILuint imageId = 0u;
 
-	ILboolean success;			// Create a flag to keep track of success/failure
+	ilGenImages(1, &imageId);
+	ilBindImage(imageId);
 
-	ILenum error;				// Create a flag to keep track of the IL error state
-
-	ilGenImages(1, &imageID); 		// Generate the image ID
-
-	ilBindImage(imageID); 			// Bind the image
-
-	success = ilLoadImage(path); 	// Load the image file
-
-									// If we managed to load the image, then we can start to do things with it...
-	if (success)
+	if (ilLoadImage(path))
 	{
 
+		unsigned textureId = 0u;
+		ILinfo imageInfo;
+		int pixelDepth = 0;
+		int format = 0;
+		int height = 0;
+		int width = 0;
 
+		// Generate a new texture
+		glGenTextures(1, &textureId);
 
-		// If the image is flipped (i.e. upside-down and mirrored, flip it the right way up!)
-		ILinfo ImageInfo;
-		iluGetImageInfo(&ImageInfo);
-		if (ImageInfo.Origin == IL_ORIGIN_UPPER_LEFT)
+		// Bind the texture to a name
+		glBindTexture(GL_TEXTURE_2D, textureId);
+
+		iluGetImageInfo(&imageInfo);
+
+		if (imageInfo.Origin == IL_ORIGIN_UPPER_LEFT)
 		{
 			iluFlipImage();
 		}
+		width = ilGetInteger(IL_IMAGE_WIDTH);
+		height = ilGetInteger(IL_IMAGE_HEIGHT);
+		format = ilGetInteger(IL_IMAGE_FORMAT);
+		pixelDepth = ilGetInteger(IL_IMAGE_DEPTH);
 
-		// Convert the image into a suitable format to work with
-		// NOTE: If your image contains alpha channel you can replace IL_RGB with IL_RGBA
-		success = ilConvertImage(IL_RGB, IL_UNSIGNED_BYTE);
-
-		// Quit out if we failed the conversion
-		if (!success)
-		{
-			error = ilGetError();
-			LOG("IMAGE CONVERSION FAILED");
-			return GL_FALSE;;
+		// Using RGBA if we got an alpha channel
+		bool success = false;
+		int channels = ilGetInteger(IL_IMAGE_CHANNELS);
+		if (channels == 3) {
+			success = ilConvertImage(IL_RGB, IL_UNSIGNED_BYTE);
+		}
+		else if (channels == 4) {
+			success = ilConvertImage(IL_RGBA, IL_UNSIGNED_BYTE);
 		}
 
-		// Generate a new texture
-		glGenTextures(1, &textureID);
-
-		// Bind the texture to a name
-		glBindTexture(GL_TEXTURE_2D, textureID);
-
-		// Set texture clamping method
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
-
-		// Set texture interpolation method to use linear interpolation (no MIPMAPS)
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		// Quit if we failed the conversion
+		if (!success) {
+			LOG("Error: Could not convert the image to texture correctly. %s", iluErrorString(ilGetError()));
+			return nullptr;
+		}
 
 		// Specify the texture specification
-		glTexImage2D(GL_TEXTURE_2D, 				// Type of texture
-			0,				// Pyramid level (for mip-mapping) - 0 is the top level
-			ilGetInteger(IL_IMAGE_FORMAT),	// Internal pixel format to use. Can be a generic type like GL_RGB or GL_RGBA, or a sized type
-			ilGetInteger(IL_IMAGE_WIDTH),	// Image width
-			ilGetInteger(IL_IMAGE_HEIGHT),	// Image height
-			0,				// Border width in pixels (can either be 1 or 0)
-			ilGetInteger(IL_IMAGE_FORMAT),	// Format of image pixel data
-			GL_UNSIGNED_BYTE,		// Image data type
-			ilGetData());			// The actual image data itself
+		glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, ilGetData());
 
+		// Filters
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, filterType);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, filterType);
+
+		if (wrapMode != NULL)
+		{
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, wrapMode);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, wrapMode);
+		}
+
+		// TODO: Set linear or nearest mipmap
+		if (mipmaping)
+		{
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, mipMapMode);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, mipMapMode);
+			glGenerateMipmap(GL_TEXTURE_2D);
+			glGenerateTextureMipmap(textureId);
+		}
+
+		ilDeleteImages(1, &imageId);
+		glBindTexture(GL_TEXTURE_2D, 0);
+
+		return new Texture(textureId, width, height);
 	}
-	else // If we failed to open the image file in the first place...
-	{
-		error = ilGetError();
-		LOG("IMAGE LOAD FAILED")
-			return GL_FALSE;
-	}
+	LOG("Error: Texture loading %s", iluErrorString(ilGetError()));
 
-	ilDeleteImages(1, &imageID); // Because we have already copied image data into texture data we can release memory used by image.
-
-
-	LOG("TEXTURE CREATION SUCCESFULL");
-
-	return textureID; // Return the GLuint to the texture so you can use it!
+	return nullptr;
 }

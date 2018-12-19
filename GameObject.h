@@ -3,6 +3,7 @@
 
 #include "Globals.h"
 #include "Component.h"
+#include "assimp/material.h"
 #include <vector>
 #include<list>
 
