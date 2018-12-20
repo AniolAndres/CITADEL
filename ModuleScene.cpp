@@ -50,18 +50,18 @@ void ModuleScene::Draw()
 	Root->Draw();
 }
 
-GameObject* ModuleScene::CreateGameObject(char* name, bool active, GameObject* parent)
+GameObject* ModuleScene::CreateGameObject(char* name, bool active, GameObject* parent, const char* FileLocation)
 {
-	GameObject* my_go = new GameObject(name,active,parent);
+	GameObject* my_go = new GameObject(name, active, parent,FileLocation);
 	parent->children.push_back(my_go);
 	GOs.push_back(my_go);
 
 	return my_go;
 }
 
-GameObject* ModuleScene::CreateGameObject(char* name, bool active)
+GameObject* ModuleScene::CreateGameObject(char* name, bool active, const char* FileLocation)
 {
-	GameObject* my_go = new GameObject(name, active);
+	GameObject* my_go = new GameObject(name, active, FileLocation);
 	Root->children.push_back(my_go);
 	GOs.push_back(my_go);
 	return my_go;

@@ -21,21 +21,25 @@ GameObject::GameObject()
 
 }
 
-GameObject::GameObject(char* name, bool active)
+GameObject::GameObject(char* name, bool active, const char* FileLocation)
 {
 	this->id = App->scene->GOcounter;
 	this->name =name;
 	this->active = active;
 	this->parent = App->scene->Root;
+
+	filePath = FileLocation;
 }
 
 
-GameObject::GameObject(char* name,bool active, GameObject* parent)
+GameObject::GameObject(char* name,bool active, GameObject* parent, const char* FileLocation)
 {
 	this->id = App->scene->GOcounter;
 	this->name =  name;
 	this->active = active;
 	this->parent = parent;
+
+	filePath = FileLocation;
 }
 
 

@@ -19,8 +19,8 @@ class GameObject
 {
 public:
 	GameObject();
-	GameObject(char* name, bool active);
-	GameObject(char* name, bool active, GameObject* parent);
+	GameObject(char* name, bool active, const char* FileLocation);
+	GameObject(char* name, bool active, GameObject* parent, const char* FileLocation);
 	~GameObject();
 
 	void Update();

@@ -18,8 +18,8 @@ public:
 
 	void Draw();
 
-	GameObject* CreateGameObject(char* name, bool active, GameObject* parent);
-	GameObject* CreateGameObject(char* name, bool active);
+	GameObject* CreateGameObject(char* name, bool active, GameObject* parent, const char* FileLocation);
+	GameObject* CreateGameObject(char* name, bool active, const char* FileLocation);
 	GameObject* Root = nullptr;
 	GameObject* SelectedGO = nullptr;
 

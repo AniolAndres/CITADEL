@@ -9,6 +9,7 @@
 bool ModuleModelLoader::Init()
 {
 	bool ret = true;
+	LoadFBX("./BakerHouse.fbx");
 	return ret;
 }
 
@@ -64,6 +65,7 @@ bool ModuleModelLoader::LoadFBX(const char* path)
 	scene = aiImportFile(path, 0);
 	LOG("Loading Scene")
 
+	GameObject* GO = App->scene->CreateGameObject("Bakerhouse", true, App->scene->Root, "./Bakerhouse.fbx");
 
 	if (scene == nullptr)
 	{
@@ -73,22 +75,24 @@ bool ModuleModelLoader::LoadFBX(const char* path)
 	}
 	else
 	{
-		App->editor->consoleApp.AddLog("Importation succesfull of \n", modelPath);
+		for (unsigned i = 0u; i < scene->mNumMeshes; ++i) {
 
-		vbos = new unsigned[scene->mNumMeshes];
-		ibos = new unsigned[scene->mNumMeshes];
-		textures = new unsigned[scene->mNumMeshes];
-		materials = new unsigned[scene->mNumMeshes];
-		numVerticesMesh = new unsigned[scene->mNumMeshes];
-		numIndicesMesh = new unsigned[scene->mNumMeshes];
+			
 
-		GenerateMeshes(scene);
-		GenerateMaterials(scene);
-		App->editor->consoleApp.AddLog("Generating Materials \n");
+			ComponentMesh* mesh = (ComponentMesh*)GO->CreateComponent(MESH);
+			mesh->name = scene->mMeshes[i]->mName.C_Str();
+			mesh->CheckMesh(scene->mMeshes[i]);
+
+			ComponentMaterial* material = (ComponentMaterial*)GO->CreateComponent(MATERIAL);
+			material->CheckMaterial(scene->mMaterials[mesh->GetMaterialIndex()]);
+		}
 	}
 	return true;
 }	
 
+
+//Obsolete
+/*
 void ModuleModelLoader::GenerateMeshes(const aiScene* scene)
 {
 	numVerticesTotal = 0;
@@ -149,6 +153,8 @@ void ModuleModelLoader::GenerateMeshes(const aiScene* scene)
 		numIndicesMesh[i] = sourceMesh->mNumFaces * 3;
 	}
 }
+*/
+
 
 ModuleModelLoader::ModuleModelLoader()
 {

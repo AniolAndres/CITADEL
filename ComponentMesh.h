@@ -18,6 +18,8 @@ public:
 
 	std::vector<math::float3> vertices;
 	const char*	name = nullptr;
+	unsigned GetMaterialIndex() {return materialIndex; }
+
 	int	numIndices = 0;
 	int	materialIndex = 0;
 	ComponentMesh();
