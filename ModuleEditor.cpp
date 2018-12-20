@@ -83,11 +83,11 @@ update_status ModuleEditor::Update()
 			{
 				if (App->scene->SelectedGO != nullptr)
 				{
-					App->scene->CreateGameObject("GameObject", true, App->scene->SelectedGO, "./BakerHouse.fbx");
+					App->scene->CreateGameObject("GameObject", true, App->scene->SelectedGO, ".");
 				}
 				else
 				{
-					App->scene->CreateGameObject("GameObject", true, "./BakerHouse.fbx");
+					App->scene->CreateGameObject("GameObject", true, ".");
 				}
 				++App->scene->GOcounter;
 			}

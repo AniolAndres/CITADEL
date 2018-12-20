@@ -65,7 +65,7 @@ bool ModuleModelLoader::LoadFBX(const char* path)
 	scene = aiImportFile(path, 0);
 	LOG("Loading Scene")
 
-	GameObject* GO = App->scene->CreateGameObject("Bakerhouse", true, App->scene->Root, "./Bakerhouse.fbx");
+	GameObject* GO = App->scene->CreateGameObject("Bakerhouse", true, App->scene->Root, ".");
 
 	if (scene == nullptr)
 	{

@@ -33,7 +33,6 @@ public:
 			va_list args;
 			va_start(args, fmt);
 			Buf.appendf(fmt, args);
-			ImGui::NewLine();
 			va_end(args);
 			ScrollToBottom = true;
 		}

@@ -19,6 +19,7 @@ bool ModuleScene::Init()
 	Root->id = NULL;
 	Root->name = "Root";
 	Root->active = true;
+	App->editor->consoleApp.AddLog("Root created succesfully");
 	return ret;
 }
 

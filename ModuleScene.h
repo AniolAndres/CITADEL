@@ -3,6 +3,7 @@
 
 #include<list>
 #include "Module.h"
+#include "ModuleEditor.h"
 
 class GameObject;
 

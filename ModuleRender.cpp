@@ -77,9 +77,14 @@ update_status ModuleRender::Update()
 	glClearColor(0.2f, 0.2f, 0.2f, 1.f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	renderMeshes();
+	//renderMeshes();
+
+	if (showGrid)
+		drawGrid();
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+	
 
 	//IMGUI stuff
 
@@ -335,8 +340,7 @@ void ModuleRender::renderMeshes()
 		}
 	}
 
-	if (showGrid)
-		drawGrid();
+
 
 	glDisableVertexAttribArray(0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
