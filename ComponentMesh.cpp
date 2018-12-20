@@ -1,7 +1,8 @@
 #include "ComponentMesh.h"
+#include "GL/glew.h"
 
 
-void ComponentMesh::CheckMesh(aiMesh* mesh)
+void ComponentMesh::LoadMesh(aiMesh* mesh)
 {
 	assert(mesh != nullptr);
 
@@ -41,13 +42,14 @@ void ComponentMesh::CheckMesh(aiMesh* mesh)
 	}
 
 	glUnmapBuffer(GL_ARRAY_BUFFER);
+	
 
 	// Indexes
 	glGenBuffers(1, &ibo);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned) * mesh->mNumFaces * 3, nullptr, GL_STATIC_DRAW);
 
-	int* indices = (int*)glMapBufferRange(GL_ELEMENT_ARRAY_BUFFER, 0, sizeof(unsigned) * mesh->mNumFaces * 3, GL_MAP_WRITE_BIT);
+	unsigned* indices = (unsigned*)glMapBufferRange(GL_ELEMENT_ARRAY_BUFFER, 0, sizeof(unsigned) * mesh->mNumFaces * 3, GL_MAP_WRITE_BIT);
 	for (unsigned i = 0u; i < mesh->mNumFaces; ++i) {
 		assert(mesh->mFaces[i].mNumIndices == 3);
 
@@ -57,6 +59,7 @@ void ComponentMesh::CheckMesh(aiMesh* mesh)
 	}
 
 	glUnmapBuffer(GL_ELEMENT_ARRAY_BUFFER);
+	
 
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
@@ -64,7 +67,7 @@ void ComponentMesh::CheckMesh(aiMesh* mesh)
 	glEnableVertexAttribArray(1);
 	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, (void*)(sizeof(float) * 3 * mesh->mNumVertices));
 
-	// vao off
+	//// vao off
 	glBindVertexArray(0);
 
 	glDisableVertexAttribArray(0);
@@ -74,11 +77,8 @@ void ComponentMesh::CheckMesh(aiMesh* mesh)
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
-	//bbox.SetNegativeInfinity();
-	//bbox.Enclose((float3*)mesh->mVertices, mesh->mNumVertices);
-
-	numIndices = mesh->mNumFaces * 3;
-	materialIndex = mesh->mMaterialIndex;
+	this->numIndices = mesh->mNumFaces * 3;
+	this->materialIndex = mesh->mMaterialIndex;
 }
 
 void ComponentMesh::Draw(unsigned shaderProgram, const Texture* texture) const 
@@ -92,8 +92,9 @@ void ComponentMesh::Draw(unsigned shaderProgram, const Texture* texture) const
 
 	glUniform1i(glGetUniformLocation(shaderProgram, "color"), 0);
 
-	glBindVertexArray(vao);
-	glDrawElements(GL_TRIANGLES, numIndices, GL_UNSIGNED_INT, nullptr);
+	glBindVertexArray(this->vao);
+
+	glDrawElements(GL_TRIANGLES, this->numIndices, GL_UNSIGNED_INT, nullptr);
 
 	glBindVertexArray(0);
 	glBindTexture(GL_TEXTURE_2D, 0);

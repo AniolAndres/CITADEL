@@ -76,10 +76,16 @@ void GameObject::Draw()
 		glUseProgram(shader);
 		ModelTransform(shader);
 
-		for (std::vector<Component*>::iterator it = this->MeshComponents.begin(); it != this->MeshComponents.end(); ++it)
+		/*for (std::vector<Component*>::iterator it = this->MeshComponents.begin(); it != this->MeshComponents.end(); ++it)
 		{
 			((ComponentMesh*)(*it))->Draw(shader, texture);
-		}		
+		}*/		
+
+		for (int i = 0; i != this->MeshComponents.size(); ++i)
+		{
+			((ComponentMesh*)this->MeshComponents[i])->Draw(shader, texture);
+		}
+
 
 		glUseProgram(0);
 

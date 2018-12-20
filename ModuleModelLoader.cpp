@@ -10,7 +10,7 @@ bool ModuleModelLoader::Init()
 {
 	bool ret = true;
 	LoadFBX("./BakerHouse.fbx");
-	App->editor->consoleApp.AddLog("Loaded Bakerhouse.fbx"); //I'll leave it like this for now
+	App->editor->consoleApp.AddLog("Loaded Bakerhouse.fbx \n"); //I'll leave it like this for now
 	return ret;
 }
 
@@ -72,7 +72,7 @@ bool ModuleModelLoader::LoadFBX(const char* path)
 	{
 		err = aiGetErrorString();
 		LOG(err);
-		App->editor->consoleApp.AddLog("Failed to import FBX ");
+		App->editor->consoleApp.AddLog("Failed to import FBX \n");
 	}
 	else
 	{
@@ -80,7 +80,7 @@ bool ModuleModelLoader::LoadFBX(const char* path)
 		{
 			ComponentMesh* mesh = (ComponentMesh*)GO->CreateComponent(MESH);
 			mesh->name = scene->mMeshes[i]->mName.C_Str();
-			mesh->CheckMesh(scene->mMeshes[i]);
+			mesh->LoadMesh(scene->mMeshes[i]);
 
 			ComponentMaterial* material = (ComponentMaterial*)GO->CreateComponent(MATERIAL);
 			material->CheckMaterial(scene->mMaterials[mesh->GetMaterialIndex()]);

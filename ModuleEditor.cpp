@@ -164,8 +164,6 @@ update_status ModuleEditor::Update()
 
 	//order matters!!
 
-	ImGui::ShowDemoWindow();
-
 	DrawEditor();
 
 	DrawConsole();
