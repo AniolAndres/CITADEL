@@ -31,6 +31,8 @@ bool ModuleEditor::Init()
 	ImGui_ImplOpenGL2_Init();
 	ImGui::StyleColorsDark();
 
+	App->editor->consoleApp.AddLog("ImGui correctly loaded \n");
+
 	//Variables for the FPS configuration
 
 	currentFrame = SDL_GetTicks();

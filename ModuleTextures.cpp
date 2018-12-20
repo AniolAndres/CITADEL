@@ -2,6 +2,7 @@
 #include "Application.h"
 #include "ModuleRender.h"
 #include "ModuleTextures.h"
+#include "ModuleEditor.h"
 #include "ModuleProgram.h"
 #include "GL/glew.h"
 #include <IL/il.h>
@@ -22,7 +23,7 @@ ModuleTextures::~ModuleTextures()
 // Called before render is available
 bool ModuleTextures::Init()
 {
-	LOG("Init Image library");
+	App->editor->consoleApp.AddLog("Init Image library \n");
 	bool ret = true;
 
 	ilInit();

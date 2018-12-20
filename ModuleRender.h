@@ -37,13 +37,15 @@ public:
 
 	bool showGrid = true;
 
-private:
-	unsigned vbo, vao = 0;
-
 	float3 triangle[3];
 	float4x4 viewMatrix;
 	float4x4 projectionMatrix;
 	float4x4 transformationMatrix;
+
+private:
+	unsigned vbo, vao = 0;
+
+
 };
 
 #endif // __ModuleRender_H_

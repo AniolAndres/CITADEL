@@ -27,8 +27,8 @@ GameObject::GameObject(char* name, bool active, const char* FileLocation)
 	this->name =name;
 	this->active = active;
 	this->parent = App->scene->Root;
-
 	filePath = FileLocation;
+	App->editor->consoleApp.AddLog("Created GameObject %s \n", name);
 }
 
 
@@ -38,8 +38,8 @@ GameObject::GameObject(char* name,bool active, GameObject* parent, const char* F
 	this->name =  name;
 	this->active = active;
 	this->parent = parent;
-
 	filePath = FileLocation;
+	App->editor->consoleApp.AddLog("Created GameObject %s \n", name);
 }
 
 
@@ -73,17 +73,13 @@ void GameObject::Draw()
 			texture = App->textures->defaultTexture;
 		}
 
-
 		glUseProgram(shader);
 		ModelTransform(shader);
 
 		for (std::vector<Component*>::iterator it = this->MeshComponents.begin(); it != this->MeshComponents.end(); ++it)
 		{
-			if (mesh != nullptr)
-			{
-				((ComponentMesh*)(*it))->Draw(shader, texture);
-			}
-		}
+			((ComponentMesh*)(*it))->Draw(shader, texture);
+		}		
 
 		glUseProgram(0);
 
@@ -192,19 +188,19 @@ Component* GameObject::CreateComponent(int type)
 	switch (type) 
 	{
 	case MESH:
-		comp = new(ComponentMesh);
+		comp = new ComponentMesh();
 		this->MeshComponents.push_back(comp);
 		break;
 	case MATERIAL:
-		comp = new(ComponentMaterial);
+		comp = new (ComponentMaterial);
 		this->MaterialComponents.push_back(comp);
 		break;
 	case LIGHT:
-		comp = new(ComponentLight);
+		comp = new (ComponentLight);
 		this->LightComponents.push_back(comp);
 		break;
 	case TRANSFORM: 	
-		comp = new(ComponentTransform);
+		comp = new (ComponentTransform);
 		this->TransformComponents.push_back(comp);
 		break;
 	}

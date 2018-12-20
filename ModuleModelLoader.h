@@ -30,9 +30,9 @@ public:
 
 	bool LoadFBX(const char* path);
 
-	void GenerateMeshes(const aiScene* scene);
+	//void GenerateMeshes(const aiScene* scene);
 
-	void GenerateMaterials(const aiScene* scene);
+	//void GenerateMaterials(const aiScene* scene);
 
 	unsigned* vbos;
 

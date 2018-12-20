@@ -4,6 +4,8 @@
 #include "assert.h"
 #include "Component.h"
 #include "ModuleTextures.h"
+#include "Application.h"
+#include "ModuleRender.h"
 #include <assimp/mesh.h>
 #include "Math/float3.h"
 #include "GL/glew.h"

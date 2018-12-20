@@ -10,6 +10,7 @@ bool ModuleModelLoader::Init()
 {
 	bool ret = true;
 	LoadFBX("./BakerHouse.fbx");
+	App->editor->consoleApp.AddLog("Loaded Bakerhouse.fbx"); //I'll leave it like this for now
 	return ret;
 }
 
@@ -35,28 +36,28 @@ bool ModuleModelLoader::CleanUp()
 	return ret;
 }
 
-void ModuleModelLoader::GenerateMaterials(const aiScene* scene)
-{
-	const aiMaterial* sourceMaterial;
-
-	for (unsigned i = 0; i < scene->mNumMaterials; ++i)
-	{
-
-		unsigned finalMaterial;
-		unsigned UVindex;
-		aiString file;
-		aiTextureMapping map;
-
-		sourceMaterial = scene->mMaterials[i];
-
-		if (sourceMaterial->GetTexture(aiTextureType_DIFFUSE, 0, &file, &map, &UVindex) == AI_SUCCESS)
-		{
-			/*finalMaterial = App->textures->loadImg(file.C_Str());*/
-		}
-
-		materials[i] = finalMaterial;
-	}
-}
+//void ModuleModelLoader::GenerateMaterials(const aiScene* scene)
+//{
+//	const aiMaterial* sourceMaterial;
+//
+//	for (unsigned i = 0; i < scene->mNumMaterials; ++i)
+//	{
+//
+//		unsigned finalMaterial;
+//		unsigned UVindex;
+//		aiString file;
+//		aiTextureMapping map;
+//
+//		sourceMaterial = scene->mMaterials[i];
+//
+//		if (sourceMaterial->GetTexture(aiTextureType_DIFFUSE, 0, &file, &map, &UVindex) == AI_SUCCESS)
+//		{
+//			/*finalMaterial = App->textures->loadImg(file.C_Str());*/
+//		}
+//
+//		materials[i] = finalMaterial;
+//	}
+//}
 
 bool ModuleModelLoader::LoadFBX(const char* path)
 {
@@ -75,10 +76,8 @@ bool ModuleModelLoader::LoadFBX(const char* path)
 	}
 	else
 	{
-		for (unsigned i = 0u; i < scene->mNumMeshes; ++i) {
-
-			
-
+		for (unsigned i = 0u; i < scene->mNumMeshes; ++i) 
+		{
 			ComponentMesh* mesh = (ComponentMesh*)GO->CreateComponent(MESH);
 			mesh->name = scene->mMeshes[i]->mName.C_Str();
 			mesh->CheckMesh(scene->mMeshes[i]);

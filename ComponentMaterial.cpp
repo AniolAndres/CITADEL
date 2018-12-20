@@ -26,6 +26,7 @@ void ComponentMaterial::DeleteTexture()
 
 ComponentMaterial::ComponentMaterial()
 {
+	shader = App->program->programLoader;
 	type = MATERIAL;
 }
 

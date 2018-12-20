@@ -19,7 +19,6 @@ bool ModuleScene::Init()
 	Root->id = NULL;
 	Root->name = "Root";
 	Root->active = true;
-	App->editor->consoleApp.AddLog("Root created succesfully");
 	return ret;
 }
 
@@ -30,12 +29,13 @@ update_status ModuleScene::PreUpdate()
 
 update_status ModuleScene::Update()
 {
-	this->Draw();
+	
 	return UPDATE_CONTINUE;
 }
 
 update_status ModuleScene::PostUpdate()
 {
+	this->Draw();
 	return UPDATE_CONTINUE;
 }
 

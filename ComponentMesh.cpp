@@ -5,6 +5,21 @@ void ComponentMesh::CheckMesh(aiMesh* mesh)
 {
 	assert(mesh != nullptr);
 
+	float4x4 Model(math::float4x4::identity); // Not moving anything
+
+	if (App->renderer->showTextures)
+		glUseProgram(App->program->programLoader);
+	else
+		glUseProgram(App->program->programNoTextures);
+
+	glUniformMatrix4fv(glGetUniformLocation(App->program->programLoader, "model"), 1, GL_TRUE, &Model[0][0]);
+	glUniformMatrix4fv(glGetUniformLocation(App->program->programLoader, "view"), 1, GL_TRUE, &App->renderer->viewMatrix[0][0]);
+	glUniformMatrix4fv(glGetUniformLocation(App->program->programLoader, "proj"), 1, GL_TRUE, &App->renderer->projectionMatrix[0][0]);
+
+	glUniformMatrix4fv(glGetUniformLocation(App->program->programNoTextures, "model"), 1, GL_TRUE, &Model[0][0]);
+	glUniformMatrix4fv(glGetUniformLocation(App->program->programNoTextures, "view"), 1, GL_TRUE, &App->renderer->viewMatrix[0][0]);
+	glUniformMatrix4fv(glGetUniformLocation(App->program->programNoTextures, "proj"), 1, GL_TRUE, &App->renderer->projectionMatrix[0][0]);
+
 	// To be able to render in imgui we need a vao
 	glGenVertexArrays(1, &vao);
 	glBindVertexArray(vao);
@@ -75,10 +90,10 @@ void ComponentMesh::Draw(unsigned shaderProgram, const Texture* texture) const
 		glBindTexture(GL_TEXTURE_2D, texture->id);
 	}
 
-	glUniform1i(glGetUniformLocation(shaderProgram, "texture0"), 0);
+	glUniform1i(glGetUniformLocation(shaderProgram, "color"), 0);
 
 	glBindVertexArray(vao);
-	glDrawElements(GL_TRIANGLES, numIndices, GL_UNSIGNED_INT, 0);
+	glDrawElements(GL_TRIANGLES, numIndices, GL_UNSIGNED_INT, nullptr);
 
 	glBindVertexArray(0);
 	glBindTexture(GL_TEXTURE_2D, 0);

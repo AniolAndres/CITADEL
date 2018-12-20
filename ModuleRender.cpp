@@ -34,7 +34,13 @@ bool ModuleRender::Init()
 
 	context = SDL_GL_CreateContext(App->window->window);
 
+	if (context != nullptr)
+	{
+		App->editor->consoleApp.AddLog("SDL context succesfully created \n");
+	}
 	glewInit();
+
+
 
 	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -52,7 +58,7 @@ bool ModuleRender::Init()
 
 	if (!App->program->programLoader || !App->program->programGrid || !App->program->programNoTextures)
 	{
-		LOG("Error: Program cannot be compiled");
+		App->editor->consoleApp.AddLog("Program could not be compiled");
 		return false;
 	}
 
@@ -84,7 +90,7 @@ update_status ModuleRender::Update()
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
-	
+
 
 	//IMGUI stuff
 
@@ -285,22 +291,22 @@ void ModuleRender::GenerateFBOTexture(unsigned width, unsigned height, FBO* fbo)
 
 void ModuleRender::renderMeshes()
 {
-	float4x4 Model(math::float4x4::identity); // Not moving anything
+//	float4x4 Model(math::float4x4::identity); // Not moving anything
+//
+//	if (showTextures)
+//		glUseProgram(App->program->programLoader);
+//	else
+//		glUseProgram(App->program->programNoTextures);
+//
+//	glUniformMatrix4fv(glGetUniformLocation(App->program->programLoader, "model"), 1, GL_TRUE, &Model[0][0]);
+//	glUniformMatrix4fv(glGetUniformLocation(App->program->programLoader, "view"), 1, GL_TRUE, &App->renderer->viewMatrix[0][0]);
+//	glUniformMatrix4fv(glGetUniformLocation(App->program->programLoader, "proj"), 1, GL_TRUE, &App->renderer->projectionMatrix[0][0]);
+//
+//	glUniformMatrix4fv(glGetUniformLocation(App->program->programNoTextures, "model"), 1, GL_TRUE, &Model[0][0]);
+//	glUniformMatrix4fv(glGetUniformLocation(App->program->programNoTextures, "view"), 1, GL_TRUE, &App->renderer->viewMatrix[0][0]);
+//	glUniformMatrix4fv(glGetUniformLocation(App->program->programNoTextures, "proj"), 1, GL_TRUE, &App->renderer->projectionMatrix[0][0]);
 
-	if (showTextures)
-		glUseProgram(App->program->programLoader);
-	else
-		glUseProgram(App->program->programNoTextures);
-
-	glUniformMatrix4fv(glGetUniformLocation(App->program->programLoader, "model"), 1, GL_TRUE, &Model[0][0]);
-	glUniformMatrix4fv(glGetUniformLocation(App->program->programLoader, "view"), 1, GL_TRUE, &App->renderer->viewMatrix[0][0]);
-	glUniformMatrix4fv(glGetUniformLocation(App->program->programLoader, "proj"), 1, GL_TRUE, &App->renderer->projectionMatrix[0][0]);
-
-	glUniformMatrix4fv(glGetUniformLocation(App->program->programNoTextures, "model"), 1, GL_TRUE, &Model[0][0]);
-	glUniformMatrix4fv(glGetUniformLocation(App->program->programNoTextures, "view"), 1, GL_TRUE, &App->renderer->viewMatrix[0][0]);
-	glUniformMatrix4fv(glGetUniformLocation(App->program->programNoTextures, "proj"), 1, GL_TRUE, &App->renderer->projectionMatrix[0][0]);
-
-	if (App->modelLoader->modelLoaded)
+	/*if (App->modelLoader->modelLoaded)
 	{
 		for (int i = 0; i < App->modelLoader->scene->mNumMeshes; ++i) {
 
@@ -339,11 +345,11 @@ void ModuleRender::renderMeshes()
 
 		}
 	}
+*/
 
 
-
-	glDisableVertexAttribArray(0);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	//glDisableVertexAttribArray(0);
+	//glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 
 }
