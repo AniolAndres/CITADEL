@@ -1,7 +1,7 @@
 #include "ComponentMesh.h"
 
 
-void ComponentMesh::CheckMesh(aiMesh* mesh)
+void ComponentMesh::LoadMesh(aiMesh* mesh)
 {
 	assert(mesh != nullptr);
 
@@ -90,7 +90,7 @@ void ComponentMesh::Draw(unsigned shaderProgram, const Texture* texture) const
 		glBindTexture(GL_TEXTURE_2D, texture->id);
 	}
 
-	glUniform1i(glGetUniformLocation(shaderProgram, "color"), 0);
+	glUniform1i(glGetUniformLocation(shaderProgram, "texture0"), 0);
 
 	glBindVertexArray(vao);
 	glDrawElements(GL_TRIANGLES, numIndices, GL_UNSIGNED_INT, nullptr);

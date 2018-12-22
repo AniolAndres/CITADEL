@@ -16,6 +16,7 @@ class ComponentMesh : public Component
 public:
 
 	void LoadMesh(aiMesh* mesh);
+	void CheckMesh(aiMesh * mesh);
 	void Draw(unsigned shaderProgram, const Texture* textures) const;
 
 	std::vector<math::float3> vertices;
