@@ -7,7 +7,7 @@
 #include "SDL/include/SDL.h"
 #include "IMGUI/imgui.h"
 #include "IMGUI/imgui_impl_sdl.h"
-#include "IMGUI/imgui_impl_opengl2.h"
+#include "IMGUI/imgui_impl_opengl3.h"
 
 #define MAX_KEYS 300
 

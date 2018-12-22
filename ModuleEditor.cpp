@@ -13,7 +13,7 @@
 #include "GL/glew.h"
 #include "IMGUI/imgui.h"
 #include "IMGUI/imgui_impl_sdl.h"
-#include "IMGUI/imgui_impl_opengl2.h"
+#include "IMGUI/imgui_impl_opengl3.h"
 
 bool ModuleEditor::Init()
 {
@@ -28,7 +28,7 @@ bool ModuleEditor::Init()
 	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 	io.IniFilename = "Settings/imgui.ini";
 	ImGui_ImplSDL2_InitForOpenGL(App->window->window, App->renderer->context);
-	ImGui_ImplOpenGL2_Init();
+	ImGui_ImplOpenGL3_Init("#version 130");
 	ImGui::StyleColorsDark();
 
 	App->editor->consoleApp.AddLog("ImGui correctly loaded \n");
@@ -45,7 +45,7 @@ bool ModuleEditor::Init()
 
 update_status ModuleEditor::PreUpdate()
 {
-	ImGui_ImplOpenGL2_NewFrame();
+	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplSDL2_NewFrame(App->window->window);
 	ImGui::NewFrame();
 
@@ -187,7 +187,7 @@ bool ModuleEditor::CleanUp()
 {
 	bool ret = true;
 
-	ImGui_ImplOpenGL2_Shutdown();
+	ImGui_ImplOpenGL3_Shutdown();
 	ImGui_ImplSDL2_Shutdown();
 	ImGui::DestroyContext();
 

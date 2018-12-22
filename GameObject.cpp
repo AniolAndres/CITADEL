@@ -12,7 +12,7 @@
 #include "Globals.h"
 #include "IMGUI/imgui.h"
 #include "IMGUI/imgui_impl_sdl.h"
-#include "IMGUI/imgui_impl_opengl2.h"
+#include "IMGUI/imgui_impl_opengl3.h"
 #include<vector>
 #include<list>
 
@@ -50,46 +50,50 @@ GameObject::~GameObject()
 
 void GameObject::Draw()
 {
-	//Draw yourself
-
-
-	if (!this->MaterialComponents.empty())
-	{
-		ComponentMaterial* material = (ComponentMaterial*)this->MaterialComponents.front();
-
-		unsigned shader = 0u;
-
-		Texture* texture = nullptr;
-
-		if (material != nullptr) {
-			shader = material->GetShader();
-			texture = material->GetTexture();
-		}
-		else {
-			shader = App->program->programLoader;
-		}
-
-		if (texture == nullptr) {
-			texture = App->textures->defaultTexture;
-		}
-
-		glUseProgram(shader);
-		ModelTransform(shader);
-
-		for (std::vector<Component*>::iterator it = this->MeshComponents.begin(); it != this->MeshComponents.end(); ++it)
-		{
-			((ComponentMesh*)(*it))->Draw(shader, texture);
-		}		
-
-		glUseProgram(0);
-
-	}
 	//Draw your children
-
 	for (std::list<GameObject*>::iterator it = this->children.begin(); it != this->children.end(); ++it)
 	{
 		(*it)->Draw();
 	}
+		
+	//Draw yourself
+
+	if (!this->MaterialComponents.empty())
+	{
+		for (int i = 0; i != this->MeshComponents.size(); ++i)
+		{
+			ComponentMaterial* material = (ComponentMaterial*)this->MaterialComponents[i];
+
+			unsigned shader = 0u;
+
+			Texture* texture = nullptr;
+
+			if (material != nullptr) {
+				shader = material->GetShader();
+				texture = material->GetTexture();
+			}
+			else {
+				shader = App->program->programLoader;
+			}
+
+			if (texture == nullptr) {
+				texture = App->textures->defaultTexture;
+			}
+
+			glUseProgram(shader);
+			ModelTransform(shader);
+
+
+			((ComponentMesh*)this->MeshComponents[i])->Draw(shader, texture);
+
+		}
+
+		glUseProgram(0);
+
+	}
+
+
+	
 }
 
 void GameObject::DrawHierarchy()

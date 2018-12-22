@@ -5,7 +5,7 @@ void ComponentMesh::CheckMesh(aiMesh* mesh)
 {
 	assert(mesh != nullptr);
 
-	float4x4 Model(math::float4x4::identity); // Not moving anything
+	float4x4 Model(math::float4x4::identity);
 
 	if (App->renderer->showTextures)
 		glUseProgram(App->program->programLoader);

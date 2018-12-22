@@ -20,12 +20,12 @@
 // On computer platform the GLSL version default to "#version 130". On OpenGL ES 3 platform it defaults to "#version 300 es"
 // Only override if your GL version doesn't handle this GLSL version. See GLSL version table at the top of imgui_impl_opengl3.cpp.
 
-// Set default OpenGL loader to be gl3w
+// Set default OpenGL loader to be glew
 #if !defined(IMGUI_IMPL_OPENGL_LOADER_GL3W)     \
  && !defined(IMGUI_IMPL_OPENGL_LOADER_GLEW)     \
  && !defined(IMGUI_IMPL_OPENGL_LOADER_GLAD)     \
  && !defined(IMGUI_IMPL_OPENGL_LOADER_CUSTOM)
-#define IMGUI_IMPL_OPENGL_LOADER_GL3W
+#define IMGUI_IMPL_OPENGL_LOADER_GLEW
 #endif
 
 IMGUI_IMPL_API bool     ImGui_ImplOpenGL3_Init(const char* glsl_version = NULL);

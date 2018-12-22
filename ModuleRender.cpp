@@ -7,7 +7,7 @@
 #include "ModuleCamera.h"
 #include "ModuleModelLoader.h"
 #include "IMGUI/imgui.h"
-#include "IMGUI/imgui_impl_opengl2.h"
+#include "IMGUI/imgui_impl_opengl3.h"
 #include "SDL.h"
 #include "GL/glew.h"
 
@@ -103,7 +103,7 @@ update_status ModuleRender::PostUpdate()
 {
 	glUseProgram(0);
 	ImGui::Render();
-	ImGui_ImplOpenGL2_RenderDrawData(ImGui::GetDrawData());
+	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
 	SDL_GL_SwapWindow(App->window->window);
 
