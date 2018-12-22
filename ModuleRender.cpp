@@ -83,17 +83,12 @@ update_status ModuleRender::Update()
 	glClearColor(0.2f, 0.2f, 0.2f, 1.f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	//renderMeshes();
+	renderMeshes();
 
 	if (showGrid)
 		drawGrid();
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-
-
-
-	//IMGUI stuff
-
 
 
 	return UPDATE_CONTINUE;
@@ -291,20 +286,20 @@ void ModuleRender::GenerateFBOTexture(unsigned width, unsigned height, FBO* fbo)
 
 void ModuleRender::renderMeshes()
 {
-//	float4x4 Model(math::float4x4::identity); // Not moving anything
+	float4x4 Model(math::float4x4::identity); // Not moving anything
 //
 //	if (showTextures)
 //		glUseProgram(App->program->programLoader);
 //	else
 //		glUseProgram(App->program->programNoTextures);
 //
-//	glUniformMatrix4fv(glGetUniformLocation(App->program->programLoader, "model"), 1, GL_TRUE, &Model[0][0]);
-//	glUniformMatrix4fv(glGetUniformLocation(App->program->programLoader, "view"), 1, GL_TRUE, &App->renderer->viewMatrix[0][0]);
-//	glUniformMatrix4fv(glGetUniformLocation(App->program->programLoader, "proj"), 1, GL_TRUE, &App->renderer->projectionMatrix[0][0]);
-//
-//	glUniformMatrix4fv(glGetUniformLocation(App->program->programNoTextures, "model"), 1, GL_TRUE, &Model[0][0]);
-//	glUniformMatrix4fv(glGetUniformLocation(App->program->programNoTextures, "view"), 1, GL_TRUE, &App->renderer->viewMatrix[0][0]);
-//	glUniformMatrix4fv(glGetUniformLocation(App->program->programNoTextures, "proj"), 1, GL_TRUE, &App->renderer->projectionMatrix[0][0]);
+	glUniformMatrix4fv(glGetUniformLocation(App->program->programLoader, "model"), 1, GL_TRUE, &Model[0][0]);
+	glUniformMatrix4fv(glGetUniformLocation(App->program->programLoader, "view"), 1, GL_TRUE, &App->renderer->viewMatrix[0][0]);
+	glUniformMatrix4fv(glGetUniformLocation(App->program->programLoader, "proj"), 1, GL_TRUE, &App->renderer->projectionMatrix[0][0]);
+
+	glUniformMatrix4fv(glGetUniformLocation(App->program->programNoTextures, "model"), 1, GL_TRUE, &Model[0][0]);
+	glUniformMatrix4fv(glGetUniformLocation(App->program->programNoTextures, "view"), 1, GL_TRUE, &App->renderer->viewMatrix[0][0]);
+	glUniformMatrix4fv(glGetUniformLocation(App->program->programNoTextures, "proj"), 1, GL_TRUE, &App->renderer->projectionMatrix[0][0]);
 
 	/*if (App->modelLoader->modelLoaded)
 	{
