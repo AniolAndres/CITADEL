@@ -28,7 +28,7 @@ GameObject::GameObject(char* name, bool active, const char* FileLocation)
 	this->active = active;
 	this->parent = App->scene->Root;
 	filePath = FileLocation;
-	App->editor->consoleApp.AddLog("Created GameObject %s \n", name);
+	App->editor->consoleApp.AddLog("Created GameObject %s \n", this->name);
 }
 
 
@@ -39,7 +39,7 @@ GameObject::GameObject(char* name,bool active, GameObject* parent, const char* F
 	this->active = active;
 	this->parent = parent;
 	filePath = FileLocation;
-	App->editor->consoleApp.AddLog("Created GameObject %s \n", name);
+	App->editor->consoleApp.AddLog("Created GameObject %s \n", this->name);
 }
 
 

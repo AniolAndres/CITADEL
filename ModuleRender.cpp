@@ -40,8 +40,6 @@ bool ModuleRender::Init()
 	}
 	glewInit();
 
-
-
 	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glEnable(GL_DEPTH_TEST);
@@ -51,10 +49,7 @@ bool ModuleRender::Init()
 
 	glClearDepth(1.0f);
 	glClearColor(0.3f, 0.3f, 0.3f, 1.f);
-
- /*   int width, height;
-    SDL_GetWindowSize(App->window->window, &width, &height);
-    glViewport(0, 0, width, height);*/
+	glViewport(0, 0, App->window->windowWidth, App->window->windowHeight);
 
 	if (!App->program->programLoader || !App->program->programGrid || !App->program->programNoTextures)
 	{
@@ -83,7 +78,7 @@ update_status ModuleRender::Update()
 	glClearColor(0.2f, 0.2f, 0.2f, 1.f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	renderMeshes();
+	setMatrixUniforms();
 
 	if (showGrid)
 		drawGrid();
@@ -261,6 +256,7 @@ void ModuleRender::GenerateFBOTexture(unsigned width, unsigned height, FBO* fbo)
 
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
@@ -284,15 +280,11 @@ void ModuleRender::GenerateFBOTexture(unsigned width, unsigned height, FBO* fbo)
 
 }
 
-void ModuleRender::renderMeshes()
+void ModuleRender::setMatrixUniforms()
 {
 	float4x4 Model(math::float4x4::identity); // Not moving anything
-//
-//	if (showTextures)
-//		glUseProgram(App->program->programLoader);
-//	else
-//		glUseProgram(App->program->programNoTextures);
-//
+
+
 	glUniformMatrix4fv(glGetUniformLocation(App->program->programLoader, "model"), 1, GL_TRUE, &Model[0][0]);
 	glUniformMatrix4fv(glGetUniformLocation(App->program->programLoader, "view"), 1, GL_TRUE, &App->renderer->viewMatrix[0][0]);
 	glUniformMatrix4fv(glGetUniformLocation(App->program->programLoader, "proj"), 1, GL_TRUE, &App->renderer->projectionMatrix[0][0]);

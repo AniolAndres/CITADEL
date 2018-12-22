@@ -12,14 +12,6 @@ void ComponentMesh::LoadMesh(aiMesh* mesh)
 	else
 		glUseProgram(App->program->programNoTextures);
 
-	glUniformMatrix4fv(glGetUniformLocation(App->program->programLoader, "model"), 1, GL_TRUE, &Model[0][0]);
-	glUniformMatrix4fv(glGetUniformLocation(App->program->programLoader, "view"), 1, GL_TRUE, &App->renderer->viewMatrix[0][0]);
-	glUniformMatrix4fv(glGetUniformLocation(App->program->programLoader, "proj"), 1, GL_TRUE, &App->renderer->projectionMatrix[0][0]);
-
-	glUniformMatrix4fv(glGetUniformLocation(App->program->programNoTextures, "model"), 1, GL_TRUE, &Model[0][0]);
-	glUniformMatrix4fv(glGetUniformLocation(App->program->programNoTextures, "view"), 1, GL_TRUE, &App->renderer->viewMatrix[0][0]);
-	glUniformMatrix4fv(glGetUniformLocation(App->program->programNoTextures, "proj"), 1, GL_TRUE, &App->renderer->projectionMatrix[0][0]);
-
 	// To be able to render in imgui we need a vao
 	glGenVertexArrays(1, &vao);
 	glBindVertexArray(vao);
@@ -81,7 +73,7 @@ void ComponentMesh::LoadMesh(aiMesh* mesh)
 	materialIndex = mesh->mMaterialIndex;
 }
 
-void ComponentMesh::Draw(unsigned shaderProgram, const Texture* texture) const 
+void ComponentMesh::Draw(unsigned Program, const Texture* texture) const 
 {
 
 	glActiveTexture(GL_TEXTURE0);
@@ -90,10 +82,10 @@ void ComponentMesh::Draw(unsigned shaderProgram, const Texture* texture) const
 		glBindTexture(GL_TEXTURE_2D, texture->id);
 	}
 
-	glUniform1i(glGetUniformLocation(shaderProgram, "texture0"), 0);
+	glUniform1i(glGetUniformLocation(Program, "texture0"), 0);
 
 	glBindVertexArray(vao);
-	glDrawElements(GL_TRIANGLES, numIndices, GL_UNSIGNED_INT, nullptr);
+	glDrawElements(GL_TRIANGLES, numIndices, GL_UNSIGNED_INT, 0);
 
 	glBindVertexArray(0);
 	glBindTexture(GL_TEXTURE_2D, 0);

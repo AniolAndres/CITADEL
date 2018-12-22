@@ -16,6 +16,7 @@ void ComponentMaterial::CheckMaterial(const aiMaterial* material)
 
 	DeleteTexture();
 	texture = App->textures->loadImg(texturePath.c_str());
+	
 }
 
 void ComponentMaterial::DeleteTexture()

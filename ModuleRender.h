@@ -27,7 +27,7 @@ public:
 
 	void GenerateFBOTexture(unsigned width, unsigned height, FBO* fbo);
 
-	void renderMeshes();
+	void setMatrixUniforms();
 
 	void drawGrid();
 

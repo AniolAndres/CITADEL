@@ -245,7 +245,7 @@ void ModuleEditor::DrawInspector()
 	if (showInspectorWindow)
 	{
 
-		inspectorWidth = 300;
+		inspectorWidth = 200;
 		inspectorHeight = App->window->windowHeight - consoleHeight;
 
 		ImGui::SetNextWindowSize({ inspectorWidth, inspectorHeight - 18 });
@@ -273,7 +273,7 @@ void ModuleEditor::DrawEditor()
 {
 	if (showEditorWindow)
 	{
-		editorWidth = 400;
+		editorWidth = 300;
 		editorHeight = App->window->windowHeight - 20;
 
 		ImGui::SetNextWindowSize({ editorWidth, editorHeight });
