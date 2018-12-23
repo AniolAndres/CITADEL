@@ -22,6 +22,7 @@ public:
 	GameObject();
 	GameObject(char* name, bool active, const char* FileLocation);
 	GameObject(char* name, bool active, GameObject* parent, const char* FileLocation);
+	GameObject(GameObject* GO);
 	~GameObject();
 
 	void Update();

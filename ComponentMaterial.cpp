@@ -1,7 +1,7 @@
 #include "ComponentMaterial.h"
 
 
-void ComponentMaterial::CheckMaterial(const aiMaterial* material)
+void ComponentMaterial::LoadMaterial(const aiMaterial* material)
 {
 	std::string texturePath;
 	if (material != nullptr) {

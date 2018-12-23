@@ -1,6 +1,7 @@
 #include "ComponentMesh.h"
 
 
+
 void ComponentMesh::LoadMesh(aiMesh* mesh)
 {
 	assert(mesh != nullptr);
@@ -12,23 +13,22 @@ void ComponentMesh::LoadMesh(aiMesh* mesh)
 	else
 		glUseProgram(App->program->programNoTextures);
 
-	// To be able to render in imgui we need a vao
 	glGenVertexArrays(1, &vao);
 	glBindVertexArray(vao);
 
 	glGenBuffers(1, &vbo);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
 
-	// Positions
-	glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat)*mesh->mNumVertices * 5, nullptr, GL_STATIC_DRAW);
-	glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(GLfloat) * 3 * mesh->mNumVertices, mesh->mVertices);
+	// mVertices
 
-	// Texture coords
-	float* textureBuffer = (float*)glMapBufferRange(GL_ARRAY_BUFFER, sizeof(float) * 3 * mesh->mNumVertices, sizeof(float) * 2 * mesh->mNumVertices, GL_MAP_WRITE_BIT);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float)*mesh->mNumVertices * 5, nullptr, GL_STATIC_DRAW);
+	glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(float) * 3 * mesh->mNumVertices, mesh->mVertices);
+
+	//mTexturecoords
+
+	float2* textureCoords = (float2*)glMapBufferRange(GL_ARRAY_BUFFER, sizeof(float) * 3 * mesh->mNumVertices, sizeof(float) * 2 * mesh->mNumVertices, GL_MAP_WRITE_BIT);
 	for (unsigned i = 0u; i < mesh->mNumVertices; ++i) {
-		*(textureBuffer++) = mesh->mTextureCoords[0][i].x;
-		*(textureBuffer++) = mesh->mTextureCoords[0][i].y;
-
+		textureCoords[i] = math::float2(mesh->mTextureCoords[0][i].x, mesh->mTextureCoords[0][i].y);
 		vertices.emplace_back(mesh->mVertices[i].x, mesh->mVertices[i].y, mesh->mVertices[i].z);
 	}
 
@@ -39,13 +39,16 @@ void ComponentMesh::LoadMesh(aiMesh* mesh)
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned) * mesh->mNumFaces * 3, nullptr, GL_STATIC_DRAW);
 
-	int* indices = (int*)glMapBufferRange(GL_ELEMENT_ARRAY_BUFFER, 0, sizeof(unsigned) * mesh->mNumFaces * 3, GL_MAP_WRITE_BIT);
+	unsigned* indices = (unsigned*)glMapBufferRange(GL_ELEMENT_ARRAY_BUFFER, 0, sizeof(unsigned) * mesh->mNumFaces * 3, GL_MAP_WRITE_BIT);
+
 	for (unsigned i = 0u; i < mesh->mNumFaces; ++i) {
 		assert(mesh->mFaces[i].mNumIndices == 3);
 
 		*(indices++) = mesh->mFaces[i].mIndices[0];
 		*(indices++) = mesh->mFaces[i].mIndices[1];
 		*(indices++) = mesh->mFaces[i].mIndices[2];
+
+		vertices.emplace_back(mesh->mVertices[i].x, mesh->mVertices[i].y, mesh->mVertices[i].z);
 	}
 
 	glUnmapBuffer(GL_ELEMENT_ARRAY_BUFFER);
@@ -66,30 +69,40 @@ void ComponentMesh::LoadMesh(aiMesh* mesh)
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
-	//bbox.SetNegativeInfinity();
-	//bbox.Enclose((float3*)mesh->mVertices, mesh->mNumVertices);
-
-	numIndices = mesh->mNumFaces * 3;
-	materialIndex = mesh->mMaterialIndex;
+	this->numIndices = mesh->mNumFaces * 3;
+	this->materialIndex = mesh->mMaterialIndex;
 }
 
 void ComponentMesh::Draw(unsigned Program, const Texture* texture) const 
 {
+	glUseProgram(Program);
 
 	glActiveTexture(GL_TEXTURE0);
 
-	if (texture != nullptr) {
+	if (texture != nullptr) 
+	{
 		glBindTexture(GL_TEXTURE_2D, texture->id);
 	}
 
 	glUniform1i(glGetUniformLocation(Program, "texture0"), 0);
 
+	float4x4 Model(math::float4x4::identity); // Not moving anything
+
+	glUniformMatrix4fv(glGetUniformLocation(Program, "model"), 1, GL_TRUE, &Model[0][0]);
+	glUniformMatrix4fv(glGetUniformLocation(Program, "view"), 1, GL_TRUE, &App->renderer->viewMatrix[0][0]);
+	glUniformMatrix4fv(glGetUniformLocation(Program, "proj"), 1, GL_TRUE, &App->renderer->projectionMatrix[0][0]);
+
+	glUniformMatrix4fv(glGetUniformLocation(App->program->programNoTextures, "model"), 1, GL_TRUE, &Model[0][0]);
+	glUniformMatrix4fv(glGetUniformLocation(App->program->programNoTextures, "view"), 1, GL_TRUE, &App->renderer->viewMatrix[0][0]);
+	glUniformMatrix4fv(glGetUniformLocation(App->program->programNoTextures, "proj"), 1, GL_TRUE, &App->renderer->projectionMatrix[0][0]);
+
 	glBindVertexArray(vao);
+
 	glDrawElements(GL_TRIANGLES, numIndices, GL_UNSIGNED_INT, 0);
 
 	glBindVertexArray(0);
-	glBindTexture(GL_TEXTURE_2D, 0);
 
+	glBindTexture(GL_TEXTURE_2D, 0);
 }
 
 

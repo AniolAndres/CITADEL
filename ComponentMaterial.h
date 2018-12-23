@@ -11,7 +11,7 @@ class ComponentMaterial :
 {
 public:
 
-	void CheckMaterial(const aiMaterial* material);
+	void LoadMaterial(const aiMaterial* material);
 	unsigned GetShader() {return shader; }
 	Texture* GetTexture() { return texture; }
 

@@ -78,7 +78,7 @@ update_status ModuleRender::Update()
 	glClearColor(0.2f, 0.2f, 0.2f, 1.f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	setMatrixUniforms();
+/*	setMatrixUniforms()*/;
 
 	if (showGrid)
 		drawGrid();
@@ -215,7 +215,7 @@ void ModuleRender::drawGrid()
 
 	//GRID
 	int grid = glGetUniformLocation(App->program->programGrid, "newColor");
-	float white[4] = { 1.0f, 1.0f, 1.0f, 1.0f };
+	float white[4] = { 1.0f, 1.0f, 1.0f, 1.0f }; 
 	glUniform4fv(grid, 1, white);
 
 	glLineWidth(1.0f);
@@ -279,20 +279,20 @@ void ModuleRender::GenerateFBOTexture(unsigned width, unsigned height, FBO* fbo)
 	}
 
 }
-
-void ModuleRender::setMatrixUniforms()
-{
-	float4x4 Model(math::float4x4::identity); // Not moving anything
-
-
-	glUniformMatrix4fv(glGetUniformLocation(App->program->programLoader, "model"), 1, GL_TRUE, &Model[0][0]);
-	glUniformMatrix4fv(glGetUniformLocation(App->program->programLoader, "view"), 1, GL_TRUE, &App->renderer->viewMatrix[0][0]);
-	glUniformMatrix4fv(glGetUniformLocation(App->program->programLoader, "proj"), 1, GL_TRUE, &App->renderer->projectionMatrix[0][0]);
-
-	glUniformMatrix4fv(glGetUniformLocation(App->program->programNoTextures, "model"), 1, GL_TRUE, &Model[0][0]);
-	glUniformMatrix4fv(glGetUniformLocation(App->program->programNoTextures, "view"), 1, GL_TRUE, &App->renderer->viewMatrix[0][0]);
-	glUniformMatrix4fv(glGetUniformLocation(App->program->programNoTextures, "proj"), 1, GL_TRUE, &App->renderer->projectionMatrix[0][0]);
-
+//
+//void ModuleRender::setMatrixUniforms()
+//{
+//	float4x4 Model(math::float4x4::identity); // Not moving anything
+//
+//
+//	glUniformMatrix4fv(glGetUniformLocation(App->program->programLoader, "model"), 1, GL_TRUE, &Model[0][0]);
+//	glUniformMatrix4fv(glGetUniformLocation(App->program->programLoader, "view"), 1, GL_TRUE, &App->renderer->viewMatrix[0][0]);
+//	glUniformMatrix4fv(glGetUniformLocation(App->program->programLoader, "proj"), 1, GL_TRUE, &App->renderer->projectionMatrix[0][0]);
+//
+//	glUniformMatrix4fv(glGetUniformLocation(App->program->programNoTextures, "model"), 1, GL_TRUE, &Model[0][0]);
+//	glUniformMatrix4fv(glGetUniformLocation(App->program->programNoTextures, "view"), 1, GL_TRUE, &App->renderer->viewMatrix[0][0]);
+//	glUniformMatrix4fv(glGetUniformLocation(App->program->programNoTextures, "proj"), 1, GL_TRUE, &App->renderer->projectionMatrix[0][0]);
+//
 	/*if (App->modelLoader->modelLoaded)
 	{
 		for (int i = 0; i < App->modelLoader->scene->mNumMeshes; ++i) {
@@ -339,4 +339,3 @@ void ModuleRender::setMatrixUniforms()
 	//glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 
-}

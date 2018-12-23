@@ -63,7 +63,7 @@ bool ModuleModelLoader::LoadFBX(const char* path)
 {
 	const char* err;
 
-	scene = aiImportFile(path, 0);
+	scene = aiImportFile(path, aiProcess_Triangulate);
 	LOG("Loading Scene")
 
 	GameObject* GO = App->scene->CreateGameObject("Bakerhouse", true, App->scene->Root, ".");
@@ -83,7 +83,7 @@ bool ModuleModelLoader::LoadFBX(const char* path)
 			mesh->LoadMesh(scene->mMeshes[i]);
 
 			ComponentMaterial* material = (ComponentMaterial*)GO->CreateComponent(MATERIAL);
-			material->CheckMaterial(scene->mMaterials[mesh->GetMaterialIndex()]);
+			material->LoadMaterial(scene->mMaterials[mesh->GetMaterialIndex()]);
 		}
 	}
 	return true;

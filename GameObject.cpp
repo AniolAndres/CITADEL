@@ -39,9 +39,19 @@ GameObject::GameObject(char* name,bool active, GameObject* parent, const char* F
 	this->active = active;
 	this->parent = parent;
 	filePath = FileLocation;
-	App->editor->consoleApp.AddLog("Created GameObject %s \n", this->name);
+	App->editor->consoleApp.AddLog("Created GameObject %s \n", name);
 }
 
+GameObject::GameObject(GameObject* GO)
+{
+	this->parent = GO->parent;
+	this->children = GO->children;
+	this->MeshComponents = GO->MeshComponents;
+	this->TransformComponents = GO->TransformComponents;
+	this->MaterialComponents = GO->MaterialComponents;
+	this->LightComponents = GO->LightComponents;
+	App->editor->consoleApp.AddLog("Created GameObject %s \n", name);
+}
 
 GameObject::~GameObject()
 {
@@ -50,15 +60,11 @@ GameObject::~GameObject()
 
 void GameObject::Draw()
 {
-	//Draw your children
-	for (std::list<GameObject*>::iterator it = this->children.begin(); it != this->children.end(); ++it)
-	{
-		(*it)->Draw();
-	}
+	
 		
 	//Draw yourself
 
-	if (!this->MaterialComponents.empty())
+	if (!this->MeshComponents.empty())
 	{
 		for (int i = 0; i != this->MeshComponents.size(); ++i)
 		{
@@ -81,18 +87,20 @@ void GameObject::Draw()
 			}
 
 			glUseProgram(shader);
-			ModelTransform(shader);
-
 
 			((ComponentMesh*)this->MeshComponents[i])->Draw(shader, texture);
 
 		}
-
-		glUseProgram(0);
-
+		
 	}
 
+	//Draw your children
+	for (std::list<GameObject*>::iterator it = this->children.begin(); it != this->children.end(); ++it)
+	{
+		(*it)->Draw();
+	}
 
+	glUseProgram(0);
 	
 }
 
