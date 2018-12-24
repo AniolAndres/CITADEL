@@ -172,6 +172,8 @@ update_status ModuleEditor::Update()
 
 	DrawWindow();
 
+	DrawPopup();
+
 	return UPDATE_CONTINUE;
 }
 
@@ -490,4 +492,49 @@ void ModuleEditor::DrawWindow()
 			ImGui::End();
 		}
 	}
+}
+
+void ModuleEditor::DrawPopup()
+{
+	if (ImGui::BeginPopup("Edit Hierarchy"))
+	{
+		if (ImGui::Selectable("Add something"))
+		{
+
+		}
+		if (ImGui::Selectable("Add whatever"))
+		{
+
+		}
+		ImGui::EndPopup();
+	}
+}
+
+void ModuleEditor::BeginPopup(int PUcase, float2 MPos)
+{
+	ImGui::SetNextWindowPos({ MPos.x,MPos.y });
+
+	switch (PUcase)
+	{
+	case HIERARCHY:
+		ImGui::OpenPopup("Edit Hierarchy");
+		break;
+	case DRAW:
+		ImGui::OpenPopup("Edit Draw");
+		break;
+	case EDITOR:
+		ImGui::OpenPopup("Edit Editor");
+		break;
+	case MODULES:
+		ImGui::OpenPopup("Edit Modules");
+		break;
+	case CONSOLE:
+		ImGui::OpenPopup("Edit Console");
+		break;
+	}
+}
+
+void ModuleEditor::ProcessInputEvent(SDL_Event* event) const 
+{
+	ImGui_ImplSDL2_ProcessEvent(event);
 }

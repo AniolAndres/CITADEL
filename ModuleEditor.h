@@ -3,9 +3,20 @@
 
 #include "GL/glew.h"
 #include "Module.h"
+#include "Math/float2.h"
 #include "IMGUI/imgui.h"
+#include "SDL.h"
 
 class GameObject;
+
+enum PUcase
+{
+	HIERARCHY=1,
+	DRAW,
+	EDITOR,
+	MODULES,
+	CONSOLE
+};
 
 class ModuleEditor :
 	public Module
@@ -56,11 +67,13 @@ public:
 	void DrawInspector();
 	void DrawConsole();
 	void DrawWindow();
-
+	void DrawPopup();
+	void BeginPopup(int PUcase, float2 MPos);
 
 	ModuleEditor();
 	~ModuleEditor();
 
+	void ProcessInputEvent(SDL_Event* event) const;
 private:
 	bool showConsoleWindow = true;
 	bool showInfoWindow = false;

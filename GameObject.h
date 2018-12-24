@@ -20,8 +20,8 @@ class GameObject
 public:
 
 	GameObject();
-	GameObject(char* name, bool active, const char* FileLocation);
-	GameObject(char* name, bool active, GameObject* parent, const char* FileLocation);
+	GameObject(const char* name, bool active, const char* FileLocation);
+	GameObject(const char* name, bool active, GameObject* parent, const char* FileLocation);
 	GameObject(GameObject* GO);
 	~GameObject();
 
@@ -30,7 +30,7 @@ public:
 	GameObject* parent = nullptr;
 
 	bool active;
-	char* name;
+	const char* name;
 	int id;
 	const char*	filePath = nullptr;
 	char newName[20];

@@ -59,33 +59,50 @@ bool ModuleModelLoader::CleanUp()
 //	}
 //}
 
-bool ModuleModelLoader::LoadFBX(const char* path)
+void ModuleModelLoader::LoadFBX(const char* path)
 {
 	const char* err;
 
 	scene = aiImportFile(path, aiProcess_Triangulate);
-	LOG("Loading Scene")
 
-	GameObject* GO = App->scene->CreateGameObject("Bakerhouse", true, App->scene->Root, ".");
+	LOG("Loading Scene")
 
 	if (scene == nullptr)
 	{
 		err = aiGetErrorString();
 		LOG(err);
-		App->editor->consoleApp.AddLog("Failed to import FBX \n");
+		App->editor->consoleApp.AddLog("Failed to import FBX %s \n", aiGetErrorString());
 	}
 	else
 	{
-		for (unsigned i = 0u; i < scene->mNumMeshes; ++i) 
-		{
-			ComponentMesh* mesh = (ComponentMesh*)GO->CreateComponent(MESH);
-			mesh->name = scene->mMeshes[i]->mName.C_Str();
-			mesh->LoadMesh(scene->mMeshes[i]);
-
-			ComponentMaterial* material = (ComponentMaterial*)GO->CreateComponent(MATERIAL);
-			material->LoadMaterial(scene->mMaterials[mesh->GetMaterialIndex()]);
-		}
+		ProcessFBX(scene->mRootNode, scene, App->scene->Root);
 	}
+}
+
+bool ModuleModelLoader::ProcessFBX(const aiNode* node, const aiScene* scene, GameObject* parent)
+{
+	assert(scene != nullptr);
+	assert(node != nullptr);
+	assert(parent != nullptr);
+
+
+	GameObject* GO = App->scene->CreateGameObject(node->mName.C_Str(), true, parent, ".");
+
+	for (unsigned i = 0u; i < node->mNumMeshes; ++i) 
+	{
+		ComponentMesh* mesh = (ComponentMesh*)GO->CreateComponent(MESH);
+		mesh->name = scene->mMeshes[node->mMeshes[i]]->mName.C_Str();
+		mesh->LoadMesh(scene->mMeshes[node->mMeshes[i]]);
+
+		ComponentMaterial* material = (ComponentMaterial*)GO->CreateComponent(MATERIAL);
+		material->LoadMaterial(scene->mMaterials[mesh->GetMaterialIndex()]);
+	}
+	
+	for (unsigned i = 0u; i < node->mNumChildren; i++) 
+	{
+		ProcessFBX(node->mChildren[i], scene, GO);
+	}
+
 	return true;
 }	
 

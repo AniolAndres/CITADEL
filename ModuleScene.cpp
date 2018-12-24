@@ -51,7 +51,7 @@ void ModuleScene::Draw()
 	Root->Draw();
 }
 
-GameObject* ModuleScene::CreateGameObject(char* name, bool active, GameObject* parent, const char* FileLocation)
+GameObject* ModuleScene::CreateGameObject(const char* name, bool active, GameObject* parent, const char* FileLocation)
 {
 	GameObject* my_go = new GameObject(name, active, parent,FileLocation);
 	parent->children.push_back(my_go);
@@ -60,7 +60,7 @@ GameObject* ModuleScene::CreateGameObject(char* name, bool active, GameObject* p
 	return my_go;
 }
 
-GameObject* ModuleScene::CreateGameObject(char* name, bool active, const char* FileLocation)
+GameObject* ModuleScene::CreateGameObject(const char* name, bool active, const char* FileLocation)
 {
 	GameObject* my_go = new GameObject(name, active, FileLocation);
 	Root->children.push_back(my_go);

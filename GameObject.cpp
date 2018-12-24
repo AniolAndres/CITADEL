@@ -21,7 +21,7 @@ GameObject::GameObject()
 
 }
 
-GameObject::GameObject(char* name, bool active, const char* FileLocation)
+GameObject::GameObject(const char* name, bool active, const char* FileLocation)
 {
 	this->id = App->scene->GOcounter;
 	this->name =name;
@@ -32,7 +32,7 @@ GameObject::GameObject(char* name, bool active, const char* FileLocation)
 }
 
 
-GameObject::GameObject(char* name,bool active, GameObject* parent, const char* FileLocation)
+GameObject::GameObject(const char* name,bool active, GameObject* parent, const char* FileLocation)
 {
 	this->id = App->scene->GOcounter;
 	this->name =  name;
@@ -120,6 +120,10 @@ void GameObject::DrawHierarchy()
 	if (ImGui::IsItemClicked()) 
 		App->scene->SelectedGO = this;
 	
+	if (App->input->GetMouseButtonDown(SDL_BUTTON_RIGHT) && ImGui::IsItemHovered)
+	{
+		App->editor->BeginPopup(HIERARCHY, { App->input->GetMousePosition().x,App->input->GetMousePosition().y });
+	}
 
 	if (treeOpen)
 	{
