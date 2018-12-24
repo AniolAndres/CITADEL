@@ -50,6 +50,15 @@ void ModuleScene::Draw()
 	Root->Draw();
 }
 
+GameObject* ModuleScene::CreateGameObject(GameObject* GO)
+{
+	GameObject* my_go = new GameObject(GO);
+	App->scene->SelectedGO->parent->children.push_back(my_go);
+	GOs.push_back(my_go);
+
+	return my_go;
+}
+
 GameObject* ModuleScene::CreateGameObject(const char* name, bool active, GameObject* parent, const char* FileLocation)
 {
 	GameObject* my_go = new GameObject(name, active, parent,FileLocation);

@@ -62,13 +62,16 @@ public:
 	ExampleAppLog consoleApp;
 
 	float drawWidth, drawHeight;
+	PUcase PU;
 
 	void DrawEditor();
 	void DrawInspector();
 	void DrawConsole();
 	void DrawWindow();
-	void DrawPopup();
-	void BeginPopup(PUcase PUcase, float2 MPos);
+	void DrawHierarchyPopup();
+	void DrawEditorPopup();
+	void DrawDrawPopup();
+	void DrawConsolePopup();
 
 	ModuleEditor();
 	~ModuleEditor();

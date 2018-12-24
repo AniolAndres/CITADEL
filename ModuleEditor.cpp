@@ -85,11 +85,11 @@ update_status ModuleEditor::Update()
 			{
 				if (App->scene->SelectedGO != nullptr)
 				{
-					App->scene->CreateGameObject("GameObject", true, App->scene->SelectedGO, ".");
+					App->scene->CreateGameObject(DEFAULT_GO_NAME, true, App->scene->SelectedGO, ".");
 				}
 				else
 				{
-					App->scene->CreateGameObject("GameObject", true, ".");
+					App->scene->CreateGameObject(DEFAULT_GO_NAME, true, ".");
 				}
 				++App->scene->GOcounter;
 			}
@@ -172,7 +172,7 @@ update_status ModuleEditor::Update()
 
 	DrawWindow();
 
-	DrawPopup();
+
 
 	return UPDATE_CONTINUE;
 }
@@ -512,9 +512,30 @@ void ModuleEditor::DrawWindow()
 	}
 }
 
-void ModuleEditor::DrawPopup()
+
+
+void ModuleEditor::DrawHierarchyPopup()
 {
+
 	if (ImGui::BeginPopup("Edit Hierarchy"))
+	{
+		if (ImGui::Selectable("Add GO child"))
+		{
+			App->scene->CreateGameObject(DEFAULT_GO_NAME, true, App->scene->SelectedGO, ".");
+		}
+		if (ImGui::Selectable("Duplicate GO"))
+		{
+			App->scene->CreateGameObject(App->scene->SelectedGO);
+		}
+		ImGui::EndPopup();
+	}
+	
+}
+
+void ModuleEditor::DrawEditorPopup()
+{
+
+	if (ImGui::BeginPopup("Edit Editor"))
 	{
 		if (ImGui::Selectable("Add something"))
 		{
@@ -526,43 +547,37 @@ void ModuleEditor::DrawPopup()
 		}
 		ImGui::EndPopup();
 	}
-
 }
 
-void ModuleEditor::BeginPopup(PUcase PUcase, float2 MPos)
+void ModuleEditor::DrawDrawPopup()
 {
-	//ImGui::SetNextWindowPos({ MPos.x,MPos.y });
-
-	switch (PUcase)
+	if (ImGui::BeginPopup("Edit Draw"))
 	{
-	case HIERARCHY:
-		ImGui::OpenPopup("Edit Hierarchy");
-
-		if (ImGui::BeginPopup("Edit Hierarchy"))
+		if (ImGui::Selectable("Add something"))
 		{
-			if (ImGui::Selectable("Add something"))
-			{
 
-			}
-			if (ImGui::Selectable("Add whatever"))
-			{
-
-			}
-			ImGui::EndPopup();
 		}
-		break;
-	case DRAW:
-		ImGui::OpenPopup("Edit Draw");
-		break;
-	case EDITOR:
-		ImGui::OpenPopup("Edit Editor");
-		break;
-	case MODULES:
-		ImGui::OpenPopup("Edit Modules");
-		break;
-	case CONSOLE:
-		ImGui::OpenPopup("Edit Console");
-		break;
+		if (ImGui::Selectable("Add whatever"))
+		{
+
+		}
+		ImGui::EndPopup();
+	}
+}
+
+void ModuleEditor::DrawConsolePopup()
+{
+	if (ImGui::BeginPopup("Edit Console"))
+	{
+		if (ImGui::Selectable("Add something"))
+		{
+
+		}
+		if (ImGui::Selectable("Add whatever"))
+		{
+
+		}
+		ImGui::EndPopup();
 	}
 }
 
