@@ -90,43 +90,40 @@ void ModuleCamera::CameraMovement()
 		eye -= cameraSpeed * front;
 		target -= cameraSpeed * front;
 	}
+	if (App->input->GetKey(SDL_SCANCODE_Q))
+	{
+		eye += cameraSpeed * up / 5;
+		target += cameraSpeed * up / 5;
+	}
+	if (App->input->GetKey(SDL_SCANCODE_E))
+	{
+		eye -= cameraSpeed * up / 5;
+		target -= cameraSpeed * up / 5;
+	}
+	if (App->input->GetKey(SDL_SCANCODE_W))
+	{
+		eye -= cameraSpeed * front;
+		target -= cameraSpeed * front;
+	}
+	if (App->input->GetKey(SDL_SCANCODE_S))
+	{
+		eye += cameraSpeed * front;
+		target += cameraSpeed * front;
+	}
+	if (App->input->GetKey(SDL_SCANCODE_A))
+	{
+		eye += cameraSpeed * side;
+		target += cameraSpeed * side;
+	}
+	if (App->input->GetKey(SDL_SCANCODE_D))
+	{
+		eye -= cameraSpeed * side;
+		target -= cameraSpeed * side;
+	}
 
-
-
-		if (App->input->GetKey(SDL_SCANCODE_Q))
-		{
-			eye += cameraSpeed * up / 5;
-			target += cameraSpeed * up / 5;
-		}
-		if (App->input->GetKey(SDL_SCANCODE_E))
-		{
-			eye -= cameraSpeed * up / 5;
-			target -= cameraSpeed * up / 5;
-		}
-		if (App->input->GetKey(SDL_SCANCODE_W))
-		{
-			eye -= cameraSpeed * front;
-			target -= cameraSpeed * front;
-		}
-		if (App->input->GetKey(SDL_SCANCODE_S))
-		{
-			eye += cameraSpeed * front;
-			target += cameraSpeed * front;
-		}
-		if (App->input->GetKey(SDL_SCANCODE_A))
-		{
-			eye += cameraSpeed * side;
-			target += cameraSpeed * side;
-		}
-		if (App->input->GetKey(SDL_SCANCODE_D))
-		{
-			eye -= cameraSpeed * side;
-			target -= cameraSpeed * side;
-		}
-
-		//Mouse commands feel "steppy" not smooth enough but gets job done
-		target += cameraSpeed * upwards * App->input->GetMouseMotion().y * smooth;
-		target -= cameraSpeed * side * App->input->GetMouseMotion().x * smooth;
+	//Mouse commands feel "steppy" not smooth enough but gets job done
+	target += cameraSpeed * upwards * App->input->GetMouseMotion().y * smooth;
+	target -= cameraSpeed * side * App->input->GetMouseMotion().x * smooth;
 
 	
 

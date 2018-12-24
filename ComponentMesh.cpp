@@ -6,13 +6,6 @@ void ComponentMesh::LoadMesh(aiMesh* mesh)
 {
 	assert(mesh != nullptr);
 
-	float4x4 Model(math::float4x4::identity);
-
-	if (App->renderer->showTextures)
-		glUseProgram(App->program->programLoader);
-	else
-		glUseProgram(App->program->programNoTextures);
-
 	glGenVertexArrays(1, &vao);
 	glBindVertexArray(vao);
 
@@ -21,15 +14,15 @@ void ComponentMesh::LoadMesh(aiMesh* mesh)
 
 	// mVertices
 
-	glBufferData(GL_ARRAY_BUFFER, sizeof(float)*mesh->mNumVertices * 5, nullptr, GL_STATIC_DRAW);
-	glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(float) * 3 * mesh->mNumVertices, mesh->mVertices);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat)*mesh->mNumVertices * 5, nullptr, GL_STATIC_DRAW);
+	glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(GLfloat) * 3 * mesh->mNumVertices, mesh->mVertices);
 
 	//mTexturecoords
 
 	float2* textureCoords = (float2*)glMapBufferRange(GL_ARRAY_BUFFER, sizeof(float) * 3 * mesh->mNumVertices, sizeof(float) * 2 * mesh->mNumVertices, GL_MAP_WRITE_BIT);
 	for (unsigned i = 0u; i < mesh->mNumVertices; ++i) {
 		textureCoords[i] = math::float2(mesh->mTextureCoords[0][i].x, mesh->mTextureCoords[0][i].y);
-		vertices.emplace_back(mesh->mVertices[i].x, mesh->mVertices[i].y, mesh->mVertices[i].z);
+	/*	vertices.emplace_back(mesh->mVertices[i].x, mesh->mVertices[i].y, mesh->mVertices[i].z);*/
 	}
 
 	glUnmapBuffer(GL_ARRAY_BUFFER);
@@ -39,7 +32,7 @@ void ComponentMesh::LoadMesh(aiMesh* mesh)
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned) * mesh->mNumFaces * 3, nullptr, GL_STATIC_DRAW);
 
-	unsigned* indices = (unsigned*)glMapBufferRange(GL_ELEMENT_ARRAY_BUFFER, 0, sizeof(unsigned) * mesh->mNumFaces * 3, GL_MAP_WRITE_BIT);
+	int* indices = (int*)glMapBufferRange(GL_ELEMENT_ARRAY_BUFFER, 0, sizeof(unsigned) * mesh->mNumFaces * 3, GL_MAP_WRITE_BIT);
 
 	for (unsigned i = 0u; i < mesh->mNumFaces; ++i) {
 		assert(mesh->mFaces[i].mNumIndices == 3);
@@ -48,7 +41,7 @@ void ComponentMesh::LoadMesh(aiMesh* mesh)
 		*(indices++) = mesh->mFaces[i].mIndices[1];
 		*(indices++) = mesh->mFaces[i].mIndices[2];
 
-		vertices.emplace_back(mesh->mVertices[i].x, mesh->mVertices[i].y, mesh->mVertices[i].z);
+	/*	vertices.emplace_back(mesh->mVertices[i].x, mesh->mVertices[i].y, mesh->mVertices[i].z);*/
 	}
 
 	glUnmapBuffer(GL_ELEMENT_ARRAY_BUFFER);

@@ -71,7 +71,7 @@ update_status ModuleRender::Update()
 {
 	transformationMatrix = Transform(App->camera->eye, App->camera->target);
 
-	GenerateFBOTexture(App->editor->drawWidth, App->editor->drawHeight, &(App->camera->fbo));
+	
 
 	glBindFramebuffer(GL_FRAMEBUFFER, App->camera->fbo.fbo);
 	glViewport(0, 0, App->camera->fbo.fb_width, App->camera->fbo.fb_height);
@@ -79,6 +79,8 @@ update_status ModuleRender::Update()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 /*	setMatrixUniforms()*/;
+
+App->scene->Draw();
 
 	if (showGrid)
 		drawGrid();
@@ -91,6 +93,9 @@ update_status ModuleRender::Update()
 
 update_status ModuleRender::PostUpdate()
 {
+
+	GenerateFBOTexture(App->editor->drawWidth, App->editor->drawHeight, &(App->camera->fbo));
+
 	glUseProgram(0);
 	ImGui::Render();
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());

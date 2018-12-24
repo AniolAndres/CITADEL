@@ -35,7 +35,6 @@ update_status ModuleScene::Update()
 
 update_status ModuleScene::PostUpdate()
 {
-	this->Draw();
 	return UPDATE_CONTINUE;
 }
 

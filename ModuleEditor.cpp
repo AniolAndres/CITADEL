@@ -537,6 +537,19 @@ void ModuleEditor::BeginPopup(PUcase PUcase, float2 MPos)
 	{
 	case HIERARCHY:
 		ImGui::OpenPopup("Edit Hierarchy");
+
+		if (ImGui::BeginPopup("Edit Hierarchy"))
+		{
+			if (ImGui::Selectable("Add something"))
+			{
+
+			}
+			if (ImGui::Selectable("Add whatever"))
+			{
+
+			}
+			ImGui::EndPopup();
+		}
 		break;
 	case DRAW:
 		ImGui::OpenPopup("Edit Draw");

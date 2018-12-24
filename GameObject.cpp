@@ -120,7 +120,7 @@ void GameObject::DrawHierarchy()
 	if (ImGui::IsItemClicked()) 
 		App->scene->SelectedGO = this;
 	
-	if (App->input->GetMouseButtonDown(SDL_BUTTON_RIGHT) && ImGui::IsItemHovered)
+	if (App->input->GetMouseButtonDown(SDL_BUTTON_RIGHT) && ImGui::IsItemHovered())
 	{
 		App->editor->BeginPopup(HIERARCHY, { App->input->GetMousePosition().x,App->input->GetMousePosition().y });
 	}
