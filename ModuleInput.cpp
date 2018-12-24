@@ -85,7 +85,9 @@ update_status ModuleInput::PreUpdate()
 
 	while(SDL_PollEvent(&event) != 0)
 	{
-		App->editor->ProcessInputEvent();
+
+		App->editor->ProcessInputEvent(&event);
+
 		switch(event.type)
 		{
 			case SDL_QUIT:
@@ -93,8 +95,7 @@ update_status ModuleInput::PreUpdate()
 			break;
 
 			case SDL_WINDOWEVENT:
-				if (event.window.event == SDL_WINDOWEVENT_RESIZED || event.window.event == SDL_WINDOWEVENT_SIZE_CHANGED)
-						App->renderer->WindowResized(event.window.data1, event.window.data2);
+
 				switch(event.window.event)
 				{
 					//case SDL_WINDOWEVENT_LEAVE:
@@ -103,6 +104,12 @@ update_status ModuleInput::PreUpdate()
 					case SDL_WINDOWEVENT_FOCUS_LOST:
 					windowEvents[WE_HIDE] = true;
 					break;
+
+					//case RESIZE
+					case SDL_WINDOWEVENT_RESIZED:
+					case SDL_WINDOWEVENT_SIZE_CHANGED:
+						App->renderer->WindowResized(event.window.data1, event.window.data2);
+						break;
 
 					//case SDL_WINDOWEVENT_ENTER:
 					case SDL_WINDOWEVENT_SHOWN:

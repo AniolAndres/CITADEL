@@ -68,7 +68,7 @@ public:
 	void DrawConsole();
 	void DrawWindow();
 	void DrawPopup();
-	void BeginPopup(int PUcase, float2 MPos);
+	void BeginPopup(PUcase PUcase, float2 MPos);
 
 	ModuleEditor();
 	~ModuleEditor();

@@ -300,6 +300,12 @@ void ModuleEditor::DrawEditor()
 					ImGui::BulletText("(%f,%f,%f)", App->camera->side.x, App->camera->side.y, App->camera->side.z);
 					ImGui::Text("Upwards vector:");
 					ImGui::BulletText("(%f,%f,%f)", App->camera->upwards.x, App->camera->upwards.y, App->camera->upwards.z);
+					if (App->camera->Movement)
+					{
+						ImGui::Text("Movement ON");
+					}
+					else
+						ImGui::Text("Movement OFF");
 				}
 				if (ImGui::CollapsingHeader("Module Editor"))
 				{
@@ -478,8 +484,18 @@ void ModuleEditor::DrawWindow()
 		}
 		else
 		{
+
+
 			if (ImGui::BeginChild("Editor Canvas", ImVec2(0, 0), true, ImGuiWindowFlags_NoMove))
 			{
+				if (ImGui::IsWindowHovered() && App->input->GetMouseButtonDown(SDL_BUTTON_RIGHT))
+				{
+					App->camera->Movement = true;
+				}
+				else
+				{
+					App->camera->Movement = false;
+				}
 
 				ImGui::GetWindowDrawList()->AddImage(
 					(void*)App->camera->fbo.fb_tex,
@@ -491,6 +507,8 @@ void ModuleEditor::DrawWindow()
 			ImGui::EndChild();
 			ImGui::End();
 		}
+
+	
 	}
 }
 
@@ -508,11 +526,12 @@ void ModuleEditor::DrawPopup()
 		}
 		ImGui::EndPopup();
 	}
+
 }
 
-void ModuleEditor::BeginPopup(int PUcase, float2 MPos)
+void ModuleEditor::BeginPopup(PUcase PUcase, float2 MPos)
 {
-	ImGui::SetNextWindowPos({ MPos.x,MPos.y });
+	//ImGui::SetNextWindowPos({ MPos.x,MPos.y });
 
 	switch (PUcase)
 	{

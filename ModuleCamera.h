@@ -31,6 +31,8 @@ public:
 	float3 front,side,upwards;
 	float cameraSpeed = 1;
 	float smooth = 0.035f;
+	void CameraMovement();
+	bool Movement = false;
 
 	FBO fbo;
 
