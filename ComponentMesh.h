@@ -25,6 +25,8 @@ public:
 
 	int	numIndices = 0;
 	int	materialIndex = 0;
+	int numVert = 0;
+
 	ComponentMesh();
 	~ComponentMesh();
 

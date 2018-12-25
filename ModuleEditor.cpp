@@ -418,9 +418,9 @@ void ModuleEditor::DrawEditor()
 				else
 				{
 					
-					ImGui::InputText("New name", App->scene->SelectedGO->newName, ARRAYSIZE(App->scene->SelectedGO->newName), ImGuiInputTextFlags_AlwaysInsertMode | ImGuiInputTextFlags_CharsHexadecimal | ImGuiInputTextFlags_EnterReturnsTrue);
+					ImGui::InputText("New name",(char*) App->scene->SelectedGO->name, 30.0f);
 
-					ImGui::Text("Selected %s #%d", App->scene->SelectedGO->name, App->scene->SelectedGO->id);
+					ImGui::Text("Selected %s ", App->scene->SelectedGO->name);
 					//This will be used to modify the components of the selected GameObject
 					if (ImGui::CollapsingHeader("Component Mesh"))
 					{

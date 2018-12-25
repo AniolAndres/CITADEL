@@ -64,6 +64,7 @@ void ComponentMesh::LoadMesh(aiMesh* mesh)
 
 	this->numIndices = mesh->mNumFaces * 3;
 	this->materialIndex = mesh->mMaterialIndex;
+	this->numVert = mesh->mNumVertices;
 }
 
 void ComponentMesh::Draw(unsigned Program, const Texture* texture) const 

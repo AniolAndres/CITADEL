@@ -39,13 +39,15 @@ GameObject::GameObject(const char* name,bool active, GameObject* parent, const c
 	this->active = active;
 	this->parent = parent;
 	filePath = FileLocation;
-	App->editor->consoleApp.AddLog("Created GameObject %s \n", name);
+	App->editor->consoleApp.AddLog("Created GameObject %s \n", this->name);
 }
 
 GameObject::GameObject(GameObject* GO)
 {
 	this->parent = GO->parent;
 	this->children = GO->children;
+	this->name = GO->name;
+	this->filePath = GO->filePath;
 	this->MeshComponents = GO->MeshComponents;
 	this->TransformComponents = GO->TransformComponents;
 	this->MaterialComponents = GO->MaterialComponents;
@@ -60,8 +62,6 @@ GameObject::~GameObject()
 
 void GameObject::Draw()
 {
-	
-		
 	//Draw yourself
 
 	if (!this->MeshComponents.empty())
@@ -128,7 +128,6 @@ void GameObject::DrawHierarchy()
 
 	App->editor->DrawHierarchyPopup();
 
-
 	if (treeOpen)
 	{
 		//Draw your children
@@ -141,9 +140,7 @@ void GameObject::DrawHierarchy()
 		}
 	}
 
-
 	ImGui::PopID();
-
 }
 
 void GameObject::DrawComponents(int type)
@@ -167,26 +164,26 @@ void GameObject::DrawComponents(int type)
 
 void GameObject::DrawMeshes()
 {
-	int i = 0;
-	for (std::vector<Component*>::iterator it = this->MeshComponents.begin(); it != this->MeshComponents.end(); ++it, ++i)
+	for (int i = 0; i != this->MeshComponents.size(); ++i)
 	{
-		ImGui::Text("Component Mesh %i", i);
+		ImGui::Text("Vertices: %d", ((ComponentMesh*)this->MeshComponents[i])->numVert);
 	}
 }
 
 void GameObject::DrawMaterials()
 {
 	int i = 0;
-	for (std::vector<Component*>::iterator it = this->MaterialComponents.begin(); it != this->MaterialComponents.end(); ++it, ++i)
+	float size = ImGui::GetWindowWidth();
+	for (int i = 0; i != this->MaterialComponents.size(); ++i)
 	{
-		ImGui::Text("Component Material %i", i);
+		ImGui::Image(((ImTextureID)((ComponentMaterial*)this->MaterialComponents[i])->GetTexture()->id), {size,size});
 	}
 }
 
 void GameObject::DrawTransforms()
 {
 	int i = 0;
-	for (std::vector<Component*>::iterator it = this->TransformComponents.begin(); it != this->TransformComponents.end(); ++it, ++i)
+	for (int i = 0; i != this->TransformComponents.size(); ++i)
 	{
 		ImGui::Text("Component Transform %i", i);
 		/*ImGui::SliderFloat("POS", , 0.0f, 10.0f, "%.4f", 2.0f);*/
@@ -196,9 +193,9 @@ void GameObject::DrawTransforms()
 void GameObject::DrawLights()
 {
 	int i = 0;
-	for (std::vector<Component*>::iterator it = this->LightComponents.begin(); it != this->LightComponents.end(); ++it, ++i)
+	for (int i = 0; i != this->LightComponents.size(); ++i)
 	{
-		ImGui::Text("Component Light %i", i);
+		ImGui::Text("Component Light #%i", i);
 	}
 }
 
