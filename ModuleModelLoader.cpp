@@ -10,6 +10,7 @@ bool ModuleModelLoader::Init()
 {
 	bool ret = true;
 	LoadFBX("./BakerHouse.fbx");
+	LoadFBX("./tracerPistol.fbx");
 	App->editor->consoleApp.AddLog("Loaded Bakerhouse.fbx \n"); //I'll leave it like this for now
 	return ret;
 }

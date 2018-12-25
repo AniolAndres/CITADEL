@@ -120,10 +120,12 @@ void ModuleCamera::CameraMovement()
 		eye -= cameraSpeed * side;
 		target -= cameraSpeed * side;
 	}
+	Mouse.y = App->input->GetMouseMotion().y * smooth;
+	Mouse.x = App->input->GetMouseMotion().x * smooth;
 
 	//Mouse commands feel "steppy" not smooth enough but gets job done
-	target += cameraSpeed * upwards * App->input->GetMouseMotion().y * smooth;
-	target -= cameraSpeed * side * App->input->GetMouseMotion().x * smooth;
+	target += cameraSpeed * upwards * Mouse.y * mSensitivity;
+	target -= cameraSpeed * side * Mouse.x* mSensitivity;
 
 	
 

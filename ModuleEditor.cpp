@@ -425,18 +425,10 @@ void ModuleEditor::DrawEditor()
 					if (ImGui::CollapsingHeader("Component Mesh"))
 					{
 						App->scene->SelectedGO->DrawComponents(MESH);
-						if (ImGui::Button("New Component Mesh"))
-						{
-							App->scene->SelectedGO->CreateComponent(MESH);
-						}
 					}
 					if (ImGui::CollapsingHeader("Component Material"))
 					{
 						App->scene->SelectedGO->DrawComponents(MATERIAL);
-						if (ImGui::Button("New Component Material"))
-						{
-							App->scene->SelectedGO->CreateComponent(MATERIAL);
-						}
 					}
 					if (ImGui::CollapsingHeader("Component Transform"))
 					{

@@ -28,7 +28,7 @@ GameObject::GameObject(const char* name, bool active, const char* FileLocation)
 	this->active = active;
 	this->parent = App->scene->Root;
 	filePath = FileLocation;
-	App->editor->consoleApp.AddLog("Created GameObject %s \n", this->name);
+	App->editor->consoleApp.AddLog("Created GameObject \n");
 }
 
 
@@ -39,7 +39,7 @@ GameObject::GameObject(const char* name,bool active, GameObject* parent, const c
 	this->active = active;
 	this->parent = parent;
 	filePath = FileLocation;
-	App->editor->consoleApp.AddLog("Created GameObject %s \n", this->name);
+	App->editor->consoleApp.AddLog("Created GameObject \n");
 }
 
 GameObject::GameObject(GameObject* GO)
@@ -52,7 +52,7 @@ GameObject::GameObject(GameObject* GO)
 	this->TransformComponents = GO->TransformComponents;
 	this->MaterialComponents = GO->MaterialComponents;
 	this->LightComponents = GO->LightComponents;
-	App->editor->consoleApp.AddLog("Created GameObject %s \n", name);
+	App->editor->consoleApp.AddLog("Created GameObject \n");
 }
 
 GameObject::~GameObject()
@@ -115,7 +115,7 @@ void GameObject::DrawHierarchy()
 		node_flags |= ImGuiTreeNodeFlags_Leaf | ImGuiTreeNodeFlags_NoTreePushOnOpen;
 	}
 
-	bool treeOpen = ImGui::TreeNodeEx(this, node_flags, "%s %d", this->name, this->id);
+	bool treeOpen = ImGui::TreeNodeEx(this, node_flags, "%s", this->name);
 
 	if (ImGui::IsItemClicked()) 
 		App->scene->SelectedGO = this;
