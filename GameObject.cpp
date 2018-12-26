@@ -27,6 +27,7 @@ GameObject::GameObject(const char* name, bool active, const char* FileLocation)
 	this->name =name;
 	this->active = active;
 	this->parent = App->scene->Root;
+	this->CreateComponent(TRANSFORM);
 	filePath = FileLocation;
 	App->editor->consoleApp.AddLog("Created GameObject \n");
 }
@@ -38,6 +39,7 @@ GameObject::GameObject(const char* name,bool active, GameObject* parent, const c
 	this->name =  name;
 	this->active = active;
 	this->parent = parent;
+	this->CreateComponent(TRANSFORM);
 	filePath = FileLocation;
 	App->editor->consoleApp.AddLog("Created GameObject \n");
 }
@@ -164,9 +166,11 @@ void GameObject::DrawComponents(int type)
 
 void GameObject::DrawMeshes()
 {
-	for (int i = 0; i != this->MeshComponents.size(); ++i)
+	int i = 0;
+	float size = ImGui::GetWindowWidth();
+	for (i = 0; i != this->MaterialComponents.size(); ++i)
 	{
-		ImGui::Text("Vertices: %d", ((ComponentMesh*)this->MeshComponents[i])->numVert);
+		ImGui::Text("Vertices: %d", ((ComponentMesh*)(this->MeshComponents[i]))->numVert);
 	}
 }
 
@@ -174,7 +178,7 @@ void GameObject::DrawMaterials()
 {
 	int i = 0;
 	float size = ImGui::GetWindowWidth();
-	for (int i = 0; i != this->MaterialComponents.size(); ++i)
+	for (i = 0; i != this->MaterialComponents.size(); ++i)
 	{
 		ImGui::Image(((ImTextureID)((ComponentMaterial*)this->MaterialComponents[i])->GetTexture()->id), {size,size});
 	}
@@ -183,17 +187,18 @@ void GameObject::DrawMaterials()
 void GameObject::DrawTransforms()
 {
 	int i = 0;
-	for (int i = 0; i != this->TransformComponents.size(); ++i)
+	for (i = 0; i != this->TransformComponents.size(); ++i)
 	{
 		ImGui::Text("Component Transform %i", i);
-		/*ImGui::SliderFloat("POS", , 0.0f, 10.0f, "%.4f", 2.0f);*/
+		ImGui::DragFloat3("Position",(float*)&((ComponentTransform*)this->MaterialComponents[i])->position,0.1f,-1000.f,1000.f);
+		ImGui::DragFloat3("Scale", (float*)&((ComponentTransform*)this->MaterialComponents[i])->scale, 0.1f, 0.01f, 100.f);
 	}
 }
 
 void GameObject::DrawLights()
 {
 	int i = 0;
-	for (int i = 0; i != this->LightComponents.size(); ++i)
+	for (i = 0; i != this->LightComponents.size(); ++i)
 	{
 		ImGui::Text("Component Light #%i", i);
 	}

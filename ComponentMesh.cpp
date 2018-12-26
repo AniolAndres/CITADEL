@@ -100,6 +100,11 @@ void ComponentMesh::Draw(unsigned Program, const Texture* texture) const
 }
 
 
+void ComponentMesh::EditorMeshes()
+{
+	ImGui::Text("Vertices: %d", this->numVert);
+}
+
 ComponentMesh::ComponentMesh()
 {
 	type = MESH;

@@ -31,10 +31,6 @@ public:
 
 	bool ProcessFBX(const aiNode* node, const aiScene* scene,GameObject* GO);
 
-	//void GenerateMeshes(const aiScene* scene);
-
-	//void GenerateMaterials(const aiScene* scene);
-
 	unsigned* vbos;
 
 	unsigned* ibos;

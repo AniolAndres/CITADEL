@@ -7,6 +7,7 @@
 #include "Application.h"
 #include "ModuleRender.h"
 #include <assimp/mesh.h>
+#include "IMGUI/imgui.h"
 #include "Math/float3.h"
 #include "GL/glew.h"
 
@@ -18,6 +19,8 @@ public:
 	void LoadMesh(aiMesh* mesh);
 
 	void Draw(unsigned Program, const Texture* textures) const;
+
+	void EditorMeshes();
 
 	std::vector<math::float3> vertices;
 	const char*	name = nullptr;

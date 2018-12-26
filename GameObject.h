@@ -5,7 +5,9 @@
 #include "Component.h"
 #include "ModuleProgram.h"
 #include "assimp/material.h"
+#include "MathGeoLib/include/Math/float3.h"
 #include "MathGeoLib/include/Math/float4x4.h"
+#include "Math/MathFunc.h"
 #include <vector>
 #include<list>
 

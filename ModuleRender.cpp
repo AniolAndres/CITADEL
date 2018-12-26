@@ -78,9 +78,10 @@ update_status ModuleRender::Update()
 	glClearColor(0.2f, 0.2f, 0.2f, 1.f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+	GenerateFBOTexture(App->editor->drawWidth, App->editor->drawHeight, &(App->camera->fbo));
 /*	setMatrixUniforms()*/;
 
-App->scene->Draw();
+	App->scene->Draw();
 
 	if (showGrid)
 		drawGrid();
@@ -94,7 +95,7 @@ App->scene->Draw();
 update_status ModuleRender::PostUpdate()
 {
 
-	GenerateFBOTexture(App->editor->drawWidth, App->editor->drawHeight, &(App->camera->fbo));
+
 
 	glUseProgram(0);
 	ImGui::Render();
