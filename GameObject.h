@@ -21,6 +21,7 @@ class GameObject
 {
 public:
 
+
 	GameObject();
 	GameObject(const char* name, bool active, const char* FileLocation);
 	GameObject(const char* name, bool active, GameObject* parent, const char* FileLocation);

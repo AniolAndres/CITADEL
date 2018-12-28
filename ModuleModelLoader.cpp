@@ -10,7 +10,7 @@ bool ModuleModelLoader::Init()
 {
 	bool ret = true;
 	LoadFBX("./BakerHouse.fbx");
-	LoadFBX("./tracerPistol.fbx");
+	//LoadFBX("./tracerPistol.fbx");
 	App->editor->consoleApp.AddLog("Loaded Bakerhouse.fbx \n"); //I'll leave it like this for now
 	return ret;
 }
@@ -37,6 +37,8 @@ bool ModuleModelLoader::CleanUp()
 	return ret;
 }
 
+
+//Obsolete, left for reference
 //void ModuleModelLoader::GenerateMaterials(const aiScene* scene)
 //{
 //	const aiMaterial* sourceMaterial;

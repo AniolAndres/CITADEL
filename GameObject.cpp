@@ -49,6 +49,7 @@ GameObject::GameObject(const char* name,bool active, GameObject* parent, const c
 GameObject::GameObject(GameObject* GO)
 {
 	this->parent = GO->parent;
+	this->active = GO->active;
 	this->children = GO->children;
 	this->name = GO->name;
 	this->filePath = GO->filePath;
@@ -195,7 +196,7 @@ void GameObject::DrawTransforms()
 		ImGui::Text("Component Transform %i", i);
 		ImGui::DragFloat3("Position",(float*)&((ComponentTransform*)this->TransformComponents[i])->position,0.1f,-1000.f,1000.f);
 		ImGui::DragFloat3("Scale", (float*)&((ComponentTransform*)this->TransformComponents[i])->scale, 0.1f, 0.01f, 100.f);
-		ImGui::DragFloat3("Rotation", (float*)&((ComponentTransform*)this->TransformComponents[i])->rotation, 0.1f, 0.f, 360.f);
+		ImGui::DragFloat3("Rotation", (float*)&((ComponentTransform*)this->TransformComponents[i])->rotation, 0.1f, 0.f, 360.f); //needs tweaking
 	}
 }
 
