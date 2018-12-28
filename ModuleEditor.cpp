@@ -418,7 +418,9 @@ void ModuleEditor::DrawEditor()
 				else
 				{
 					
-					ImGui::InputText("New name",(char*) App->scene->SelectedGO->name, 30.0f);
+					ImGui::InputText("Name",(char*) App->scene->SelectedGO->name, 30.0f);
+			
+					ImGui::Checkbox("Active", &App->scene->SelectedGO->active);
 
 					ImGui::Text("Selected %s ", App->scene->SelectedGO->name);
 					//This will be used to modify the components of the selected GameObject
@@ -433,10 +435,6 @@ void ModuleEditor::DrawEditor()
 					if (ImGui::CollapsingHeader("Component Transform"))
 					{
 						App->scene->SelectedGO->DrawComponents(TRANSFORM);
-						if (ImGui::Button("New Component Transform"))
-						{
-							App->scene->SelectedGO->CreateComponent(TRANSFORM);
-						}
 					}
 					if (ImGui::CollapsingHeader("Component Light"))
 					{

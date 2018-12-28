@@ -28,6 +28,7 @@ GameObject::GameObject(const char* name, bool active, const char* FileLocation)
 	this->active = active;
 	this->parent = App->scene->Root;
 	this->CreateComponent(TRANSFORM);
+	this->transform = (ComponentTransform*)this->TransformComponents.front();
 	filePath = FileLocation;
 	App->editor->consoleApp.AddLog("Created GameObject \n");
 }
@@ -40,6 +41,7 @@ GameObject::GameObject(const char* name,bool active, GameObject* parent, const c
 	this->active = active;
 	this->parent = parent;
 	this->CreateComponent(TRANSFORM);
+	this->transform = (ComponentTransform*)this->TransformComponents.front();
 	filePath = FileLocation;
 	App->editor->consoleApp.AddLog("Created GameObject \n");
 }
@@ -66,7 +68,7 @@ void GameObject::Draw()
 {
 	//Draw yourself
 
-	if (!this->MeshComponents.empty())
+	if (!this->MeshComponents.empty() && this->active)
 	{
 		for (int i = 0; i != this->MeshComponents.size(); ++i)
 		{
@@ -89,6 +91,7 @@ void GameObject::Draw()
 			}
 
 			glUseProgram(shader);
+			ModelTransform(shader);
 
 			((ComponentMesh*)this->MeshComponents[i])->Draw(shader, texture);
 
@@ -190,8 +193,9 @@ void GameObject::DrawTransforms()
 	for (i = 0; i != this->TransformComponents.size(); ++i)
 	{
 		ImGui::Text("Component Transform %i", i);
-		ImGui::DragFloat3("Position",(float*)&((ComponentTransform*)this->MaterialComponents[i])->position,0.1f,-1000.f,1000.f);
-		ImGui::DragFloat3("Scale", (float*)&((ComponentTransform*)this->MaterialComponents[i])->scale, 0.1f, 0.01f, 100.f);
+		ImGui::DragFloat3("Position",(float*)&((ComponentTransform*)this->TransformComponents[i])->position,0.1f,-1000.f,1000.f);
+		ImGui::DragFloat3("Scale", (float*)&((ComponentTransform*)this->TransformComponents[i])->scale, 0.1f, 0.01f, 100.f);
+		ImGui::DragFloat3("Rotation", (float*)&((ComponentTransform*)this->TransformComponents[i])->rotation, 0.1f, 0.f, 360.f);
 	}
 }
 
@@ -242,6 +246,7 @@ std::string GameObject::getFileFolder()
 
 void GameObject::ModelTransform(unsigned shader) const 
 {
+	
 	glUniformMatrix4fv(glGetUniformLocation(shader, "model"), 1, GL_TRUE, &GetGlobalTransform()[0][0]);
 }
 
@@ -256,11 +261,11 @@ math::float4x4 GameObject::GetGlobalTransform() const
 	return GetLocalTransform();
 }
 
-math::float4x4 GameObject::GetLocalTransform() const {
+math::float4x4 GameObject::GetLocalTransform() const 
+{
 	if (transform == nullptr) 
 	{
 		return float4x4::identity;
 	}
-
 	return float4x4::FromTRS(transform->position, transform->rotation, transform->scale);
 }
