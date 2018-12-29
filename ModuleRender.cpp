@@ -81,8 +81,8 @@ update_status ModuleRender::Update()
 
 	App->scene->Draw();
 
-	//if(App->scene->SelectedGO)
-	//	App->scene->SelectedGO->DrawBB();
+	if(App->scene->SelectedGO)
+		App->scene->SelectedGO->DrawBB();
 
 	if (showGrid)
 		drawGrid();

@@ -285,20 +285,22 @@ AABB GameObject::LoadBB()
 
 void GameObject::DrawBB()
 {
-	// draw your BB
-	BB = this->LoadBB();
-
-	BB.TransformAsAABB(GetGlobalTransform());
-
-	if (this->MeshComponents.front() != nullptr)
+	if (!this->MeshComponents.empty())
 	{
-	/*	dd::aabb(this->BB.minPoint, this->BB.maxPoint, float3(0.f, 1.f, 0.f), true);*/
-	}
+		// draw your BB
+		BB = this->LoadBB();
 
-	// draw your children BB
-	for (std::list<GameObject*>::iterator it = this->children.begin(); it != this->children.end(); ++it)
-	{
-		(*it)->DrawBB();
+		BB.TransformAsAABB(GetGlobalTransform());
+
+		if (this->MeshComponents.front() != nullptr)
+		{
+			dd::aabb(this->BB.minPoint, this->BB.maxPoint, float3(0.f, 1.f, 0.f), true); 
+		}
+
+		// draw your children BB
+		for (std::list<GameObject*>::iterator it = this->children.begin(); it != this->children.end(); ++it)
+		{
+			(*it)->DrawBB();
+		}
 	}
-	
 }
