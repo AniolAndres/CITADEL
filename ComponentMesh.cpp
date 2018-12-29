@@ -65,6 +65,15 @@ void ComponentMesh::LoadMesh(aiMesh* mesh)
 	this->numIndices = mesh->mNumFaces * 3;
 	this->materialIndex = mesh->mMaterialIndex;
 	this->numVert = mesh->mNumVertices;
+
+
+	if (this->numVert != 0)
+		my_go->Static = false;
+	else
+		my_go->Static = true;
+
+	BB.SetNegativeInfinity();
+	BB.Enclose((float3*)mesh->mVertices, this->numVert);
 }
 
 void ComponentMesh::Draw(unsigned Program, const Texture* texture) const 

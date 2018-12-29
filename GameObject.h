@@ -8,6 +8,8 @@
 #include "MathGeoLib/include/Math/float3.h"
 #include "MathGeoLib/include/Math/float4x4.h"
 #include "Math/MathFunc.h"
+#include "Geometry/AABB.h"
+#include "debugdraw.h"
 #include <vector>
 #include<list>
 
@@ -32,12 +34,17 @@ public:
 	void Update();
 	Component* CreateComponent(int type);
 	GameObject* parent = nullptr;
+	AABB LoadBB();
+
 
 	bool active;
 	const char* name;
 	int id;
 	const char*	filePath = nullptr;
 	char newName[20];
+	AABB BB = AABB();
+	bool Static = true;
+
 
 	bool showPopup = false;
 
@@ -48,6 +55,7 @@ public:
 
 	void BeginPopup(GameObject* GO);
 	void Draw();
+	void DrawBB();
 	void DrawComponents(int type);
 	void DrawHierarchy();
 	void DrawMeshes();

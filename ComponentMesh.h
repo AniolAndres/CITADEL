@@ -9,6 +9,7 @@
 #include <assimp/mesh.h>
 #include "IMGUI/imgui.h"
 #include "Math/float3.h"
+#include "Geometry/AABB.h"
 #include "GL/glew.h"
 
 class ComponentMesh : public Component
@@ -29,6 +30,7 @@ public:
 	int	numIndices = 0;
 	int	materialIndex = 0;
 	int numVert = 0;
+	AABB BB;
 
 	ComponentMesh();
 	~ComponentMesh();

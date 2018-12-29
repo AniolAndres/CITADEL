@@ -13,6 +13,7 @@
 #include "IMGUI/imgui.h"
 #include "IMGUI/imgui_impl_sdl.h"
 #include "IMGUI/imgui_impl_opengl3.h"
+#include "debugdraw.h"
 #include<vector>
 #include<list>
 
@@ -114,7 +115,7 @@ void GameObject::DrawHierarchy()
 {
 	//Draw yourself
 	ImGui::PushID(this);
-
+	
 	ImGuiTreeNodeFlags	node_flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick | (App->scene->SelectedGO == this ? ImGuiTreeNodeFlags_Selected : 0);
 
 	if (this->children.empty()) {
@@ -123,10 +124,10 @@ void GameObject::DrawHierarchy()
 
 	bool treeOpen = ImGui::TreeNodeEx(this, node_flags, "%s", this->name);
 
-	if (ImGui::IsItemClicked()) 
+	if (ImGui::IsItemClicked())
 		App->scene->SelectedGO = this;
-	
-	if (App->input->GetMouseButtonDown(SDL_BUTTON_RIGHT)  && ImGui::IsItemHovered())
+
+	if (App->input->GetMouseButtonDown(SDL_BUTTON_RIGHT) && ImGui::IsItemHovered())
 	{
 		App->scene->SelectedGO = this;
 		ImGui::OpenPopup("Edit Hierarchy");
@@ -145,7 +146,7 @@ void GameObject::DrawHierarchy()
 			ImGui::TreePop();
 		}
 	}
-
+	
 	ImGui::PopID();
 }
 
@@ -269,4 +270,35 @@ math::float4x4 GameObject::GetLocalTransform() const
 		return float4x4::identity;
 	}
 	return float4x4::FromTRS(transform->position, transform->rotation, transform->scale);
+}
+
+AABB GameObject::LoadBB()
+{
+	BB.SetNegativeInfinity();
+
+	if (this->MeshComponents.front() != nullptr)
+	{
+		this->BB.Enclose(((ComponentMesh*)this->MeshComponents.front())->BB);
+	}
+	return BB;
+}
+
+void GameObject::DrawBB()
+{
+	// draw your BB
+	BB = this->LoadBB();
+
+	BB.TransformAsAABB(GetGlobalTransform());
+
+	if (this->MeshComponents.front() != nullptr)
+	{
+	/*	dd::aabb(this->BB.minPoint, this->BB.maxPoint, float3(0.f, 1.f, 0.f), true);*/
+	}
+
+	// draw your children BB
+	for (std::list<GameObject*>::iterator it = this->children.begin(); it != this->children.end(); ++it)
+	{
+		(*it)->DrawBB();
+	}
+	
 }

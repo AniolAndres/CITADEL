@@ -10,7 +10,7 @@ bool ModuleModelLoader::Init()
 {
 	bool ret = true;
 	LoadFBX("./BakerHouse.fbx");
-	//LoadFBX("./tracerPistol.fbx");
+	LoadFBX("./tracerPistol.fbx");
 	App->editor->consoleApp.AddLog("Loaded Bakerhouse.fbx \n"); //I'll leave it like this for now
 	return ret;
 }
@@ -91,6 +91,7 @@ bool ModuleModelLoader::ProcessFBX(const aiNode* node, const aiScene* scene, Gam
 
 	GameObject* GO = App->scene->CreateGameObject(node->mName.C_Str(), true, parent, ".");
 
+
 	for (unsigned i = 0u; i < node->mNumMeshes; ++i) 
 	{
 		ComponentMesh* mesh = (ComponentMesh*)GO->CreateComponent(MESH);
@@ -100,7 +101,7 @@ bool ModuleModelLoader::ProcessFBX(const aiNode* node, const aiScene* scene, Gam
 		ComponentMaterial* material = (ComponentMaterial*)GO->CreateComponent(MATERIAL);
 		material->LoadMaterial(scene->mMaterials[mesh->GetMaterialIndex()]);
 	}
-	
+
 	for (unsigned i = 0u; i < node->mNumChildren; i++) 
 	{
 		ProcessFBX(node->mChildren[i], scene, GO);

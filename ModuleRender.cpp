@@ -8,6 +8,7 @@
 #include "ModuleModelLoader.h"
 #include "IMGUI/imgui.h"
 #include "IMGUI/imgui_impl_opengl3.h"
+#include "debugdraw.h"
 #include "SDL.h"
 #include "GL/glew.h"
 
@@ -71,17 +72,17 @@ update_status ModuleRender::Update()
 {
 	transformationMatrix = Transform(App->camera->eye, App->camera->target);
 
-	
-
 	glBindFramebuffer(GL_FRAMEBUFFER, App->camera->fbo.fbo);
 	glViewport(0, 0, App->camera->fbo.fb_width, App->camera->fbo.fb_height);
 	glClearColor(0.2f, 0.2f, 0.2f, 1.f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	GenerateFBOTexture(App->editor->drawWidth, App->editor->drawHeight, &(App->camera->fbo));
-/*	setMatrixUniforms()*/;
 
 	App->scene->Draw();
+
+	//if(App->scene->SelectedGO)
+	//	App->scene->SelectedGO->DrawBB();
 
 	if (showGrid)
 		drawGrid();

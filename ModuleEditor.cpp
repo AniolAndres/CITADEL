@@ -422,6 +422,11 @@ void ModuleEditor::DrawEditor()
 			
 					ImGui::Checkbox("Active", &App->scene->SelectedGO->active);
 
+					if (App->scene->SelectedGO->Static)
+						ImGui::Text("Static object");
+					else
+						ImGui::Text("Non-static object");
+
 					ImGui::Text("Selected %s ", App->scene->SelectedGO->name);
 					//This will be used to modify the components of the selected GameObject
 					if (ImGui::CollapsingHeader("Component Mesh"))
