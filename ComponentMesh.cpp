@@ -116,6 +116,15 @@ ComponentMesh::ComponentMesh()
 	type = MESH;
 }
 
+ComponentMesh::ComponentMesh(ComponentMesh* Cmesh)
+{
+	type = MESH;
+	this->vao = Cmesh->vao;
+	this->name = Cmesh->name;
+	this->numIndices = Cmesh->numIndices;
+	this->numVert = Cmesh->numVert;
+	this->materialIndex = Cmesh->materialIndex;
+}
 
 ComponentMesh::~ComponentMesh()
 {

@@ -50,11 +50,27 @@ void ModuleScene::Draw()
 	Root->Draw();
 }
 
-GameObject* ModuleScene::CreateGameObject(GameObject* GO)
+GameObject* ModuleScene::DuplicateGameObject(GameObject* GO)
 {
-	GameObject* my_go = new GameObject(GO);
-	App->scene->SelectedGO->parent->children.push_back(my_go);
-	GOs.push_back(my_go);
+	GameObject* my_go = new GameObject();
+
+	//Copy the gameobject itself along with every component the original has.
+	my_go->name = GO->name;
+	GO->parent->children.push_back(my_go);
+
+	if (GO->Static == false)
+	{
+		//Components
+		my_go->mesh = (ComponentMesh*)GO->DuplicateComponent(MESH, GO);
+		my_go->material = (ComponentMaterial*)GO->DuplicateComponent(MATERIAL, GO);
+		my_go->transform = (ComponentTransform*)GO->DuplicateComponent(TRANSFORM, GO);
+	}
+	//Copy its children
+	
+	for (std::list<GameObject*>::iterator it = GO->children.begin(); it != GO->children.end(); ++it)
+	{
+		GO->children.push_back(DuplicateGameObject((*it)));
+	}
 
 	return my_go;
 }

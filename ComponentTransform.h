@@ -10,6 +10,7 @@ class ComponentTransform :
 {
 public:
 	ComponentTransform();
+	ComponentTransform(ComponentTransform* Ctransform);
 	~ComponentTransform();
 
 	float3 position = float3::zero;

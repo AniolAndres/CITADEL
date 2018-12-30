@@ -21,7 +21,7 @@ public:
 
 	GameObject* CreateGameObject(const char* name, bool active, GameObject* parent, const char* FileLocation);
 	GameObject* CreateGameObject(const char* name, bool active, const char* FileLocation);
-	GameObject* CreateGameObject(GameObject* GO);
+	GameObject* DuplicateGameObject(GameObject* GO);
 
 	GameObject* Root = nullptr;
 	GameObject* SelectedGO = nullptr;

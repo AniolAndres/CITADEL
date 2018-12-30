@@ -18,6 +18,7 @@ public:
 	void DeleteTexture();
 
 	ComponentMaterial();
+	ComponentMaterial(ComponentMaterial* Cmaterial);
 	~ComponentMaterial();
 
 private:

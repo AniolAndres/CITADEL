@@ -33,6 +33,7 @@ public:
 	AABB BB;
 
 	ComponentMesh();
+	ComponentMesh(ComponentMesh* Cmesh);
 	~ComponentMesh();
 
 private:

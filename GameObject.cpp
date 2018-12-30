@@ -29,7 +29,6 @@ GameObject::GameObject(const char* name, bool active, const char* FileLocation)
 	this->active = active;
 	this->parent = App->scene->Root;
 	this->CreateComponent(TRANSFORM);
-	this->transform = (ComponentTransform*)this->TransformComponents.front();
 	filePath = FileLocation;
 	App->editor->consoleApp.AddLog("Created GameObject \n");
 }
@@ -42,22 +41,7 @@ GameObject::GameObject(const char* name,bool active, GameObject* parent, const c
 	this->active = active;
 	this->parent = parent;
 	this->CreateComponent(TRANSFORM);
-	this->transform = (ComponentTransform*)this->TransformComponents.front();
 	filePath = FileLocation;
-	App->editor->consoleApp.AddLog("Created GameObject \n");
-}
-
-GameObject::GameObject(GameObject* GO)
-{
-	this->parent = GO->parent;
-	this->active = GO->active;
-	this->children = GO->children;
-	this->name = GO->name;
-	this->filePath = GO->filePath;
-	this->MeshComponents = GO->MeshComponents;
-	this->TransformComponents = GO->TransformComponents;
-	this->MaterialComponents = GO->MaterialComponents;
-	this->LightComponents = GO->LightComponents;
 	App->editor->consoleApp.AddLog("Created GameObject \n");
 }
 
@@ -74,7 +58,7 @@ void GameObject::Draw()
 	{
 		for (int i = 0; i != this->MeshComponents.size(); ++i)
 		{
-			ComponentMaterial* material = (ComponentMaterial*)this->MaterialComponents[i];
+			ComponentMaterial* material = this->material;
 
 			unsigned shader = 0u;
 
@@ -95,7 +79,7 @@ void GameObject::Draw()
 			glUseProgram(shader);
 			ModelTransform(shader);
 
-			((ComponentMesh*)this->MeshComponents[i])->Draw(shader, texture);
+			this->mesh->Draw(shader, texture);
 
 		}
 		
@@ -171,33 +155,26 @@ void GameObject::DrawComponents(int type)
 
 void GameObject::DrawMeshes()
 {
-	int i = 0;
-	float size = ImGui::GetWindowWidth();
-	for (i = 0; i != this->MaterialComponents.size(); ++i)
-	{
-		ImGui::Text("Vertices: %d", ((ComponentMesh*)(this->MeshComponents[i]))->numVert);
-	}
+	if(this->mesh!=nullptr)
+		ImGui::Text("Vertices: %d", this->mesh->numVert);
 }
 
 void GameObject::DrawMaterials()
 {
-	int i = 0;
 	float size = ImGui::GetWindowWidth();
-	for (i = 0; i != this->MaterialComponents.size(); ++i)
-	{
-		ImGui::Image(((ImTextureID)((ComponentMaterial*)this->MaterialComponents[i])->GetTexture()->id), {size,size});
-	}
+	if(this->material!=nullptr)
+		ImGui::Image(((ImTextureID)this->material->GetTexture()->id), {size,size});
 }
 
 void GameObject::DrawTransforms()
 {
 	int i = 0;
-	for (i = 0; i != this->TransformComponents.size(); ++i)
+	if(this->transform!=nullptr)
 	{
 		ImGui::Text("Component Transform %i", i);
-		ImGui::DragFloat3("Position",(float*)&((ComponentTransform*)this->TransformComponents[i])->position,0.1f,-1000.f,1000.f);
-		ImGui::DragFloat3("Scale", (float*)&((ComponentTransform*)this->TransformComponents[i])->scale, 0.1f, 0.01f, 100.f);
-		ImGui::DragFloat3("Rotation", (float*)&((ComponentTransform*)this->TransformComponents[i])->rotation, 0.1f, 0.f, 360.f); //needs tweaking
+		ImGui::DragFloat3("Position",(float*)&this->transform->position,0.1f,-1000.f,1000.f);
+		ImGui::DragFloat3("Scale", (float*)&this->transform->scale, 0.1f, 0.01f, 100.f);
+		ImGui::DragFloat3("Rotation", (float*)&this->transform->rotation, 0.1f, 0.f, 360.f); //needs tweaking
 	}
 }
 
@@ -219,10 +196,12 @@ Component* GameObject::CreateComponent(int type)
 	case MESH:
 		comp = new ComponentMesh();
 		this->MeshComponents.push_back(comp);
+		mesh = (ComponentMesh*)comp;
 		break;
 	case MATERIAL:
 		comp = new (ComponentMaterial);
 		this->MaterialComponents.push_back(comp);
+		material = (ComponentMaterial*)comp;
 		break;
 	case LIGHT:
 		comp = new (ComponentLight);
@@ -231,6 +210,7 @@ Component* GameObject::CreateComponent(int type)
 	case TRANSFORM: 	
 		comp = new (ComponentTransform);
 		this->TransformComponents.push_back(comp);
+		transform = (ComponentTransform*)comp;
 		break;
 	}
 	comp->my_go = this;
@@ -248,7 +228,6 @@ std::string GameObject::getFileFolder()
 
 void GameObject::ModelTransform(unsigned shader) const 
 {
-	
 	glUniformMatrix4fv(glGetUniformLocation(shader, "model"), 1, GL_TRUE, &GetGlobalTransform()[0][0]);
 }
 
@@ -276,25 +255,25 @@ AABB GameObject::LoadBB()
 {
 	BB.SetNegativeInfinity();
 
-	if (this->MeshComponents.front() != nullptr)
+	if (this->mesh != nullptr)
 	{
-		this->BB.Enclose(((ComponentMesh*)this->MeshComponents.front())->BB);
+		this->BB.Enclose(mesh->BB);
 	}
 	return BB;
 }
 
 void GameObject::DrawBB()
 {
-	if (!this->MeshComponents.empty())
+	if (this->mesh!=nullptr)
 	{
 		// draw your BB
 		BB = this->LoadBB();
 
 		BB.TransformAsAABB(GetGlobalTransform());
 
-		if (this->MeshComponents.front() != nullptr)
+		if (this->mesh != nullptr)
 		{
-			dd::aabb(this->BB.minPoint, this->BB.maxPoint, float3(0.f, 1.f, 0.f), true); 
+			/*dd::aabb(this->BB.minPoint, this->BB.maxPoint, float3(0.f, 1.f, 0.f), true); */
 		}
 
 		// draw your children BB
@@ -303,4 +282,30 @@ void GameObject::DrawBB()
 			(*it)->DrawBB();
 		}
 	}
+}
+
+Component* GameObject::DuplicateComponent(int type, GameObject* GO)
+{
+	
+	Component* comp = nullptr;
+
+	switch (type)
+	{
+	case MESH:
+		comp = new ComponentMesh(GO->mesh);
+		this->mesh = (ComponentMesh*)comp;
+		break;
+	case MATERIAL:
+		comp = new ComponentMaterial(GO->material);
+		this->material = (ComponentMaterial*)comp;
+		break;
+	case LIGHT:
+
+		break;
+	case TRANSFORM:
+		comp = new ComponentTransform(GO->transform);
+		this->transform = (ComponentTransform*)comp;
+		break;
+	}
+	return comp;
 }

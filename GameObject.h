@@ -27,19 +27,20 @@ public:
 	GameObject();
 	GameObject(const char* name, bool active, const char* FileLocation);
 	GameObject(const char* name, bool active, GameObject* parent, const char* FileLocation);
-	GameObject(GameObject* GO);
 
 	~GameObject();
 
 	void Update();
 	Component* CreateComponent(int type);
-	GameObject* parent = nullptr;
+	Component* DuplicateComponent(int type, GameObject* GO);
+	
 	AABB LoadBB();
 
 
 	bool active;
 	const char* name;
 	int id;
+	GameObject* parent = nullptr;
 	const char*	filePath = nullptr;
 	char newName[20];
 	AABB BB = AABB();
@@ -62,6 +63,7 @@ public:
 	void DrawMaterials();
 	void DrawTransforms();
 	void DrawLights();
+
 
 	std::list<GameObject*> children;
 	std::vector<Component*> components;

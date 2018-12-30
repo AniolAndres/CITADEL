@@ -10,6 +10,13 @@ ComponentTransform::ComponentTransform()
 	type = TRANSFORM;
 }
 
+ComponentTransform::ComponentTransform(ComponentTransform* Ctransform)
+{
+	this->scale = Ctransform->scale;
+	this->rotation = Ctransform->rotation;
+	this->position = Ctransform->position;
+	type = TRANSFORM;
+}
 
 ComponentTransform::~ComponentTransform()
 {

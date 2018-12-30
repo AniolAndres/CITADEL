@@ -31,6 +31,13 @@ ComponentMaterial::ComponentMaterial()
 	type = MATERIAL;
 }
 
+ComponentMaterial::ComponentMaterial(ComponentMaterial* Cmaterial)
+{
+	this->shader = Cmaterial->shader;
+	this->texture = Cmaterial->texture;
+	type = MATERIAL;
+}
+
 
 ComponentMaterial::~ComponentMaterial()
 {

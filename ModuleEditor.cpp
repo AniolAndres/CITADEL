@@ -520,7 +520,7 @@ void ModuleEditor::DrawHierarchyPopup()
 		}
 		if (ImGui::Selectable("Duplicate GO"))
 		{
-			App->scene->CreateGameObject(App->scene->SelectedGO);
+			App->scene->DuplicateGameObject(App->scene->SelectedGO);
 		}
 		ImGui::EndPopup();
 	}
