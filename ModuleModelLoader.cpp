@@ -62,11 +62,13 @@ bool ModuleModelLoader::CleanUp()
 //	}
 //}
 
-void ModuleModelLoader::LoadFBX(const char* path)
+void ModuleModelLoader::LoadFBX(char* path)
 {
 	const char* err;
 
 	scene = aiImportFile(path, aiProcess_Triangulate);
+
+	modelPath = path;
 
 	LOG("Loading Scene")
 
@@ -95,6 +97,7 @@ bool ModuleModelLoader::ProcessFBX(const aiNode* node, const aiScene* scene, Gam
 	for (unsigned i = 0u; i < node->mNumMeshes; ++i) 
 	{
 		ComponentMesh* mesh = (ComponentMesh*)GO->CreateComponent(MESH);
+		mesh->path = modelPath;
 		mesh->name = scene->mMeshes[node->mMeshes[i]]->mName.C_Str();
 		mesh->LoadMesh(scene->mMeshes[node->mMeshes[i]]);
 

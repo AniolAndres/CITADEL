@@ -174,7 +174,7 @@ void GameObject::DrawTransforms()
 		ImGui::Text("Component Transform %i", i);
 		ImGui::DragFloat3("Position",(float*)&this->transform->position,0.1f,-1000.f,1000.f);
 		ImGui::DragFloat3("Scale", (float*)&this->transform->scale, 0.1f, 0.01f, 100.f);
-		ImGui::DragFloat3("Rotation", (float*)&this->transform->rotation, 0.1f, 0.f, 360.f); //needs tweaking
+		ImGui::DragFloat3("Rotation", (float*)&this->transform->eulerRot, 0.1f, 0.f, 360.f); //needs tweaking
 	}
 }
 
@@ -248,6 +248,7 @@ math::float4x4 GameObject::GetLocalTransform() const
 	{
 		return float4x4::identity;
 	}
+	this->transform->generateEulerRotation();
 	return float4x4::FromTRS(transform->position, transform->rotation, transform->scale);
 }
 

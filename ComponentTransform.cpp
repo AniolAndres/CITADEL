@@ -21,3 +21,8 @@ ComponentTransform::ComponentTransform(ComponentTransform* Ctransform)
 ComponentTransform::~ComponentTransform()
 {
 }
+
+void ComponentTransform::generateEulerRotation()
+{
+	rotation = rotation.FromEulerXYZ(math::DegToRad(eulerRot.x), math::DegToRad(eulerRot.y), math::DegToRad(eulerRot.z));
+}

@@ -4,6 +4,7 @@
 #include "assert.h"
 #include "Component.h"
 #include "ModuleTextures.h"
+#include "ModuleModelLoader.h"
 #include "Application.h"
 #include "ModuleRender.h"
 #include <assimp/mesh.h>
@@ -27,6 +28,7 @@ public:
 	const char*	name = nullptr;
 	unsigned GetMaterialIndex() {return materialIndex; }
 
+	char* path;
 	int	numIndices = 0;
 	int	materialIndex = 0;
 	int numVert = 0;

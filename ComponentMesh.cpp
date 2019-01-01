@@ -119,11 +119,7 @@ ComponentMesh::ComponentMesh()
 ComponentMesh::ComponentMesh(ComponentMesh* Cmesh)
 {
 	type = MESH;
-	this->vao = Cmesh->vao;
-	this->name = Cmesh->name;
-	this->numIndices = Cmesh->numIndices;
-	this->numVert = Cmesh->numVert;
-	this->materialIndex = Cmesh->materialIndex;
+	App->modelLoader->LoadFBX(Cmesh->path);
 }
 
 ComponentMesh::~ComponentMesh()
