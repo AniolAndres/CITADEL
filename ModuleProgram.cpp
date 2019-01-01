@@ -61,7 +61,7 @@ void ModuleProgram::CheckCompilationErrors(GLuint shader) {
 
 	delete[] strInfoLog;
 	infoLogLength = NULL;
-	glDeleteShader(shader); // Don't leak the shader.
+	glDeleteShader(shader); 
 }
 
 bool ModuleProgram::CleanUp()

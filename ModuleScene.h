@@ -1,8 +1,9 @@
 #ifndef __MODULESCENE_H_
 #define __MODULESCENE_H_
 
-#include<list>
+#include <list>
 #include "Module.h"
+#include "ModuleModelLoader.h"
 #include "ModuleEditor.h"
 
 class GameObject;
@@ -21,7 +22,7 @@ public:
 
 	GameObject* CreateGameObject(const char* name, bool active, GameObject* parent, const char* FileLocation);
 	GameObject* CreateGameObject(const char* name, bool active, const char* FileLocation);
-	GameObject* DuplicateGameObject(GameObject* GO);
+	void DuplicateGameObject(GameObject* GO);
 
 	GameObject* Root = nullptr;
 	GameObject* SelectedGO = nullptr;

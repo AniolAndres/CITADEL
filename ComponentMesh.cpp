@@ -119,7 +119,6 @@ ComponentMesh::ComponentMesh()
 ComponentMesh::ComponentMesh(ComponentMesh* Cmesh)
 {
 	type = MESH;
-	App->modelLoader->LoadFBX(Cmesh->path);
 }
 
 ComponentMesh::~ComponentMesh()
