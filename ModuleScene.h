@@ -26,6 +26,7 @@ public:
 
 	GameObject* Root = nullptr;
 	GameObject* SelectedGO = nullptr;
+	GameObject* CopiedGO = nullptr;
 
 	int GOcounter = 1;
 

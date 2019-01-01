@@ -77,6 +77,7 @@ public:
 	~ModuleEditor();
 
 	void ProcessInputEvent(SDL_Event* event) const;
+
 private:
 	bool showConsoleWindow = true;
 	bool showInfoWindow = false;
@@ -84,7 +85,8 @@ private:
 	bool showInspectorWindow = true;
 	bool showDrawWindow = true;
 	bool stopFPS = false;
-
+	bool isModelCopied = false;
+	
 	float editorWidth, editorHeight;
 	float consoleWidth, consoleHeight;
 	float inspectorWidth, inspectorHeight;

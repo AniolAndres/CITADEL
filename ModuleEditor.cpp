@@ -522,6 +522,18 @@ void ModuleEditor::DrawHierarchyPopup()
 		{
 			App->scene->DuplicateGameObject(App->scene->SelectedGO);
 		}
+		if (ImGui::Selectable("Copy GO"))
+		{
+			App->scene->CopiedGO = App->scene->SelectedGO;
+			isModelCopied = true;
+		}
+		if (isModelCopied)
+		{
+			if (ImGui::Selectable("Paste GO"))
+			{
+				//PASTE CODE
+			}
+		}
 		ImGui::EndPopup();
 	}
 	
