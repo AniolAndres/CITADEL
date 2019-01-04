@@ -27,7 +27,7 @@ public:
 
 	void GenerateFBOTexture(unsigned width, unsigned height, FBO* fbo);
 
-	void setMatrixUniforms();
+	void DrawDebug();
 
 	void drawGrid();
 
@@ -36,6 +36,8 @@ public:
 	bool showTextures = true;
 
 	bool showGrid = true;
+
+	bool showAxis = true;
 
 	float3 triangle[3];
 	float4x4 viewMatrix;

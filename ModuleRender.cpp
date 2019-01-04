@@ -81,11 +81,8 @@ update_status ModuleRender::Update()
 
 	App->scene->Draw();
 
-	if(App->scene->SelectedGO)
-		App->scene->SelectedGO->DrawBB();
-
-	if (showGrid)
-		drawGrid();
+	DrawDebug();
+		
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
@@ -144,7 +141,7 @@ float4x4 ModuleRender::Transform(float3 eye, float3 target)
 	frustum.front = -float3::unitZ;
 	frustum.up = float3::unitY;
 	frustum.nearPlaneDistance = 0.1f;
-	frustum.farPlaneDistance = 100.0f;
+	frustum.farPlaneDistance = 300.f;
 	frustum.verticalFov = math::pi / 4.0f;
 	frustum.horizontalFov = 2.f * atanf(tanf(frustum.verticalFov * 0.5f)) * aspect;
 	math::float4x4 proj = frustum.ProjectionMatrix();
@@ -165,79 +162,79 @@ void ModuleRender::WindowResized(unsigned width, unsigned height)
 	App->window->windowWidth = width;
 }
 
-void ModuleRender::drawGrid()
-{
-	//AXIS
-
-	glLineWidth(2.0f);
-
-	float4x4 Model(math::float4x4::identity); // Not moving anything
-
-	glUseProgram(App->program->programGrid);
-
-	glUniformMatrix4fv(glGetUniformLocation(App->program->programGrid, "model"), 1, GL_TRUE, &Model[0][0]);
-	glUniformMatrix4fv(glGetUniformLocation(App->program->programGrid, "view"), 1, GL_TRUE, &App->renderer->viewMatrix[0][0]);
-	glUniformMatrix4fv(glGetUniformLocation(App->program->programGrid, "proj"), 1, GL_TRUE, &App->renderer->projectionMatrix[0][0]);
-
-	int fragUnifLocation = glGetUniformLocation(App->program->programGrid, "newColor");
-	float color[4] = { 1.0f, 1.0f, 1.0f, 1.0f };
-	glUniform4fv(fragUnifLocation, 1, color);
-
-	// red X
-	int xAxis = glGetUniformLocation(App->program->programGrid, "newColor");
-	float red[4] = { 1.0f, 0.0f, 0.0f, 1.0f };
-	glUniform4fv(xAxis, 1, red);
-
-	glBegin(GL_LINES);
-	glVertex3f(0.0f, 0.0f, 0.0f); glVertex3f(1.0f, 0.0f, 0.0f);
-	glVertex3f(1.0f, 0.1f, 0.0f); glVertex3f(1.1f, -0.1f, 0.0f);
-	glVertex3f(1.1f, 0.1f, 0.0f); glVertex3f(1.0f, -0.1f, 0.0f);
-	glEnd();
-
-	// green Y
-	int yAxis = glGetUniformLocation(App->program->programGrid, "newColor");
-	float green[4] = { 0.0f, 1.0f, 0.0f, 1.0f };
-	glUniform4fv(yAxis, 1, green);
-
-	glBegin(GL_LINES);
-	glColor4f(0.0f, 1.0f, 0.0f, 1.0f);
-	glVertex3f(0.0f, 0.0f, 0.0f); glVertex3f(0.0f, 1.0f, 0.0f);
-	glVertex3f(-0.05f, 1.25f, 0.0f); glVertex3f(0.0f, 1.15f, 0.0f);
-	glVertex3f(0.05f, 1.25f, 0.0f); glVertex3f(0.0f, 1.15f, 0.0f);
-	glVertex3f(0.0f, 1.15f, 0.0f); glVertex3f(0.0f, 1.05f, 0.0f);
-	glEnd();
-
-	// blue Z
-	int zAxis = glGetUniformLocation(App->program->programGrid, "newColor");
-	float blue[4] = { 0.0f, 0.0f, 1.0f, 1.0f };
-	glUniform4fv(zAxis, 1, blue);
-
-	glBegin(GL_LINES);
-	glColor4f(0.0f, 0.0f, 1.0f, 1.0f);
-	glVertex3f(0.0f, 0.0f, 0.0f); glVertex3f(0.0f, 0.0f, 1.0f);
-	glVertex3f(-0.05f, 0.1f, 1.05f); glVertex3f(0.05f, 0.1f, 1.05f);
-	glVertex3f(0.05f, 0.1f, 1.05f); glVertex3f(-0.05f, -0.1f, 1.05f);
-	glVertex3f(-0.05f, -0.1f, 1.05f); glVertex3f(0.05f, -0.1f, 1.05f);
-	glEnd();
-
-	//GRID
-	int grid = glGetUniformLocation(App->program->programGrid, "newColor");
-	float white[4] = { 1.0f, 1.0f, 1.0f, 1.0f }; 
-	glUniform4fv(grid, 1, white);
-
-	glLineWidth(1.0f);
-	float d = 200.0f;
-	glBegin(GL_LINES);
-	for (float i = -d; i <= d; i += 1.0f)
-	{
-		glVertex3f(i, 0.0f, -d);
-		glVertex3f(i, 0.0f, d);
-		glVertex3f(-d, 0.0f, i);
-		glVertex3f(d, 0.0f, i);
-	}
-	glEnd();
-	glUseProgram(App->program->programLoader);
-}
+	//void ModuleRender::drawGrid()
+//{
+//	//AXIS
+//
+//	glLineWidth(2.0f);
+//
+//	float4x4 Model(math::float4x4::identity); // Not moving anything
+//
+//	glUseProgram(App->program->programGrid);
+//
+//	glUniformMatrix4fv(glGetUniformLocation(App->program->programGrid, "model"), 1, GL_TRUE, &Model[0][0]);
+//	glUniformMatrix4fv(glGetUniformLocation(App->program->programGrid, "view"), 1, GL_TRUE, &App->renderer->viewMatrix[0][0]);
+//	glUniformMatrix4fv(glGetUniformLocation(App->program->programGrid, "proj"), 1, GL_TRUE, &App->renderer->projectionMatrix[0][0]);
+//
+//	int fragUnifLocation = glGetUniformLocation(App->program->programGrid, "newColor");
+//	float color[4] = { 1.0f, 1.0f, 1.0f, 1.0f };
+//	glUniform4fv(fragUnifLocation, 1, color);
+//
+//	// red X
+//	int xAxis = glGetUniformLocation(App->program->programGrid, "newColor");
+//	float red[4] = { 1.0f, 0.0f, 0.0f, 1.0f };
+//	glUniform4fv(xAxis, 1, red);
+//
+//	glBegin(GL_LINES);
+//	glVertex3f(0.0f, 0.0f, 0.0f); glVertex3f(1.0f, 0.0f, 0.0f);
+//	glVertex3f(1.0f, 0.1f, 0.0f); glVertex3f(1.1f, -0.1f, 0.0f);
+//	glVertex3f(1.1f, 0.1f, 0.0f); glVertex3f(1.0f, -0.1f, 0.0f);
+//	glEnd();
+//
+//	// green Y
+//	int yAxis = glGetUniformLocation(App->program->programGrid, "newColor");
+//	float green[4] = { 0.0f, 1.0f, 0.0f, 1.0f };
+//	glUniform4fv(yAxis, 1, green);
+//
+//	glBegin(GL_LINES);
+//	glColor4f(0.0f, 1.0f, 0.0f, 1.0f);
+//	glVertex3f(0.0f, 0.0f, 0.0f); glVertex3f(0.0f, 1.0f, 0.0f);
+//	glVertex3f(-0.05f, 1.25f, 0.0f); glVertex3f(0.0f, 1.15f, 0.0f);
+//	glVertex3f(0.05f, 1.25f, 0.0f); glVertex3f(0.0f, 1.15f, 0.0f);
+//	glVertex3f(0.0f, 1.15f, 0.0f); glVertex3f(0.0f, 1.05f, 0.0f);
+//	glEnd();
+//
+//	// blue Z
+//	int zAxis = glGetUniformLocation(App->program->programGrid, "newColor");
+//	float blue[4] = { 0.0f, 0.0f, 1.0f, 1.0f };
+//	glUniform4fv(zAxis, 1, blue);
+//
+//	glBegin(GL_LINES);
+//	glColor4f(0.0f, 0.0f, 1.0f, 1.0f);
+//	glVertex3f(0.0f, 0.0f, 0.0f); glVertex3f(0.0f, 0.0f, 1.0f);
+//	glVertex3f(-0.05f, 0.1f, 1.05f); glVertex3f(0.05f, 0.1f, 1.05f);
+//	glVertex3f(0.05f, 0.1f, 1.05f); glVertex3f(-0.05f, -0.1f, 1.05f);
+//	glVertex3f(-0.05f, -0.1f, 1.05f); glVertex3f(0.05f, -0.1f, 1.05f);
+//	glEnd();
+//
+//	//GRID
+//	int grid = glGetUniformLocation(App->program->programGrid, "newColor");
+//	float white[4] = { 1.0f, 1.0f, 1.0f, 1.0f }; 
+//	glUniform4fv(grid, 1, white);
+//
+//	glLineWidth(1.0f);
+//	float d = 200.0f;
+//	glBegin(GL_LINES);
+//	for (float i = -d; i <= d; i += 1.0f)
+//	{
+//		glVertex3f(i, 0.0f, -d);
+//		glVertex3f(i, 0.0f, d);
+//		glVertex3f(-d, 0.0f, i);
+//		glVertex3f(d, 0.0f, i);
+//	}
+//	glEnd();
+//	glUseProgram(App->program->programLoader);
+//}
 
 void ModuleRender::GenerateFBOTexture(unsigned width, unsigned height, FBO* fbo)
 {
@@ -285,6 +282,18 @@ void ModuleRender::GenerateFBOTexture(unsigned width, unsigned height, FBO* fbo)
 		fbo->fb_height = height;
 	}
 
+}
+
+void ModuleRender::DrawDebug()
+{
+	if (showGrid)
+		dd::xzSquareGrid(-1000.0f, 1000.0f, 0.0f, 1.0f, math::float3(0.65f, 0.65f, 0.65f));
+
+	if (showAxis) 
+		dd::axisTriad(math::float4x4::identity, 0.1f, 1.0f, 0, true);
+
+	if (App->scene->SelectedGO && App->scene->SelectedGO->active)
+		App->scene->SelectedGO->DrawBB();
 }
 //
 //void ModuleRender::setMatrixUniforms()
