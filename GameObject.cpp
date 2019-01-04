@@ -4,6 +4,7 @@
 #include "ModuleScene.h"
 #include "GameObject.h"
 #include "ComponentLight.h"
+#include "ModuleDebugDraw.h"
 #include "ModuleInput.h"
 #include "ComponentMaterial.h"
 #include "ComponentMesh.h"
@@ -274,12 +275,14 @@ void GameObject::DrawBB()
 
 		if (this->mesh != nullptr)
 		{
-			/*dd::aabb(this->BB.minPoint, this->BB.maxPoint, float3(0.f, 1.f, 0.f), true); */
+			dd::aabb(this->BB.minPoint, this->BB.maxPoint, float3(0.f, 1.f, 0.f), true); 
 		}
+		App->debugDraw->Draw(&App->camera->fbo);
 
 		// draw your children BB
 		for (std::list<GameObject*>::iterator it = this->children.begin(); it != this->children.end(); ++it)
 		{
+			
 			(*it)->DrawBB();
 		}
 	}

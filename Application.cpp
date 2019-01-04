@@ -2,6 +2,7 @@
 #include "Brofiler.h"
 #include "ModuleWindow.h"
 #include "ModuleRender.h"
+#include "ModuleDebugDraw.h"
 #include "ModuleTextures.h"
 #include "ModuleInput.h"
 #include "ModuleProgram.h"
@@ -9,6 +10,7 @@
 #include "ModuleEditor.h"
 #include "ModuleScene.h"
 #include "ModuleModelLoader.h"
+
 
 using namespace std;
 
@@ -23,6 +25,7 @@ Application::Application()
 	modules.push_back(camera = new ModuleCamera());
 	modules.push_back(editor = new ModuleEditor());
 	modules.push_back(modelLoader = new ModuleModelLoader());
+	modules.push_back(debugDraw = new ModuleDebugDraw());
 }
 
 Application::~Application()
