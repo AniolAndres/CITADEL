@@ -21,6 +21,8 @@ public:
 	ComponentMaterial(ComponentMaterial* Cmaterial);
 	~ComponentMaterial();
 
+	Material material;
+
 private:
 	unsigned shader = 0u;
 	Texture* texture = nullptr;

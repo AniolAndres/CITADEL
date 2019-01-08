@@ -165,6 +165,13 @@ void GameObject::DrawMaterials()
 	float size = ImGui::GetWindowWidth();
 	if(this->material!=nullptr)
 		ImGui::Image(((ImTextureID)this->material->GetTexture()->id), {size,size});
+
+	ImGui::Separator();
+	
+	ImGui::SliderFloat("Ambient",&this->material->material.ambientK,0.f,1.f);
+	ImGui::SliderFloat("Diffuse", &this->material->material.diffuseK, 0.f, 1.f);
+	ImGui::SliderFloat("Specular", &this->material->material.specularK, 0.f, 1.f);
+	ImGui::SliderFloat("Shininess", &this->material->material.shininess, 0.f, 128.f);
 }
 
 void GameObject::DrawTransforms()
@@ -173,9 +180,9 @@ void GameObject::DrawTransforms()
 	if(this->transform!=nullptr)
 	{
 		ImGui::Text("Component Transform %i", i);
-		ImGui::DragFloat3("Position",(float*)&this->transform->position,0.1f,-1000.f,1000.f);
-		ImGui::DragFloat3("Scale", (float*)&this->transform->scale, 0.1f, 0.01f, 100.f);
-		ImGui::DragFloat3("Rotation", (float*)&this->transform->eulerRot, 0.1f, 0.f, 360.f); //needs tweaking
+		ImGui::SliderFloat3("Position",(float*)&this->transform->position,-100.f,100.f);
+		ImGui::SliderFloat3("Scale", (float*)&this->transform->scale, 0.1f, 100.f);
+		ImGui::SliderFloat3("Rotation", (float*)&this->transform->eulerRot, 0.f, 360.f); //needs tweaking
 	}
 }
 
