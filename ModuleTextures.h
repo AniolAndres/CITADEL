@@ -5,6 +5,7 @@
 #include "Module.h"
 #include "Globals.h"
 #include "GL/glew.h"
+#include "Math/float4.h"
 
 struct Texture
 {
@@ -13,6 +14,49 @@ struct Texture
 	int height = 0;
 	Texture(int id, int width, int height) : id(id), width(width), height(height) { }
 };
+
+struct Mesh
+{
+	unsigned vao = 0;
+	unsigned vbo = 0;
+	unsigned ibo = 0;
+
+	float* normals = nullptr;
+	float* colours = nullptr;
+	float* uvs = nullptr;
+	unsigned verticesNumber = 0u;
+	float* vertices = nullptr;
+	unsigned indicesNumber = 0u;
+	unsigned* indices = nullptr;
+
+	unsigned normalsOffset = 0u;
+	unsigned texturesOffset = 0u;
+	unsigned vertexSize = 0u;
+
+	math::AABB	BB;
+};
+
+
+struct Material {
+
+	unsigned		occlusionMap = 0u;
+	float ambientK = 0.5f;
+
+	unsigned diffuseMap = 0u;
+	float4 diffuseColor = { 1.0f, 1.0f, 1.0f, 1.0f };
+	float diffuseK = 1.0f;
+
+	unsigned		specularMap = 0u;
+	float4	specularColor = {1.0f, 1.0f, 1.0f, 1.0f};
+	float specularK = 0.6f;
+	float shininess = 64.0f;
+
+	unsigned emissiveMap = 0u;
+	float4 emissiveColor = { 0.0f, 0.0f, 0.0f, 0.0f };
+
+	float4	color = float4::one;
+};
+
 
 class ModuleTextures : public Module
 {
