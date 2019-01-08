@@ -226,6 +226,16 @@
     <ClCompile Include="ModuleTextures.cpp" />
     <ClCompile Include="ModuleWindow.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="shaders\blinn.fs" />
+    <None Include="shaders\blinn.vs" />
+    <None Include="shaders\color.fs" />
+    <None Include="shaders\color.vs" />
+    <None Include="shaders\default.fs" />
+    <None Include="shaders\default.vs" />
+    <None Include="shaders\texture.fs" />
+    <None Include="shaders\texture.vs" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

@@ -18,9 +18,9 @@ bool ModuleProgram::Init()
 	
 	programLoader = CreateProgram("./vertModelLoader.txt" , "./fragModelLoader.txt");
 
-	programGrid = CreateProgram("./vertGrid.txt", "./fragGrid.txt");
-
 	programNoTextures = CreateProgram("./vertNoTextures.txt", "./fragNoTextures.txt");
+
+	programBlinn = CreateProgram("./shaders/blinn.vs", "./shaders/blinn.fs");
 
 	return ret;
 }

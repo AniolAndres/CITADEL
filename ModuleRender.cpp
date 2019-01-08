@@ -52,7 +52,7 @@ bool ModuleRender::Init()
 	glClearColor(0.3f, 0.3f, 0.3f, 1.f);
 	glViewport(0, 0, App->window->windowWidth, App->window->windowHeight);
 
-	if (!App->program->programLoader || !App->program->programGrid || !App->program->programNoTextures)
+	if (!App->program->programLoader || !App->program->programBlinn || !App->program->programNoTextures)
 	{
 		App->editor->consoleApp.AddLog("Program could not be compiled");
 		return false;
@@ -82,10 +82,8 @@ update_status ModuleRender::Update()
 	App->scene->Draw();
 
 	DrawDebug();
-		
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-
 
 	return UPDATE_CONTINUE;
 }
