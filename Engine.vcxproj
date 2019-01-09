@@ -164,6 +164,7 @@
     <ClInclude Include="ModuleScene.h" />
     <ClInclude Include="ModuleTextures.h" />
     <ClInclude Include="ModuleWindow.h" />
+    <ClInclude Include="par_shapes.h" />
     <ClInclude Include="Point.h" />
   </ItemGroup>
   <ItemGroup>

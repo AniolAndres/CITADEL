@@ -2,9 +2,16 @@
 #define __MODULESCENE_H_
 
 #include <list>
+
 #include "Module.h"
+
 #include "ModuleModelLoader.h"
 #include "ModuleEditor.h"
+#include "Globals.h"
+
+#define PAR_SHAPES_IMPLEMENTATION
+#include "par_shapes.h"
+
 
 class GameObject;
 

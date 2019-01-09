@@ -12,6 +12,7 @@
 #include "Math/float3.h"
 #include "Geometry/AABB.h"
 #include "GL/glew.h"
+#include "par_shapes.h"
 
 class ComponentMesh : public Component
 
@@ -19,6 +20,7 @@ class ComponentMesh : public Component
 public:
 
 	void LoadMesh(aiMesh* mesh);
+	void LoadMesh(par_shapes_mesh_s* pmesh);
 
 	void Draw(unsigned Program, const Texture* textures) const;
 
@@ -33,6 +35,8 @@ public:
 	int	materialIndex = 0;
 	int numVert = 0;
 	AABB BB;
+	Mesh mesh;
+
 
 	ComponentMesh();
 	ComponentMesh(ComponentMesh* Cmesh);

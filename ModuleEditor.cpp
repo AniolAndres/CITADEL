@@ -81,18 +81,35 @@ update_status ModuleEditor::Update()
 		}
 		if (ImGui::BeginMenu("3D objects"))
 		{
-			if (ImGui::MenuItem("New GO"))
+			if (ImGui::BeginMenu("New GO"))
 			{
-				if (App->scene->SelectedGO != nullptr)
+				if (ImGui::MenuItem("Empty GO"))
 				{
-					App->scene->CreateGameObject(DEFAULT_GO_NAME, true, App->scene->SelectedGO, ".");
+					if (App->scene->SelectedGO != nullptr)
+					{
+						App->scene->CreateGameObject(DEFAULT_GO_NAME, true, App->scene->SelectedGO, ".");
+					}
+					else
+					{
+						App->scene->CreateGameObject(DEFAULT_GO_NAME, true, ".");
+					}
+					++App->scene->GOcounter;
 				}
-				else
+				if (ImGui::MenuItem("Sphere"))
 				{
-					App->scene->CreateGameObject(DEFAULT_GO_NAME, true, ".");
+
 				}
-				++App->scene->GOcounter;
+				if (ImGui::MenuItem("Cube"))
+				{
+
+				}
+				if (ImGui::MenuItem("Torus"))
+				{
+
+				}
+				ImGui::EndMenu();
 			}
+	
 			ImGui::EndMenu();
 		}
 		if (ImGui::BeginMenu("Windows"))
@@ -172,7 +189,7 @@ update_status ModuleEditor::Update()
 
 	DrawWindow();
 
-
+	//ImGui::ShowDemoWindow();
 
 	return UPDATE_CONTINUE;
 }
