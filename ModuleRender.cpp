@@ -112,7 +112,6 @@ bool ModuleRender::CleanUp()
 	{
 		glDeleteBuffers(1, &vbo);
 	}
-	//Destroy window
 	LOG("Destroying window");
 	SDL_DestroyWindow(App->window->window);
 	return true;

@@ -67,6 +67,13 @@ void ModuleProgram::CheckCompilationErrors(GLuint shader) {
 bool ModuleProgram::CleanUp()
 {
 	bool ret=true;
+	glDeleteProgram(programNoTextures);
+	glDeleteProgram(programBlinn);
+	glDeleteProgram(programLoader);
+	programNoTextures = 0;
+	programBlinn = 0;
+	programLoader = 0;
+
 	return ret;
 }
 

@@ -131,6 +131,11 @@ void ModuleCamera::CameraMovement()
 
 }
 
+bool ModuleCamera::CleanUp()
+{
+	return true;
+}
+
 ModuleCamera::ModuleCamera()
 {
 	fbo.fbo = 0;

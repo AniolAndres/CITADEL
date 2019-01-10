@@ -24,6 +24,7 @@ public:
 	bool Init();
 	update_status PreUpdate();
 	update_status Update();
+	bool CleanUp();
 
 	float3 target = { 0,0,0 };
 	float3 eye = { 2,2,10 };

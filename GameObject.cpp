@@ -48,6 +48,23 @@ GameObject::GameObject(const char* name,bool active, GameObject* parent, const c
 
 GameObject::~GameObject()
 {
+
+	for(int i=0;i!=components.size();++i)	
+	{
+		delete components[i];
+	}
+	components.clear();
+
+	for (std::list<GameObject*>::iterator it = children.begin(); it != children.end(); ++it)
+	{
+		delete (*it);
+	}
+	children.clear();
+
+	transform = nullptr;
+	mesh = nullptr;
+	material = nullptr;
+	parent = nullptr;
 }
 
 

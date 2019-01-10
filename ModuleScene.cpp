@@ -41,7 +41,8 @@ update_status ModuleScene::PostUpdate()
 bool ModuleScene::CleanUp()
 {
 	bool ret = true;
-
+	delete Root;
+	Root = nullptr;
 	return ret;
 }
 
