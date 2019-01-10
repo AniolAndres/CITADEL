@@ -97,15 +97,46 @@ update_status ModuleEditor::Update()
 				}
 				if (ImGui::MenuItem("Sphere"))
 				{
-
+					if (App->scene->SelectedGO != nullptr)
+					{
+						GameObject* Sphere = App->scene->CreateGameObject("Sphere", true, App->scene->SelectedGO, ".");
+						App->scene->LoadGeometry(Sphere, SPHERE);
+					}
+					else
+					{
+						GameObject* Sphere = App->scene->CreateGameObject("Sphere", true,".");
+						App->scene->LoadGeometry(Sphere, SPHERE);
+					}
+					++App->scene->GOcounter;
+				
 				}
 				if (ImGui::MenuItem("Cube"))
 				{
-
+					if (App->scene->SelectedGO != nullptr)
+					{
+						GameObject* Cube = App->scene->CreateGameObject("Cube", true, App->scene->SelectedGO, ".");
+						App->scene->LoadGeometry(Cube, CUBE);
+					}
+					else
+					{
+						GameObject* Cube = App->scene->CreateGameObject("Cube", true, ".");
+						App->scene->LoadGeometry(Cube, CUBE);
+					}
+					++App->scene->GOcounter;
 				}
 				if (ImGui::MenuItem("Torus"))
 				{
-
+					if (App->scene->SelectedGO != nullptr)
+					{
+						GameObject* Torus = App->scene->CreateGameObject("Torus", true, App->scene->SelectedGO, ".");
+						App->scene->LoadGeometry(Torus, TORUS);
+					}
+					else
+					{
+						GameObject* Torus = App->scene->CreateGameObject("Sphere", true, ".");
+						App->scene->LoadGeometry(Torus, TORUS);
+					}
+					++App->scene->GOcounter;
 				}
 				ImGui::EndMenu();
 			}

@@ -12,6 +12,12 @@
 #define PAR_SHAPES_IMPLEMENTATION
 #include "par_shapes.h"
 
+enum GeometryType
+{
+	SPHERE=1,
+	TORUS,
+	CUBE
+};
 
 class GameObject;
 
@@ -26,6 +32,7 @@ public:
 	bool CleanUp();
 
 	void Draw();
+	void LoadGeometry(GameObject* parent, GeometryType Gtype);
 
 	GameObject* CreateGameObject(const char* name, bool active, GameObject* parent, const char* FileLocation);
 	GameObject* CreateGameObject(const char* name, bool active, const char* FileLocation);

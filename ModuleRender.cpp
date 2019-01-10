@@ -4,6 +4,7 @@
 #include "ModuleWindow.h"
 #include "ModuleProgram.h"
 #include "ModuleEditor.h"
+#include "ModuleDebugDraw.h"
 #include "ModuleCamera.h"
 #include "ModuleModelLoader.h"
 #include "IMGUI/imgui.h"
@@ -292,6 +293,8 @@ void ModuleRender::DrawDebug()
 
 	if (App->scene->SelectedGO && App->scene->SelectedGO->active)
 		App->scene->SelectedGO->DrawBB();
+
+	App->debugDraw->Draw(&App->camera->fbo);
 }
 //
 //void ModuleRender::setMatrixUniforms()

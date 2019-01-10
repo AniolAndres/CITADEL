@@ -162,16 +162,19 @@ void GameObject::DrawMeshes()
 
 void GameObject::DrawMaterials()
 {
-	float size = ImGui::GetWindowWidth();
-	if(this->material!=nullptr)
-		ImGui::Image(((ImTextureID)this->material->GetTexture()->id), {size,size});
+	if (this->material != nullptr)
+	{
+		float size = ImGui::GetWindowWidth();
 
-	ImGui::Separator();
-	
-	ImGui::SliderFloat("Ambient",&this->material->material.ambientK,0.f,1.f);
-	ImGui::SliderFloat("Diffuse", &this->material->material.diffuseK, 0.f, 1.f);
-	ImGui::SliderFloat("Specular", &this->material->material.specularK, 0.f, 1.f);
-	ImGui::SliderFloat("Shininess", &this->material->material.shininess, 0.f, 128.f);
+		ImGui::Image(((ImTextureID)this->material->GetTexture()->id), { size,size });
+
+		ImGui::Separator();
+
+		ImGui::SliderFloat("Ambient", &this->material->material.ambientK, 0.f, 1.f);
+		ImGui::SliderFloat("Diffuse", &this->material->material.diffuseK, 0.f, 1.f);
+		ImGui::SliderFloat("Specular", &this->material->material.specularK, 0.f, 1.f);
+		ImGui::SliderFloat("Shininess", &this->material->material.shininess, 0.f, 128.f);
+	}
 }
 
 void GameObject::DrawTransforms()
@@ -207,7 +210,7 @@ Component* GameObject::CreateComponent(int type)
 		mesh = (ComponentMesh*)comp;
 		break;
 	case MATERIAL:
-		comp = new (ComponentMaterial);
+		comp = new ComponentMaterial();
 		this->MaterialComponents.push_back(comp);
 		material = (ComponentMaterial*)comp;
 		break;
@@ -284,7 +287,7 @@ void GameObject::DrawBB()
 		{
 			dd::aabb(this->BB.minPoint, this->BB.maxPoint, float3(0.f, 1.f, 0.f), true); 
 		}
-		App->debugDraw->Draw(&App->camera->fbo);
+
 
 		// draw your children BB
 		for (std::list<GameObject*>::iterator it = this->children.begin(); it != this->children.end(); ++it)

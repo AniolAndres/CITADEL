@@ -50,6 +50,37 @@ void ModuleScene::Draw()
 	Root->Draw();
 }
 
+void ModuleScene::LoadGeometry(GameObject* container, GeometryType Gtype)
+{
+	par_shapes_mesh_s* pmesh = nullptr;
+
+	switch (Gtype)
+	{
+	case SPHERE:
+		pmesh = par_shapes_create_parametric_sphere(30, 30);
+		break;
+	case CUBE:
+		pmesh = par_shapes_create_cube();
+		break;
+	case TORUS:
+		pmesh = par_shapes_create_torus(30, 30, 1.f);
+		break;
+	}
+
+	if (pmesh != nullptr)
+	{
+		par_shapes_scale(pmesh, 5.0f, 5.0f, 5.0f);
+
+		ComponentMesh* mesh = (ComponentMesh*)container->CreateComponent(MESH);
+		mesh->LoadMesh(pmesh);
+		par_shapes_free_mesh(pmesh);
+		
+		ComponentMaterial* mat = (ComponentMaterial*)container->CreateComponent(MATERIAL);
+		container->LoadBB();
+	}
+
+}
+
 void ModuleScene::DuplicateGameObject(GameObject* GO)
 {
 	
