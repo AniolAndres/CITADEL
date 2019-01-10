@@ -296,7 +296,7 @@ void ModuleRender::DrawDebug()
 
 	App->debugDraw->Draw(&App->camera->fbo);
 }
-//
+//obsolete
 //void ModuleRender::setMatrixUniforms()
 //{
 //	float4x4 Model(math::float4x4::identity); // Not moving anything

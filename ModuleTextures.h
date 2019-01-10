@@ -76,6 +76,7 @@ public:
 	int mipMapMode = GL_NEAREST_MIPMAP_NEAREST;
 	int wrapMode = GL_CLAMP;
 	Texture* defaultTexture = nullptr;
+	Texture* noCamTexture = nullptr;
 
 private:
 	unsigned texture0 = 0;

@@ -30,6 +30,10 @@ bool ModuleTextures::Init()
 	iluInit();
 	ilutInit();
 
+	defaultTexture = loadImg("./checkers.jpg");
+	noCamTexture = loadImg("./nocamselected.jpg");
+
+
 	return ret;
 }
 
