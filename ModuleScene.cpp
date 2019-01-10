@@ -76,6 +76,7 @@ void ModuleScene::LoadGeometry(GameObject* container, GeometryType Gtype)
 		par_shapes_free_mesh(pmesh);
 		
 		ComponentMaterial* mat = (ComponentMaterial*)container->CreateComponent(MATERIAL);
+		mat->LoadMaterial(nullptr);
 		container->LoadBB();
 	}
 
@@ -92,8 +93,6 @@ void ModuleScene::DuplicateGameObject(GameObject* GO)
 	{
 		DuplicateGameObject(*it);
 	}
-
-	//return my_go;
 }
 
 GameObject* ModuleScene::CreateGameObject(const char* name, bool active, GameObject* parent, const char* FileLocation)
