@@ -55,6 +55,7 @@ public:
 	float4x4 GetGlobalTransform() const;
 	float4x4 GetLocalTransform() const;
 
+
 	void BeginPopup(GameObject* GO);
 	void Draw();
 	void DrawBB();

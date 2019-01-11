@@ -16,7 +16,7 @@ bool ModuleScene::Init()
 {
 	bool ret = true;
 	Root = new GameObject();
-	Root->id = NULL;
+	Root->UUID = App->GenerateUUID();
 	Root->name = "Root";
 	Root->active = true;
 	return ret;
@@ -89,7 +89,7 @@ void ModuleScene::DuplicateGameObject(GameObject* GO)
 	App->modelLoader->LoadFBX(GO->mesh->path);
 
 	//Copy its children
-	
+
 	for (std::list<GameObject*>::iterator it = GO->children.begin(); it != GO->children.end(); ++it)
 	{
 		DuplicateGameObject(*it);
@@ -101,7 +101,6 @@ GameObject* ModuleScene::CreateGameObject(const char* name, bool active, GameObj
 	GameObject* my_go = new GameObject(name, active, parent,FileLocation);
 	parent->children.push_back(my_go);
 	GOs.push_back(my_go);
-
 	return my_go;
 }
 

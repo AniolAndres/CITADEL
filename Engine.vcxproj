@@ -47,7 +47,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>false</SDLCheck>
       <ExceptionHandling>Sync</ExceptionHandling>
-      <AdditionalIncludeDirectories>./brofiler-1.1.2;./DevIL/include;./Assimp/include;./glew-2.1.0/include;./SDL/include;MathGeoLib/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./rapidjson-1.1.0/include;./brofiler-1.1.2;./DevIL/include;./Assimp/include;./glew-2.1.0/include;./SDL/include;MathGeoLib/include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -64,7 +64,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>false</SDLCheck>
       <ExceptionHandling>Sync</ExceptionHandling>
-      <AdditionalIncludeDirectories>./brofiler-1.1.2;./DevIL/include;./Assimp/include;./glew-2.1.0/include;./SDL/include;MathGeoLib/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./rapidjson-1.1.0/include;./brofiler-1.1.2;./DevIL/include;./Assimp/include;./glew-2.1.0/include;./SDL/include;MathGeoLib/include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
