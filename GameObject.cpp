@@ -157,12 +157,15 @@ void GameObject::DrawComponents(int type)
 	switch (type)
 	{
 	case MESH:
-		this->DrawMeshes();
+		if (this->mesh != nullptr)
+			this->DrawMeshes();
 		break;
 	case MATERIAL:
-		this->DrawMaterials();
+		if (this->material != nullptr)
+			this->DrawMaterials();
 		break;
 	case TRANSFORM:
+		if (this->transform != nullptr)
 		this->DrawTransforms();
 		break;
 	case LIGHT:
@@ -173,37 +176,31 @@ void GameObject::DrawComponents(int type)
 
 void GameObject::DrawMeshes()
 {
-	if(this->mesh!=nullptr)
-		ImGui::Text("Vertices: %d", this->mesh->numVert);
+	ImGui::Text("Vertices: %d", this->mesh->mesh.verticesNumber);
 }
 
 void GameObject::DrawMaterials()
 {
-	if (this->material != nullptr)
-	{
-		float size = ImGui::GetWindowWidth();
+	float size = ImGui::GetWindowWidth();
 
-		ImGui::Image(((ImTextureID)this->material->GetTexture()->id), { size,size });
+	ImGui::Image(((ImTextureID)this->material->GetTexture()->id), { size,size });
 
-		ImGui::Separator();
+	ImGui::Separator();
 
-		ImGui::SliderFloat("Ambient", &this->material->material.ambientK, 0.f, 1.f);
-		ImGui::SliderFloat("Diffuse", &this->material->material.diffuseK, 0.f, 1.f);
-		ImGui::SliderFloat("Specular", &this->material->material.specularK, 0.f, 1.f);
-		ImGui::SliderFloat("Shininess", &this->material->material.shininess, 0.f, 128.f);
-	}
+	ImGui::SliderFloat("Ambient", &this->material->material.ambientK, 0.f, 1.f);
+	ImGui::SliderFloat("Diffuse", &this->material->material.diffuseK, 0.f, 1.f);
+	ImGui::SliderFloat("Specular", &this->material->material.specularK, 0.f, 1.f);
+	ImGui::SliderFloat("Shininess", &this->material->material.shininess, 0.f, 128.f);
 }
 
 void GameObject::DrawTransforms()
 {
 	int i = 0;
-	if(this->transform!=nullptr)
-	{
-		ImGui::Text("Component Transform %i", i);
-		ImGui::SliderFloat3("Position",(float*)&this->transform->position,-100.f,100.f);
-		ImGui::SliderFloat3("Scale", (float*)&this->transform->scale, 0.1f, 100.f);
-		ImGui::SliderFloat3("Rotation", (float*)&this->transform->eulerRot, 0.f, 360.f); //needs tweaking
-	}
+	
+	ImGui::Text("Component Transform %i", i);
+	ImGui::SliderFloat3("Position",(float*)&this->transform->position,-100.f,100.f);
+	ImGui::SliderFloat3("Scale", (float*)&this->transform->scale, 0.1f, 100.f);
+	ImGui::SliderFloat3("Rotation", (float*)&this->transform->eulerRot, 0.f, 360.f); //needs tweaking	
 }
 
 void GameObject::DrawLights()
@@ -284,10 +281,8 @@ AABB GameObject::LoadBB()
 {
 	BB.SetNegativeInfinity();
 
-	if (this->mesh != nullptr)
-	{
-		this->BB.Enclose(mesh->BB);
-	}
+	this->BB.Enclose(this->mesh->mesh.BB);
+	
 	return BB;
 }
 
@@ -300,16 +295,11 @@ void GameObject::DrawBB()
 
 		BB.TransformAsAABB(GetGlobalTransform());
 
-		if (this->mesh != nullptr)
-		{
-			dd::aabb(this->BB.minPoint, this->BB.maxPoint, float3(0.f, 1.f, 0.f), true); 
-		}
-
+		dd::aabb(this->BB.minPoint, this->BB.maxPoint, float3(0.f, 1.f, 0.f), true); 
 
 		// draw your children BB
 		for (std::list<GameObject*>::iterator it = this->children.begin(); it != this->children.end(); ++it)
 		{
-			
 			(*it)->DrawBB();
 		}
 	}
