@@ -4,11 +4,13 @@
 #include "ModuleRender.h"
 #include "ModuleDebugDraw.h"
 #include "ModuleTextures.h"
+#include "Crossguid/crossguid/guid.hpp"
 #include "ModuleInput.h"
 #include "ModuleProgram.h"
 #include "ModuleCamera.h"
 #include "ModuleEditor.h"
 #include "ModuleScene.h"
+#include "string.h"
 #include "ModuleModelLoader.h"
 
 
@@ -81,3 +83,10 @@ bool Application::CleanUp()
 	return ret;
 }
 
+const char* Application::GenerateUUID()
+{
+	string uuid = xg::newGuid().str();
+	char* newUUID = new char[strlen(uuid.c_str())];
+	strcpy(newUUID, uuid.c_str());
+	return newUUID;
+}

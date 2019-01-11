@@ -27,6 +27,8 @@ public:
 	update_status Update();
 	bool CleanUp();
 
+	const char* GenerateUUID();
+
 public:
 	ModuleRender* renderer = nullptr;
 	ModuleWindow* window = nullptr;

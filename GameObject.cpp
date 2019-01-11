@@ -26,6 +26,7 @@ GameObject::GameObject()
 GameObject::GameObject(const char* name, bool active, const char* FileLocation)
 {
 	this->id = App->scene->GOcounter;
+	this->UUID = App->GenerateUUID();
 	this->name =name;
 	this->active = active;
 	this->parent = App->scene->Root;
@@ -38,6 +39,7 @@ GameObject::GameObject(const char* name, bool active, const char* FileLocation)
 GameObject::GameObject(const char* name,bool active, GameObject* parent, const char* FileLocation)
 {
 	this->id = App->scene->GOcounter;
+	this->UUID = App->GenerateUUID();
 	this->name =  name;
 	this->active = active;
 	this->parent = parent;

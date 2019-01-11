@@ -468,6 +468,8 @@ void ModuleEditor::DrawEditor()
 					
 					ImGui::InputText("Name",(char*) App->scene->SelectedGO->name, 30.0f);
 			
+					ImGui::InputText("UUID", (char*)App->scene->SelectedGO->UUID, 30.f);
+
 					ImGui::Checkbox("Active", &App->scene->SelectedGO->active);
 
 					if (App->scene->SelectedGO->Static)
@@ -477,17 +479,26 @@ void ModuleEditor::DrawEditor()
 
 					ImGui::Text("Selected %s ", App->scene->SelectedGO->name);
 					//This will be used to modify the components of the selected GameObject
-					if (ImGui::CollapsingHeader("Component Mesh"))
+					if (App->scene->SelectedGO->mesh != nullptr)
 					{
-						App->scene->SelectedGO->DrawComponents(MESH);
+						if (ImGui::CollapsingHeader("Component Mesh"))
+						{
+							App->scene->SelectedGO->DrawComponents(MESH);
+						}
 					}
-					if (ImGui::CollapsingHeader("Component Material"))
+					if (App->scene->SelectedGO->material != nullptr)
 					{
-						App->scene->SelectedGO->DrawComponents(MATERIAL);
+						if (ImGui::CollapsingHeader("Component Material"))
+						{
+							App->scene->SelectedGO->DrawComponents(MATERIAL);
+						}
 					}
-					if (ImGui::CollapsingHeader("Component Transform"))
+					if (App->scene->SelectedGO->transform != nullptr)
 					{
-						App->scene->SelectedGO->DrawComponents(TRANSFORM);
+						if (ImGui::CollapsingHeader("Component Transform"))
+						{
+							App->scene->SelectedGO->DrawComponents(TRANSFORM);
+						}
 					}
 					if (ImGui::CollapsingHeader("Component Light"))
 					{

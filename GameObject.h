@@ -37,9 +37,10 @@ public:
 	AABB LoadBB();
 
 
-	bool active;
-	const char* name;
-	int id;
+	bool active = true;
+	const char* name = nullptr;
+	const char* UUID = nullptr;
+	int id =0;
 	GameObject* parent = nullptr;
 	const char*	filePath = nullptr;
 	char newName[20];
