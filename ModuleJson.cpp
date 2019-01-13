@@ -10,3 +10,8 @@ ModuleJson::ModuleJson()
 ModuleJson::~ModuleJson()
 {
 }
+
+bool ModuleJson::Init()
+{
+	
+}

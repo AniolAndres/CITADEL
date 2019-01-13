@@ -75,7 +75,7 @@ void GameObject::Draw()
 {
 	//Draw yourself------------------
 
-	//Check for frustum culling
+	//Check for frustum culling, could be simpler but I can track this way better
 	if (this->mesh != nullptr)
 	{
 		if ((App->renderer->frustum).Intersects(this->mesh->mesh.BB))
@@ -283,7 +283,9 @@ math::float4x4 GameObject::GetLocalTransform() const
 	{
 		return float4x4::identity;
 	}
+
 	this->transform->generateEulerRotation();
+
 	return float4x4::FromTRS(transform->position, transform->rotation, transform->scale);
 }
 
