@@ -46,7 +46,7 @@ public:
 	char newName[20];
 	AABB BB = AABB();
 	bool Static = true;
-
+	bool rendered = true;
 
 	bool showPopup = false;
 

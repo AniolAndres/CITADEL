@@ -7,6 +7,7 @@
 
 #include "ModuleModelLoader.h"
 #include "ModuleEditor.h"
+#include "Geometry/Frustum.h"
 #include "Globals.h"
 
 #define PAR_SHAPES_IMPLEMENTATION

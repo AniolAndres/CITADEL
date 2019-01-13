@@ -470,6 +470,16 @@ void ModuleEditor::DrawEditor()
 			
 					ImGui::InputText("UUID", (char*)App->scene->SelectedGO->UUID, 30.f);
 
+					//checker for frustum culling
+					if (!App->scene->SelectedGO->rendered)
+					{
+						ImGui::Text("NOT RENDERED");
+					}
+					else
+					{
+						ImGui::Text("RENDERED");
+					}
+
 					ImGui::Checkbox("Active", &App->scene->SelectedGO->active);
 
 					if (App->scene->SelectedGO->Static)

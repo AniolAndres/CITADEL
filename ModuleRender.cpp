@@ -83,7 +83,7 @@ update_status ModuleRender::Update()
 	App->scene->Draw();
 
 	DrawDebug();
-
+	
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 	return UPDATE_CONTINUE;
@@ -135,8 +135,8 @@ float4x4 ModuleRender::Transform(float3 eye, float3 target)
 	Frustum frustum;
 	float aspect = App->editor->drawWidth/ App->editor->drawHeight;
 	frustum.type = FrustumType::PerspectiveFrustum;
-	frustum.pos = float3::zero;
-	frustum.front = -float3::unitZ;
+	frustum.pos = eye;
+	frustum.front = f;
 	frustum.up = float3::unitY;
 	frustum.nearPlaneDistance = 0.1f;
 	frustum.farPlaneDistance = 300.f;
@@ -149,6 +149,7 @@ float4x4 ModuleRender::Transform(float3 eye, float3 target)
 
 	resultMatrix = proj * viewMatrix;
 
+	this->frustum = frustum;
 
 	return resultMatrix;
 }

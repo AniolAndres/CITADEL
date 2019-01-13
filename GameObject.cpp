@@ -8,6 +8,7 @@
 #include "ModuleInput.h"
 #include "ComponentMaterial.h"
 #include "ComponentMesh.h"
+#include "Geometry/Frustum.h"
 #include "ComponentTransform.h"
 #include "Assimp/material.h"
 #include "Globals.h"
@@ -72,36 +73,43 @@ GameObject::~GameObject()
 
 void GameObject::Draw()
 {
-	//Draw yourself
+	//Draw yourself------------------
 
-	if (!this->MeshComponents.empty() && this->active)
+	//Check for frustum culling
+	if (this->mesh != nullptr)
 	{
-		for (int i = 0; i != this->MeshComponents.size(); ++i)
-		{
-			ComponentMaterial* material = this->material;
+		if ((App->renderer->frustum).Intersects(this->mesh->mesh.BB))
+			rendered = true;
+		else
+			rendered = false;
+	}
 
-			unsigned shader = 0u;
+	//actual draw. Would putting a big if(this->mesh!=nullptr) better than having two small ones?
+	if (this->mesh!=nullptr && this->active && rendered)
+	{
 
-			Texture* texture = nullptr;
+		ComponentMaterial* material = this->material;
 
-			if (material != nullptr) {
-				shader = material->GetShader();
-				texture = material->GetTexture();
-			}
-			else {
-				shader = App->program->programLoader;
-			}
+		unsigned shader = 0u;
 
-			if (texture == nullptr) {
-				texture = App->textures->defaultTexture;
-			}
+		Texture* texture = nullptr;
 
-			glUseProgram(shader);
-			ModelTransform(shader);
-
-			this->mesh->Draw(shader, texture);
-
+		if (material != nullptr) {
+			shader = material->GetShader();
+			texture = material->GetTexture();
 		}
+		else {
+			shader = App->program->programLoader;
+		}
+
+		if (texture == nullptr) {
+			texture = App->textures->defaultTexture;
+		}
+
+		glUseProgram(shader);
+		ModelTransform(shader);
+
+		this->mesh->Draw(shader, texture);
 		
 	}
 
@@ -293,7 +301,8 @@ void GameObject::DrawBB()
 	if (this->mesh!=nullptr)
 	{
 		// draw your BB
-		BB = this->LoadBB();
+
+		this->BB = LoadBB();
 
 		BB.TransformAsAABB(GetGlobalTransform());
 
