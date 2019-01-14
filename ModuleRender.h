@@ -29,22 +29,20 @@ public:
 
 	void DrawDebug();
 
-	void drawGrid();
-
 	void* context;
 
 	bool showTextures = true;
-
 	bool showGrid = true;
-
 	bool showAxis = true;
+
+	bool Vsync = false;
 
 	float3 triangle[3];
 	float4x4 viewMatrix = float4x4::zero;
 	float4x4 projectionMatrix = float4x4::zero;
 	float4x4 transformationMatrix = float4x4::zero;
 
-	Frustum frustum;
+	Frustum* frustum;
 
 private:
 	unsigned vbo, vao = 0;

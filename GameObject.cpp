@@ -84,7 +84,7 @@ void GameObject::Draw()
 
 		BB.TransformAsAABB(GetGlobalTransform());
 		
-		if ((App->renderer->frustum).Intersects(this->BB))
+		if ((*App->renderer->frustum).Intersects(this->BB))
 			rendered = true;
 		else
 			rendered = false;
@@ -309,14 +309,12 @@ void GameObject::DrawBB()
 	if (this->mesh!=nullptr)
 	{
 		// draw your BB
-
 		dd::aabb(this->BB.minPoint, this->BB.maxPoint, float3(0.f, 1.f, 0.f), true);
-
-		// draw your children BB
-		for (std::list<GameObject*>::iterator it = this->children.begin(); it != this->children.end(); ++it)
-		{
-			(*it)->DrawBB();
-		}
+	}
+	// draw your children BB
+	for (std::list<GameObject*>::iterator it = this->children.begin(); it != this->children.end(); ++it)
+	{
+		(*it)->DrawBB();
 	}
 }
 

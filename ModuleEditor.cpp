@@ -439,12 +439,26 @@ void ModuleEditor::DrawEditor()
 				if (ImGui::CollapsingHeader("Configuration"))
 				{
 
+
 					ImGui::Text("Application Time = %d", SDL_GetTicks() / 1000);
+					if (ImGui::Checkbox("Vsync", &App->renderer->Vsync))
+					{
+						if (App->renderer->Vsync)
+						{
+							consoleApp.AddLog("Vsync enabled \n");
+							SDL_GL_SetSwapInterval(1);
+						}
+						else
+						{	
+							consoleApp.AddLog("Vsync disabled \n");
+							SDL_GL_SetSwapInterval(0);
+						}
+					}
 					ImGui::Checkbox("Stop", &stopFPS);
 					ImGui::Text("Current FPS = %f ", currentFPS);
 					ImGui::PlotHistogram("FPS", fpsLog, 50, 0, "FPS graphic", 0.0f, 100.0f, ImVec2(350, 100));
 					ImGui::Text("Current MS = %f ", currentMs);
-					ImGui::PlotHistogram("MS", msLog, 50, 0, "MS graphic", 0.0f, 25.0f / 1000.0f, ImVec2(350, 100));
+					ImGui::PlotHistogram("MS", msLog, 50, 0, "MS graphic", 0.0f, 45.0f / 1000.0f, ImVec2(350, 100));
 					ImGui::Text("Graphics card vendor: %s \n", glGetString(GL_VENDOR));
 					ImGui::Text("Graphics card used: %s \n", glGetString(GL_RENDERER));
 					ImGui::NewLine();

@@ -66,8 +66,6 @@ void ComponentMesh::LoadMesh(aiMesh* AImesh)
 
 	mesh.vertexSize = offset;
 
-	// mVertices
-
 	glBufferData(GL_ARRAY_BUFFER, mesh.vertexSize*mesh.verticesNumber, nullptr, GL_STATIC_DRAW);
 	glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(float) * 3 * mesh.verticesNumber, mesh.vertices);
 
@@ -81,33 +79,11 @@ void ComponentMesh::LoadMesh(aiMesh* AImesh)
 		glBufferSubData(GL_ARRAY_BUFFER, mesh.texturesOffset * mesh.verticesNumber, sizeof(float2)*mesh.verticesNumber, mesh.uvs);
 	}
 
-	//mTexturecoords
-
-	//float2* textureCoords = (float2*)glMapBufferRange(GL_ARRAY_BUFFER, sizeof(float) * 3 * mesh.verticesNumber, sizeof(float) * 2 * mesh.verticesNumber, GL_MAP_WRITE_BIT);
-	//for (unsigned i = 0u; i < mesh.verticesNumber; ++i) {
-	//	textureCoords[i] = math::float2(AImesh->mTextureCoords[0][i].x, AImesh->mTextureCoords[0][i].y);
-	///*	vertices.emplace_back(mesh->mVertices[i].x, mesh->mVertices[i].y, mesh->mVertices[i].z);*/
-	//}
-
 	glUnmapBuffer(GL_ARRAY_BUFFER);
 
-	// Indexes
 	glGenBuffers(1, &mesh.ibo);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh.ibo);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned) * mesh.indicesNumber, mesh.indices, GL_STATIC_DRAW);
-
-	//int* indices = (int*)glMapBufferRange(GL_ELEMENT_ARRAY_BUFFER, 0, sizeof(unsigned) * AImesh->mNumFaces * 3, GL_MAP_WRITE_BIT);
-
-	//for (unsigned i = 0u; i < AImesh->mNumFaces; ++i) 
-	//{
-	//	assert(AImesh->mFaces[i].mNumIndices == 3);
-
-	//	*(indices++) = AImesh->mFaces[i].mIndices[0];
-	//	*(indices++) = AImesh->mFaces[i].mIndices[1];
-	//	*(indices++) =AImesh->mFaces[i].mIndices[2];
-
-	///*	vertices.emplace_back(mesh->mVertices[i].x, mesh->mVertices[i].y, mesh->mVertices[i].z);*/
-	//}
 
 	glUnmapBuffer(GL_ELEMENT_ARRAY_BUFFER);
 
@@ -115,19 +91,17 @@ void ComponentMesh::LoadMesh(aiMesh* AImesh)
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
 
 
-	if (mesh.texturesOffset != 0) {
+	if (mesh.texturesOffset != 0) 
+	{
 		glEnableVertexAttribArray(1);
 		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, (void*)(mesh.texturesOffset * mesh.verticesNumber));
 	}
 
-	if (mesh.normalsOffset != 0) {
+	if (mesh.normalsOffset != 0) 
+	{
 		glEnableVertexAttribArray(2);
 		glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 0, (void*)(mesh.normalsOffset * mesh.verticesNumber));
 	}
-
-
-	//glEnableVertexAttribArray(1);
-	//glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, (void*)(sizeof(float) * 3 * mesh.verticesNumber));
 
 	// vao off
 	glBindVertexArray(0);
@@ -163,7 +137,8 @@ void ComponentMesh::LoadMesh(par_shapes_mesh_s* pmesh)
 
 	unsigned offset = sizeof(math::float3);
 
-	if (pmesh->normals) {
+	if (pmesh->normals) 
+	{
 		mesh.normalsOffset = offset;
 		offset += sizeof(math::float3);
 	}
@@ -173,7 +148,8 @@ void ComponentMesh::LoadMesh(par_shapes_mesh_s* pmesh)
 	glBufferData(GL_ARRAY_BUFFER, mesh.vertexSize * pmesh->npoints, nullptr, GL_STATIC_DRAW);
 	glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(math::float3) * pmesh->npoints, pmesh->points);
 
-	if (pmesh->normals) {
+	if (pmesh->normals)
+	{
 		glBufferSubData(GL_ARRAY_BUFFER, mesh.normalsOffset * pmesh->npoints, sizeof(math::float3) * pmesh->npoints, pmesh->normals);
 	}
 
@@ -186,7 +162,8 @@ void ComponentMesh::LoadMesh(par_shapes_mesh_s* pmesh)
 
 	unsigned* indices = (unsigned*)glMapBufferRange(GL_ELEMENT_ARRAY_BUFFER, 0, sizeof(unsigned) * pmesh->ntriangles * 3, GL_MAP_WRITE_BIT);
 
-	for (unsigned i = 0; i< unsigned(pmesh->ntriangles * 3); ++i) {
+	for (unsigned i = 0; i< unsigned(pmesh->ntriangles * 3); ++i) 
+	{
 		*(indices++) = pmesh->triangles[i];
 	}
 
@@ -205,12 +182,14 @@ void ComponentMesh::LoadMesh(par_shapes_mesh_s* pmesh)
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
 
-	if (mesh.texturesOffset != 0) {
+	if (mesh.texturesOffset != 0)
+	{
 		glEnableVertexAttribArray(1);
 		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, (void*)(mesh.texturesOffset * mesh.verticesNumber));
 	}
 
-	if (mesh.normalsOffset != 0) {
+	if (mesh.normalsOffset != 0) 
+	{
 		glEnableVertexAttribArray(2);
 		glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 0, (void*)(mesh.normalsOffset * mesh.verticesNumber));
 	}

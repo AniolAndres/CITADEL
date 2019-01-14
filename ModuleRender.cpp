@@ -143,13 +143,14 @@ float4x4 ModuleRender::Transform(float3 eye, float3 target)
 	frustum.verticalFov = math::pi / 4.0f;
 	frustum.horizontalFov = 2.f * atanf(tanf(frustum.verticalFov * 0.5f)) * aspect;
 	math::float4x4 proj = frustum.ProjectionMatrix();
+	/*math::float4x4 viewMatrix = frustum.ViewMatrix();*/
 
 	this->viewMatrix = viewMatrix;
 	this->projectionMatrix = proj;
 
 	resultMatrix = proj * viewMatrix;
 
-	this->frustum = frustum;
+	this->frustum = &frustum;
 
 	return resultMatrix;
 }
