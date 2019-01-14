@@ -83,6 +83,63 @@ update_status ModuleEditor::Update()
 		{
 			if (ImGui::BeginMenu("New GO"))
 			{
+			
+				if (ImGui::BeginMenu("GO from assets"))
+				{
+					if (ImGui::MenuItem("Bakerhouse"))
+					{
+						App->modelLoader->LoadFBX("./assets/BakerHouse/BakerHouse.fbx");
+					}
+					if (ImGui::MenuItem("TracerPistol"))
+					{
+						App->modelLoader->LoadFBX("./assets/TracerPistol/tracerPistol.fbx");
+					}
+					if (ImGui::MenuItem("Clock"))
+					{
+						App->modelLoader->LoadFBX("./assets/Clock/Clock.fbx");
+					}
+					if (ImGui::MenuItem("DollHouse"))
+					{
+						App->modelLoader->LoadFBX("./assets/DollHouse/DollHouse.fbx");
+					}
+					if (ImGui::MenuItem("Drawers"))
+					{
+						App->modelLoader->LoadFBX("./assets/Drawers/Drawers.fbx");
+					}
+					if (ImGui::MenuItem("Firetruck"))
+					{
+						App->modelLoader->LoadFBX("./assets/Firetruck/Firetruck.fbx");
+					}
+					if (ImGui::MenuItem("Floor"))
+					{
+						App->modelLoader->LoadFBX("./assets/Floor/Floor.fbx");
+					}
+					if (ImGui::MenuItem("Hearse"))
+					{
+						App->modelLoader->LoadFBX("./assets/Hearse/Hearse.fbx");
+					}
+					if (ImGui::MenuItem("Player"))
+					{
+						App->modelLoader->LoadFBX("./assets/Player/Player.fbx");
+					}
+					if (ImGui::MenuItem("Robot"))
+					{
+						App->modelLoader->LoadFBX("./assets/Robot/Robot.fbx");
+					}
+					if (ImGui::MenuItem("Spinning Top"))
+					{
+						App->modelLoader->LoadFBX("./assets/SpinningTop/SpinningTop.fbx");
+					}
+					if (ImGui::MenuItem("Wall"))
+					{
+						App->modelLoader->LoadFBX("./assets/Wall/Wall.fbx");
+					}
+					if (ImGui::MenuItem("ZomBunny"))
+					{
+						App->modelLoader->LoadFBX("./assets/Zombunny/Zombunny.fbx");
+					}
+					ImGui::EndMenu();
+				}
 				if (ImGui::MenuItem("Empty GO"))
 				{
 					if (App->scene->SelectedGO != nullptr)

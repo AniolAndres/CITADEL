@@ -296,7 +296,6 @@ AABB GameObject::LoadBB()
 {
 	BB.SetNegativeInfinity();
 
-	/*this->BB.Enclose((float3*)this->mesh->mesh.vertices, this->mesh->mesh.verticesNumber);*/
 	this->BB.Enclose(this->mesh->mesh.BB);
 	
 	BB.TransformAsAABB(GetGlobalTransform());

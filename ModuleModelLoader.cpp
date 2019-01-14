@@ -9,9 +9,9 @@
 bool ModuleModelLoader::Init()
 {
 	bool ret = true;
-	LoadFBX("./assets/BakerHouse/BakerHouse.fbx");
+	//LoadFBX("./assets/BakerHouse/BakerHouse.fbx");
 	//LoadFBX("./assets/TracerPistol/tracerPistol.fbx");
-	//LoadFBX("./assets/Clock/Clock.fbx");
+	LoadFBX("./assets/Clock/Clock.fbx");
 	App->editor->consoleApp.AddLog("Loaded Bakerhouse.fbx \n"); //I'll leave it like this for now
 	return ret;
 }
