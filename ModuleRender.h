@@ -37,6 +37,7 @@ public:
 	bool showGrid = true;
 	bool showAxis = true;
 	bool Vsync = false;
+	bool frustumCulling = true;
 	unsigned Fallback = 0u;
 
 	float4x4 viewMatrix = float4x4::zero;

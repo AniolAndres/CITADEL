@@ -383,6 +383,7 @@ void ModuleEditor::DrawEditor()
 				if (ImGui::CollapsingHeader("Module Render"))
 				{
 					ImGui::Checkbox("Grid", &App->renderer->showGrid);
+					ImGui::Checkbox("Frustum culling", &App->renderer->frustumCulling);
 				}
 				if (ImGui::CollapsingHeader("Module Textures"))
 				{

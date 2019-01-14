@@ -194,12 +194,13 @@ void ComponentMesh::LoadMesh(par_shapes_mesh_s* pmesh)
 		glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 0, (void*)(mesh.normalsOffset * mesh.verticesNumber));
 	}
 
-	
-
 	glBindVertexArray(0);
 
+	mesh.vertices = pmesh->points;
+	mesh.verticesNumber = pmesh->npoints;
+
 	mesh.BB.SetNegativeInfinity();
-	mesh.BB.Enclose((float3*)pmesh->points, pmesh->npoints);
+	mesh.BB.Enclose((float3*)mesh.vertices, mesh.verticesNumber);
 
 	glDisableVertexAttribArray(0);
 	glDisableVertexAttribArray(1);
@@ -224,8 +225,8 @@ void ComponentMesh::Draw(unsigned Program, const ComponentMaterial* mat) const
 
 	glUniformMatrix4fv(glGetUniformLocation(Program, "view"), 1, GL_TRUE, &App->renderer->viewMatrix[0][0]);
 	glUniformMatrix4fv(glGetUniformLocation(Program, "proj"), 1, GL_TRUE, &App->renderer->projectionMatrix[0][0]);
-	//glUniformMatrix4fv(glGetUniformLocation(App->program->programDefault, "view"), 1, GL_TRUE, &App->renderer->viewMatrix[0][0]);
-	//glUniformMatrix4fv(glGetUniformLocation(App->program->programDefault, "proj"), 1, GL_TRUE, &App->renderer->projectionMatrix[0][0]);
+	glUniformMatrix4fv(glGetUniformLocation(App->program->programDefault, "view"), 1, GL_TRUE, &App->renderer->viewMatrix[0][0]);
+	glUniformMatrix4fv(glGetUniformLocation(App->program->programDefault, "proj"), 1, GL_TRUE, &App->renderer->projectionMatrix[0][0]);
 
 	glUniform3fv(glGetUniformLocation(Program, "light_pos"), 1, (float*)&App->scene->lightPosition);
 

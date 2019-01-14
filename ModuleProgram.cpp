@@ -20,7 +20,7 @@ bool ModuleProgram::Init()
 
 	programDefault = CreateProgram("../shaders/default.vs", "../shaders/default.fs");
 
-	programBlinn = CreateProgram("./shaders/blinn.vs", "./shaders/blinn.fs");
+	programBlinn = CreateProgram("../shaders/blinn.vs", "../shaders/blinn.fs");
 
 	return ret;
 }

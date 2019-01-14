@@ -78,7 +78,7 @@ void GameObject::Draw()
 
 
 	//Check for frustum culling, could be simpler but I can track this way better
-	if (this->mesh != nullptr)
+	if (this->mesh != nullptr && App->renderer->frustumCulling)
 	{
 		this->BB = LoadBB();
 		
@@ -296,7 +296,8 @@ AABB GameObject::LoadBB()
 {
 	BB.SetNegativeInfinity();
 
-	this->BB.Enclose((float3*)this->mesh->mesh.vertices, this->mesh->mesh.verticesNumber);
+	/*this->BB.Enclose((float3*)this->mesh->mesh.vertices, this->mesh->mesh.verticesNumber);*/
+	this->BB.Enclose(this->mesh->mesh.BB);
 	
 	BB.TransformAsAABB(GetGlobalTransform());
 
