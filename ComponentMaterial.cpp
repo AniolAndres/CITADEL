@@ -4,7 +4,8 @@
 void ComponentMaterial::LoadMaterial(const aiMaterial* material)
 {
 	std::string texturePath;
-	if (material != nullptr) {
+	if (material != nullptr) 
+	{
 		aiTextureMapping mapping = aiTextureMapping_UV;
 		aiString file;
 		material->GetTexture(aiTextureType_DIFFUSE, 0, &file, &mapping, 0);
@@ -12,12 +13,10 @@ void ComponentMaterial::LoadMaterial(const aiMaterial* material)
 		DeleteTexture();
 		texture = App->textures->loadImg(texturePath.c_str());
 	}
-	else {
+	else 
+	{
 		texture = App->textures->defaultTexture;
 	}
-
-
-	
 }
 
 void ComponentMaterial::DeleteTexture()

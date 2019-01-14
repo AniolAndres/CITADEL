@@ -22,7 +22,7 @@ public:
 	void LoadMesh(aiMesh* mesh);
 	void LoadMesh(par_shapes_mesh_s* pmesh);
 
-	void Draw(unsigned Program, const Texture* textures) const;
+	void Draw(unsigned Program, const ComponentMaterial* mat) const;
 
 	void EditorMeshes();
 

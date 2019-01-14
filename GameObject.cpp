@@ -81,8 +81,6 @@ void GameObject::Draw()
 	if (this->mesh != nullptr)
 	{
 		this->BB = LoadBB();
-
-		BB.TransformAsAABB(GetGlobalTransform());
 		
 		if ((App->renderer->frustum).Intersects(this->BB))
 			rendered = true;
@@ -93,7 +91,6 @@ void GameObject::Draw()
 	//actual draw. Would putting a big if(this->mesh!=nullptr) better than having two small ones?
 	if (this->mesh!=nullptr && this->active && rendered)
 	{
-
 		ComponentMaterial* material = this->material;
 
 		unsigned shader = 0u;
@@ -115,7 +112,7 @@ void GameObject::Draw()
 		glUseProgram(shader);
 		ModelTransform(shader);
 
-		this->mesh->Draw(shader, texture);
+		this->mesh->Draw(shader, material);
 		
 	}
 
@@ -301,6 +298,8 @@ AABB GameObject::LoadBB()
 
 	this->BB.Enclose((float3*)this->mesh->mesh.vertices, this->mesh->mesh.verticesNumber);
 	
+	BB.TransformAsAABB(GetGlobalTransform());
+
 	return BB;
 }
 
@@ -311,7 +310,7 @@ void GameObject::DrawBB()
 		// draw your BB
 		dd::aabb(this->BB.minPoint, this->BB.maxPoint, float3(0.f, 1.f, 0.f), true);
 	}
-	// draw your children BB
+		// draw your children BB
 	for (std::list<GameObject*>::iterator it = this->children.begin(); it != this->children.end(); ++it)
 	{
 		(*it)->DrawBB();

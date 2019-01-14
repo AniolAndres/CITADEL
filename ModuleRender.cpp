@@ -73,6 +73,8 @@ update_status ModuleRender::Update()
 {
 	transformationMatrix = Transform(App->camera->eye, App->camera->target);
 
+	//setUniformMatrix();
+
 	glBindFramebuffer(GL_FRAMEBUFFER, App->camera->fbo.fbo);
 	glViewport(0, 0, App->camera->fbo.fb_width, App->camera->fbo.fb_height);
 	glClearColor(0.2f, 0.2f, 0.2f, 1.f);
@@ -297,63 +299,36 @@ void ModuleRender::DrawDebug()
 
 	App->debugDraw->Draw(&App->camera->fbo);
 }
-//obsolete
-//void ModuleRender::setMatrixUniforms()
-//{
-//	float4x4 Model(math::float4x4::identity); // Not moving anything
-//
-//
-//	glUniformMatrix4fv(glGetUniformLocation(App->program->programLoader, "model"), 1, GL_TRUE, &Model[0][0]);
-//	glUniformMatrix4fv(glGetUniformLocation(App->program->programLoader, "view"), 1, GL_TRUE, &App->renderer->viewMatrix[0][0]);
-//	glUniformMatrix4fv(glGetUniformLocation(App->program->programLoader, "proj"), 1, GL_TRUE, &App->renderer->projectionMatrix[0][0]);
-//
-//	glUniformMatrix4fv(glGetUniformLocation(App->program->programNoTextures, "model"), 1, GL_TRUE, &Model[0][0]);
-//	glUniformMatrix4fv(glGetUniformLocation(App->program->programNoTextures, "view"), 1, GL_TRUE, &App->renderer->viewMatrix[0][0]);
-//	glUniformMatrix4fv(glGetUniformLocation(App->program->programNoTextures, "proj"), 1, GL_TRUE, &App->renderer->projectionMatrix[0][0]);
-//
-	/*if (App->modelLoader->modelLoaded)
-	{
-		for (int i = 0; i < App->modelLoader->scene->mNumMeshes; ++i) {
 
-			unsigned vboActual = App->modelLoader->vbos[i];
-			unsigned numVerticesActual = App->modelLoader->numVerticesMesh[i];
-			unsigned numIndexesActual = App->modelLoader->numIndicesMesh[i];
+void ModuleRender::setUniformMatrix()
+{
+	float4x4 Model(math::float4x4::identity);
 
-			glActiveTexture(GL_TEXTURE0);
+	//could be done iterating
 
-			if (showTextures)
-			{
-				glBindTexture(GL_TEXTURE_2D, App->modelLoader->materials[App->modelLoader->textures[i]]);
+	glUniformMatrix4fv(glGetUniformLocation(App->program->programLoader, "model"), 1, GL_TRUE, &Model[0][0]);
+	glUniformMatrix4fv(glGetUniformLocation(App->program->programLoader, "view"), 1, GL_TRUE, &viewMatrix[0][0]);
+	glUniformMatrix4fv(glGetUniformLocation(App->program->programLoader, "proj"), 1, GL_TRUE, &projectionMatrix[0][0]);
 
-				glUniform1i(glGetUniformLocation(App->program->programLoader, "texture0"), 0);
-			}
-			else
-			{
-				glBindTexture(GL_TEXTURE_2D, 0);
-				glUniform1i(glGetUniformLocation(App->program->programNoTextures, "color"), 0);
-			}
+	glUniformMatrix4fv(glGetUniformLocation(App->program->programDefault, "model"), 1, GL_TRUE, &Model[0][0]);
+	glUniformMatrix4fv(glGetUniformLocation(App->program->programDefault, "view"), 1, GL_TRUE, &viewMatrix[0][0]);
+	glUniformMatrix4fv(glGetUniformLocation(App->program->programDefault, "proj"), 1, GL_TRUE, &projectionMatrix[0][0]);
 
-			glEnableVertexAttribArray(0);
-			glEnableVertexAttribArray(1);
-			glBindBuffer(GL_ARRAY_BUFFER, vboActual);
-			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
-			glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, (void*)(sizeof(float) * 3 * App->modelLoader->numVerticesMesh[i]));
-			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, App->modelLoader->ibos[i]);
-
-			glDrawElements(GL_TRIANGLES, numIndexesActual, GL_UNSIGNED_INT, nullptr);
-			glDisableVertexAttribArray(0);
-			glDisableVertexAttribArray(1);
-
-			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-			glBindBuffer(GL_ARRAY_BUFFER, 0);
-			glBindTexture(GL_TEXTURE_2D, 0);
-
-		}
-	}
-*/
+	glUniformMatrix4fv(glGetUniformLocation(App->program->programBlinn, "model"), 1, GL_TRUE, &Model[0][0]);
+	glUniformMatrix4fv(glGetUniformLocation(App->program->programBlinn, "view"), 1, GL_TRUE, &viewMatrix[0][0]);
+	glUniformMatrix4fv(glGetUniformLocation(App->program->programBlinn, "proj"), 1, GL_TRUE, &projectionMatrix[0][0]);
+}
 
 
-	//glDisableVertexAttribArray(0);
-	//glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-
+void ModuleRender::GenerateFallback()
+{
+	char fallbackImage[3] = { GLubyte(255), GLubyte(255), GLubyte(255) };
+	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+	glGenTextures(1, &Fallback);
+	glBindTexture(GL_TEXTURE_2D, Fallback);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 1, 1, 0, GL_RGB, GL_UNSIGNED_BYTE, fallbackImage);
+}

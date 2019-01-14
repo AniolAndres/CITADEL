@@ -25,7 +25,9 @@ public:
 
 	float4x4 Transform(float3 eye, float3 target);
 
+	void setUniformMatrix();
 	void GenerateFBOTexture(unsigned width, unsigned height, FBO* fbo);
+	void GenerateFallback();
 
 	void DrawDebug();
 
@@ -34,9 +36,8 @@ public:
 	bool showTextures = true;
 	bool showGrid = true;
 	bool showAxis = true;
-
 	bool Vsync = false;
-
+	unsigned Fallback = 0u;
 
 	float4x4 viewMatrix = float4x4::zero;
 	float4x4 projectionMatrix = float4x4::zero;
