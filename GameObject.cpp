@@ -75,10 +75,16 @@ void GameObject::Draw()
 {
 	//Draw yourself------------------
 
+
+
 	//Check for frustum culling, could be simpler but I can track this way better
 	if (this->mesh != nullptr)
 	{
-		if ((App->renderer->frustum).Intersects(this->mesh->mesh.BB))
+		this->BB = LoadBB();
+
+		BB.TransformAsAABB(GetGlobalTransform());
+		
+		if ((App->renderer->frustum).Intersects(this->BB))
 			rendered = true;
 		else
 			rendered = false;
@@ -293,7 +299,7 @@ AABB GameObject::LoadBB()
 {
 	BB.SetNegativeInfinity();
 
-	this->BB.Enclose(this->mesh->mesh.BB);
+	this->BB.Enclose((float3*)this->mesh->mesh.vertices, this->mesh->mesh.verticesNumber);
 	
 	return BB;
 }
@@ -303,10 +309,6 @@ void GameObject::DrawBB()
 	if (this->mesh!=nullptr)
 	{
 		// draw your BB
-
-		this->BB = LoadBB();
-
-		BB.TransformAsAABB(GetGlobalTransform());
 
 		dd::aabb(this->BB.minPoint, this->BB.maxPoint, float3(0.f, 1.f, 0.f), true);
 

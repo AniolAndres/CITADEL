@@ -13,5 +13,5 @@ ModuleJson::~ModuleJson()
 
 bool ModuleJson::Init()
 {
-	
+	return true;
 }
