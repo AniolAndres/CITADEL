@@ -16,7 +16,6 @@ ModuleWindow::~ModuleWindow()
 bool ModuleWindow::Init()
 {
 	App->editor->consoleApp.AddLog("Init SDL window & surface \n");
-	bool ret = true;
 
 	windowHeight = SCREEN_HEIGHT;
 	windowWidth = SCREEN_WIDTH;
@@ -24,7 +23,7 @@ bool ModuleWindow::Init()
 	if(SDL_Init(SDL_INIT_VIDEO) < 0)
 	{
 		App->editor->consoleApp.AddLog("SDL_VIDEO could not initialize! SDL_Error: %s\n", SDL_GetError());
-		ret = false;
+		return false;
 	}
 	else
 	{
@@ -44,12 +43,10 @@ bool ModuleWindow::Init()
 
 		window = SDL_CreateWindow(TITLE, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, flags);
 
-	/*	viewportWindow = SDL_CreateWindow(TITLE, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, flags);*/
-
 		if(window == NULL)
 		{
 			App->editor->consoleApp.AddLog("Window could not be created! SDL_Error: %s\n", SDL_GetError());
-			ret = false;
+			return false;
 		}
 		else
 		{
@@ -59,7 +56,7 @@ bool ModuleWindow::Init()
 		}
 	}
 
-	return ret;
+	return true;
 }
 
 // Called before quitting

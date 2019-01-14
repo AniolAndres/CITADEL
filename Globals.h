@@ -53,7 +53,6 @@ enum compType
 #define SCREEN_SIZE 2
 #define FULLSCREEN false
 #define RESIZABLE_WINDOW true
-#define VSYNC true
 #define TITLE "Citadel Motor"
 
 #endif // __GLOBALS_H_

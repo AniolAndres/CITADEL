@@ -24,7 +24,7 @@ public:
 
 	GLuint programLoader;
 
-	GLuint programNoTextures;
+	GLuint programDefault;
 
 	GLuint programBlinn;
 };

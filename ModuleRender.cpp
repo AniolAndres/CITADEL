@@ -53,9 +53,9 @@ bool ModuleRender::Init()
 	glClearColor(0.3f, 0.3f, 0.3f, 1.f);
 	glViewport(0, 0, App->window->windowWidth, App->window->windowHeight);
 
-	if (!App->program->programLoader || !App->program->programBlinn || !App->program->programNoTextures)
+	if (!App->program->programLoader || !App->program->programBlinn || !App->program->programDefault)
 	{
-		App->editor->consoleApp.AddLog("Program could not be compiled");
+		App->editor->consoleApp.AddLog("Program could not be compiled \n");
 		return false;
 	}
 
@@ -150,7 +150,7 @@ float4x4 ModuleRender::Transform(float3 eye, float3 target)
 
 	resultMatrix = proj * viewMatrix;
 
-	this->frustum = &frustum;
+	this->frustum = frustum;
 
 	return resultMatrix;
 }

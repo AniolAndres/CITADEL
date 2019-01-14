@@ -16,9 +16,9 @@ bool ModuleProgram::Init()
 {
 	bool ret = true;
 	
-	programLoader = CreateProgram("./vertModelLoader.txt" , "./fragModelLoader.txt");
+	programLoader = CreateProgram("../shaders/basic.vs" , "../shaders/basic.fs");
 
-	programNoTextures = CreateProgram("./vertNoTextures.txt", "./fragNoTextures.txt");
+	programDefault = CreateProgram("../shaders/default.vs", "../shaders/default.fs");
 
 	programBlinn = CreateProgram("./shaders/blinn.vs", "./shaders/blinn.fs");
 
@@ -67,10 +67,10 @@ void ModuleProgram::CheckCompilationErrors(GLuint shader) {
 bool ModuleProgram::CleanUp()
 {
 	bool ret=true;
-	glDeleteProgram(programNoTextures);
+	glDeleteProgram(programDefault);
 	glDeleteProgram(programBlinn);
 	glDeleteProgram(programLoader);
-	programNoTextures = 0;
+	programDefault = 0;
 	programBlinn = 0;
 	programLoader = 0;
 

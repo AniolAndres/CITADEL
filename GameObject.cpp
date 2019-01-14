@@ -84,7 +84,7 @@ void GameObject::Draw()
 
 		BB.TransformAsAABB(GetGlobalTransform());
 		
-		if ((*App->renderer->frustum).Intersects(this->BB))
+		if ((App->renderer->frustum).Intersects(this->BB))
 			rendered = true;
 		else
 			rendered = false;

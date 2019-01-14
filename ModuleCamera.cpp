@@ -30,7 +30,7 @@ update_status ModuleCamera::PreUpdate()
 		CameraMovement();
 
 
-return UPDATE_CONTINUE;
+	return UPDATE_CONTINUE;
 }
 
 update_status ModuleCamera::Update()
