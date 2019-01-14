@@ -211,9 +211,9 @@ void GameObject::DrawTransforms()
 	int i = 0;
 	
 	ImGui::Text("Component Transform %i", i);
-	ImGui::SliderFloat3("Position",(float*)&this->transform->position,-100.f,100.f);
-	ImGui::SliderFloat3("Scale", (float*)&this->transform->scale, 0.1f, 100.f);
-	ImGui::SliderFloat3("Rotation", (float*)&this->transform->eulerRot, 0.f, 360.f); //needs tweaking	
+	ImGui::DragFloat3("Position",(float*)&this->transform->position, 10.0f, -100000.f, 100000.f);
+	ImGui::DragFloat3("Scale", (float*)&this->transform->scale, 0.1f, 0.1f, 100.f);
+	ImGui::DragFloat3("Rotation", (float*)&this->transform->eulerRot, 0.5f, -360, 360.f); //needs tweaking	
 }
 
 void GameObject::DrawLights()
