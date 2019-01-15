@@ -28,7 +28,6 @@ void main()
     /*Ambient */
    
 	vec3 finalAmbient = k_ambient * ambient * vec3(texture(occlusionMap, uv0)); 
-
 	
     /*Diffuse */
 	vec3 normal = normalize(normal);

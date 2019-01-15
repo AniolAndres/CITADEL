@@ -211,6 +211,8 @@ void ComponentMesh::LoadMesh(par_shapes_mesh_s* pmesh)
 
 void ComponentMesh::Draw(unsigned Program, const ComponentMaterial* mat) const 
 {
+	float4x4 Model = float4x4::identity;
+
 	glUseProgram(Program);
 
 	
@@ -225,6 +227,7 @@ void ComponentMesh::Draw(unsigned Program, const ComponentMaterial* mat) const
 
 	glUniformMatrix4fv(glGetUniformLocation(Program, "view"), 1, GL_TRUE, &App->renderer->viewMatrix[0][0]);
 	glUniformMatrix4fv(glGetUniformLocation(Program, "proj"), 1, GL_TRUE, &App->renderer->projectionMatrix[0][0]);
+	glUniformMatrix4fv(glGetUniformLocation(Program, "model"), 1, GL_TRUE, &Model[0][0]);
 	glUniformMatrix4fv(glGetUniformLocation(App->program->programDefault, "view"), 1, GL_TRUE, &App->renderer->viewMatrix[0][0]);
 	glUniformMatrix4fv(glGetUniformLocation(App->program->programDefault, "proj"), 1, GL_TRUE, &App->renderer->projectionMatrix[0][0]);
 

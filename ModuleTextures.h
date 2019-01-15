@@ -13,7 +13,8 @@ struct Texture
 	int id = 0;
 	int width = 0;
 	int height = 0;
-	Texture(int id, int width, int height) : id(id), width(width), height(height) { }
+	const char* name = nullptr;
+	Texture(int id, int width, int height, const char* name) : id(id), width(width), height(height), name(name) { }
 };
 
 struct Mesh
@@ -44,7 +45,7 @@ struct Material {
 	float ambientK = 0.5f;
 
 	unsigned diffuseMap = 0u;
-	float4 diffuseColor = { 1.0f, 1.0f, 1.0f, 1.0f };
+	float4 diffuseColor = { 1.0f, 1.0f, 0.0f, 1.0f };
 	float diffuseK = 1.0f;
 
 	unsigned specularMap = 0u;
@@ -69,7 +70,8 @@ public:
 	update_status Update();
 	bool CleanUp();
 
-	Texture* loadImg(const char* path);
+	Texture* loadImg(const char* path, const char* name);
+	void LoadTextures();
 
 	bool mipmaping = false;
 	int filterType = GL_LINEAR;
@@ -77,6 +79,8 @@ public:
 	int wrapMode = GL_CLAMP;
 	Texture* defaultTexture = nullptr;
 	Texture* noCamTexture = nullptr;
+
+	std::list<Texture*> textures;
 
 private:
 	unsigned texture0 = 0;

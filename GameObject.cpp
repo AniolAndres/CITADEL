@@ -102,7 +102,7 @@ void GameObject::Draw()
 
 		if (material != nullptr) {
 			shader = material->GetShader();
-			texture = material->GetTexture();
+			texture = material->GetTexture(DIFFUSE);
 		}
 		else {
 			shader = App->program->programLoader;
@@ -182,10 +182,11 @@ void GameObject::DrawComponents(int type)
 		break;
 	case TRANSFORM:
 		if (this->transform != nullptr)
-		this->DrawTransforms();
+			this->DrawTransforms();
 		break;
 	case LIGHT:
-		this->DrawLights();
+		if(this->light!=nullptr)
+			this->DrawLights();
 		break;
 	}
 }
@@ -199,14 +200,36 @@ void GameObject::DrawMaterials()
 {
 	float size = ImGui::GetWindowWidth();
 
-	ImGui::Image(((ImTextureID)this->material->GetTexture()->id), { size,size });
-
 	ImGui::Separator();
 
-	ImGui::SliderFloat("Ambient", &this->material->material.ambientK, 0.f, 1.f);
-	ImGui::SliderFloat("Diffuse", &this->material->material.diffuseK, 0.f, 1.f);
-	ImGui::SliderFloat("Specular", &this->material->material.specularK, 0.f, 1.f);
-	ImGui::SliderFloat("Shininess", &this->material->material.shininess, 0.f, 128.f);
+	if (ImGui::CollapsingHeader("Ambient"))
+	{
+		ImGui::SliderFloat("Ambient", &this->material->material.ambientK, 0.f, 1.f);
+	/*	ImGui::Image(((ImTextureID)this->material->GetTexture()->id), { size,size });*/
+	}
+	if (ImGui::CollapsingHeader("Diffuse"))
+	{
+		ImGui::SliderFloat("Diffuse", &this->material->material.diffuseK, 0.f, 1.f);
+		if(this->material->GetTexture(DIFFUSE)!=nullptr)
+			ImGui::Image(((ImTextureID)this->material->GetTexture(DIFFUSE)->id), { size,size });
+		if(ImGui::BeginCombo("Diffuse Texture", "none"))
+		{
+
+		}
+	}
+	if (ImGui::CollapsingHeader("Specular"))
+	{
+		ImGui::SliderFloat("Specular", &this->material->material.specularK, 0.f, 1.f);
+		ImGui::SliderFloat("Shininess", &this->material->material.shininess, 0.f, 128.f);
+		if (this->material->GetTexture(SPECULAR) != nullptr)
+			ImGui::Image(((ImTextureID)this->material->GetTexture(SPECULAR)->id), { size,size });
+	}
+	if (ImGui::CollapsingHeader("Emissive"))
+	{
+		if (this->material->GetTexture(EMISSIVE) != nullptr)
+			ImGui::Image(((ImTextureID)this->material->GetTexture(EMISSIVE)->id), { size,size });
+	}
+
 }
 
 void GameObject::DrawTransforms()
@@ -214,7 +237,7 @@ void GameObject::DrawTransforms()
 	int i = 0;
 	
 	ImGui::Text("Component Transform %i", i);
-	ImGui::DragFloat3("Position",(float*)&this->transform->position, 10.0f, -100000.f, 100000.f);
+	ImGui::DragFloat3("Position",(float*)&this->transform->position, 0.1f, -100000.f, 100000.f);
 	ImGui::DragFloat3("Scale", (float*)&this->transform->scale, 0.1f, 0.1f, 100.f);
 	ImGui::DragFloat3("Rotation", (float*)&this->transform->eulerRot, 0.5f, -360, 360.f);
 }

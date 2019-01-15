@@ -11,11 +11,33 @@ void ComponentMaterial::LoadMaterial(const aiMaterial* material)
 		material->GetTexture(aiTextureType_DIFFUSE, 0, &file, &mapping, 0);
 		texturePath = my_go->getFileFolder() + file.C_Str();
 		DeleteTexture();
-		texture = App->textures->loadImg(texturePath.c_str());
+	/*	texture = App->textures->loadImg(texturePath.c_str());*/
 	}
 	else 
 	{
 		texture = App->textures->defaultTexture;
+	}
+}
+
+Texture* ComponentMaterial::GetTexture(int TT)
+{
+	switch (TT)
+	{
+	case DIFFUSE:
+		return textureDiffuse;
+		break;
+	case OCCLUSION:
+		return textureOcclusion;
+		break;
+	case SPECULAR:
+		return textureSpecular;
+		break;
+	case NORMALS:
+		return textureNormals;
+		break;
+	case EMISSIVE:
+		return textureEmissive;
+		break;
 	}
 }
 
@@ -27,7 +49,7 @@ void ComponentMaterial::DeleteTexture()
 
 ComponentMaterial::ComponentMaterial()
 {
-	shader = App->program->programLoader;
+	shader = App->program->programBlinn;
 	type = MATERIAL;
 }
 

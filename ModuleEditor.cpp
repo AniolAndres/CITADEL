@@ -88,55 +88,55 @@ update_status ModuleEditor::Update()
 				{
 					if (ImGui::MenuItem("Bakerhouse"))
 					{
-						App->modelLoader->LoadFBX("./assets/BakerHouse/BakerHouse.fbx");
+						App->modelLoader->LoadFBX("./assets/Models/BakerHouse/BakerHouse.fbx");
 					}
 					if (ImGui::MenuItem("TracerPistol"))
 					{
-						App->modelLoader->LoadFBX("./assets/TracerPistol/tracerPistol.fbx");
+						App->modelLoader->LoadFBX("./assets/Models/TracerPistol/tracerPistol.fbx");
 					}
 					if (ImGui::MenuItem("Clock"))
 					{
-						App->modelLoader->LoadFBX("./assets/Clock/Clock.fbx");
+						App->modelLoader->LoadFBX("./assets/Models/Clock/Clock.fbx");
 					}
 					if (ImGui::MenuItem("DollHouse"))
 					{
-						App->modelLoader->LoadFBX("./assets/DollHouse/DollHouse.fbx");
+						App->modelLoader->LoadFBX("./assets/Models/DollHouse/DollHouse.fbx");
 					}
 					if (ImGui::MenuItem("Drawers"))
 					{
-						App->modelLoader->LoadFBX("./assets/Drawers/Drawers.fbx");
+						App->modelLoader->LoadFBX("./assets/Models/Drawers/Drawers.fbx");
 					}
 					if (ImGui::MenuItem("Firetruck"))
 					{
-						App->modelLoader->LoadFBX("./assets/Firetruck/Firetruck.fbx");
+						App->modelLoader->LoadFBX("./assets/Models/Firetruck/Firetruck.fbx");
 					}
 					if (ImGui::MenuItem("Floor"))
 					{
-						App->modelLoader->LoadFBX("./assets/Floor/Floor.fbx");
+						App->modelLoader->LoadFBX("./assets/Models/Floor/Floor.fbx");
 					}
 					if (ImGui::MenuItem("Hearse"))
 					{
-						App->modelLoader->LoadFBX("./assets/Hearse/Hearse.fbx");
+						App->modelLoader->LoadFBX("./assets/Models/Hearse/Hearse.fbx");
 					}
 					if (ImGui::MenuItem("Player"))
 					{
-						App->modelLoader->LoadFBX("./assets/Player/Player.fbx");
+						App->modelLoader->LoadFBX("./assets/Models/Player/Player.fbx");
 					}
 					if (ImGui::MenuItem("Robot"))
 					{
-						App->modelLoader->LoadFBX("./assets/Robot/Robot.fbx");
+						App->modelLoader->LoadFBX("./assets/Models/Robot/Robot.fbx");
 					}
 					if (ImGui::MenuItem("Spinning Top"))
 					{
-						App->modelLoader->LoadFBX("./assets/SpinningTop/SpinningTop.fbx");
+						App->modelLoader->LoadFBX("./assets/Models/SpinningTop/SpinningTop.fbx");
 					}
 					if (ImGui::MenuItem("Wall"))
 					{
-						App->modelLoader->LoadFBX("./assets/Wall/Wall.fbx");
+						App->modelLoader->LoadFBX("./assets/Models/Wall/Wall.fbx");
 					}
 					if (ImGui::MenuItem("ZomBunny"))
 					{
-						App->modelLoader->LoadFBX("./assets/Zombunny/Zombunny.fbx");
+						App->modelLoader->LoadFBX("./assets/Models/Zombunny/Zombunny.fbx");
 					}
 					ImGui::EndMenu();
 				}
@@ -277,7 +277,7 @@ update_status ModuleEditor::Update()
 
 	DrawWindow();
 
-	//ImGui::ShowDemoWindow();
+	ImGui::ShowDemoWindow();
 
 	return UPDATE_CONTINUE;
 }
