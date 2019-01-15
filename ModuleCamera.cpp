@@ -3,6 +3,9 @@
 #include "ModuleCamera.h"
 #include "ModuleInput.h"
 #include "ModuleModelLoader.h"
+#include "ModuleScene.h"
+#include "GameObject.h"
+#include "ComponentTransform.h"
 #include "MathGeoLib.h"
 
 
@@ -77,7 +80,7 @@ void ModuleCamera::CameraMovement()
 	//rotates correctly but depends on distance, needs tweeking
 	else if (App->input->GetKey(SDL_SCANCODE_LALT))
 	{
-		target = { 0,0,0 }; //this is not optimal but I'll leave it for now
+		target = { App->scene->SelectedGO->transform->position}; //this is not optimal but I'll leave it for now
 		eye += cameraSpeed * side / 5;
 	}
 	else if (App->input->GetMouseWheel() == WHEEL_OUT)

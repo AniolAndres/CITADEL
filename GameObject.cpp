@@ -76,17 +76,20 @@ void GameObject::Draw()
 	//Draw yourself------------------
 
 
-
+	if(this->mesh!=nullptr)
+	{
+		this->BB = LoadBB();
+	}
 	//Check for frustum culling, could be simpler but I can track this way better
 	if (this->mesh != nullptr && App->renderer->frustumCulling)
 	{
-		this->BB = LoadBB();
-		
 		if ((App->renderer->frustum).Intersects(this->BB))
 			rendered = true;
 		else
 			rendered = false;
 	}
+	else if (!App->renderer->frustumCulling)
+		rendered = true;
 
 	//actual draw. Would putting a big if(this->mesh!=nullptr) better than having two small ones?
 	if (this->mesh!=nullptr && this->active && rendered)
@@ -213,7 +216,7 @@ void GameObject::DrawTransforms()
 	ImGui::Text("Component Transform %i", i);
 	ImGui::DragFloat3("Position",(float*)&this->transform->position, 10.0f, -100000.f, 100000.f);
 	ImGui::DragFloat3("Scale", (float*)&this->transform->scale, 0.1f, 0.1f, 100.f);
-	ImGui::DragFloat3("Rotation", (float*)&this->transform->eulerRot, 0.5f, -360, 360.f); //needs tweaking	
+	ImGui::DragFloat3("Rotation", (float*)&this->transform->eulerRot, 0.5f, -360, 360.f);
 }
 
 void GameObject::DrawLights()
