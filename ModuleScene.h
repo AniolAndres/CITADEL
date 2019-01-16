@@ -43,6 +43,10 @@ public:
 
 	GameObject* CreateGameObject(const char* name, bool active, GameObject* parent, const char* FileLocation);
 	GameObject* CreateGameObject(const char* name, bool active, const char* FileLocation);
+	void CreateGameObject(Config* config, Value &value);
+
+	GameObject* GetGameObjectByUUID(GameObject* GO, char uuidObjectName[37]);
+
 	void DuplicateGameObject(GameObject* GO);
 
 	GameObject* Root = nullptr;

@@ -51,22 +51,26 @@ unsigned ModuleFileSystem::Load(const char* pathAndFileName, char** buffer) cons
 			unsigned readed = (unsigned)PHYSFS_read(fsFile, *buffer, 1, size);
 			if (readed != size) {
 				LOG("Error: Reading from file %s: %s\n", pathAndFileName, PHYSFS_getLastError());
+				
 				delete[] buffer;
 				buffer = nullptr;
 			}
 			else {
 				result = readed;
+				App->editor->consoleApp.AddLog("Scene loaded succesfully \n ------------------ \n");
 			}
 		}
 
 		if (PHYSFS_close(fsFile) == 0) {
 			LOG("Error: File %s had an error closing: %s\n", pathAndFileName, PHYSFS_getLastError());
+			App->editor->consoleApp.AddLog("Error loading scene while closing \n ------------------ \n");
 		}
 	}
 	else
 	{
 		const char* error = PHYSFS_getLastError();
 		LOG("Error: File %s cannot be opened: %s\n", pathAndFileName, error);
+		App->editor->consoleApp.AddLog("Error loading scene. File can't be opened \n ------------------ \n");
 	}
 
 	return result;

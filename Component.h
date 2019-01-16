@@ -25,9 +25,10 @@ public:
 	virtual void Load(Config* config, Value& value) { }
 
 	const char* UUID = nullptr;
+	const char* parentUUID = nullptr;
 	int type;
 	bool active;
-	GameObject* my_go;
+	GameObject* my_go = nullptr;
 
 };
 

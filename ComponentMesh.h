@@ -23,7 +23,8 @@ public:
 	void LoadMesh(aiMesh* mesh);
 	void LoadMesh(par_shapes_mesh_s* pmesh);
 
-	void Save(Config* config);
+	void Save(Config* config) override;
+	void Load(Config* config, Value &value) override;
 
 	void Draw(unsigned Program, const ComponentMaterial* mat) const;
 
@@ -33,7 +34,7 @@ public:
 	const char*	name = nullptr;
 	unsigned GetMaterialIndex() {return materialIndex; }
 
-	char* path;
+	const char* path;
 	int	numIndices = 0;
 	int	materialIndex = 0;
 	int numVert = 0;

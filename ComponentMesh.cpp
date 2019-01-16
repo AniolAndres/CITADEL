@@ -328,3 +328,8 @@ void ComponentMesh::Save(Config* config)
 
 	config->endObject();
 }
+
+void ComponentMesh::Load(Config* config, rapidjson::Value& value) {
+	this->mesh.path = config->GetString("currentMesh", value);
+	App->modelLoader->LoadFBX(this->mesh.path);
+}

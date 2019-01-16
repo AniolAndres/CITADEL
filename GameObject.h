@@ -26,6 +26,7 @@ public:
 
 
 	GameObject();
+	GameObject(const char* name, GameObject* parent);
 	GameObject(const char* name, bool active, const char* FileLocation);
 	GameObject(const char* name, bool active, GameObject* parent, const char* FileLocation);
 
@@ -36,6 +37,7 @@ public:
 	Component* DuplicateComponent(int type, GameObject* GO);
 
 	void Save(Config* config);
+	void Load(Config* config, Value &value);
 
 
 	AABB LoadBB();
@@ -44,6 +46,7 @@ public:
 	bool active = true;
 	const char* name = nullptr;
 	const char* UUID = nullptr;
+	const char* parent_UUID = nullptr;
 	int id =0;
 	GameObject* parent = nullptr;
 	const char*	filePath = nullptr;

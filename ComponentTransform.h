@@ -15,7 +15,8 @@ public:
 	ComponentTransform(ComponentTransform* Ctransform);
 	~ComponentTransform();
 
-	void Save(Config* config);
+	void Save(Config* config) override;
+	void Load(Config* config, Value &value) override;
 
 	void generateEulerRotation();
 

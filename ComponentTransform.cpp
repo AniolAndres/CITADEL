@@ -41,3 +41,13 @@ void ComponentTransform::Save(Config* config)
 
 	config->endObject();
 }
+
+void ComponentTransform::Load(Config* config, Value &value)
+{
+	UUID = config->GetString("uuid", value);
+	parentUUID, config->GetString("parentUuid", value);
+	position = config->GetFloat3("position", value);
+	eulerRot = config->GetFloat3("eulerRotation", value);
+	scale = config->GetFloat3("scale", value);
+	rotation = config->GetQuat("rotation", value);
+}

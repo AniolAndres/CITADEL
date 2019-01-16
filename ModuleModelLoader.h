@@ -27,7 +27,7 @@ public:
 	update_status PostUpdate();
 	bool CleanUp();
 
-	void LoadFBX(char* path);
+	void LoadFBX(const char* path);
 
 	bool ProcessFBX(const aiNode* node, const aiScene* scene,GameObject* GO);
 
@@ -47,7 +47,7 @@ public:
 
 	const aiScene* scene;
 
-	char* modelPath;
+	const char* modelPath;
 
 	bool modelLoaded = false;
 

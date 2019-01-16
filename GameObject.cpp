@@ -29,12 +29,13 @@ GameObject::GameObject(const char* name, bool active, const char* FileLocation)
 {
 	this->id = App->scene->GOcounter;
 	this->UUID = App->GenerateUUID();
+	this->parent = App->scene->Root;
+	this->parent_UUID = App->scene->Root->UUID;
 	this->name =name;
 	this->active = active;
-	this->parent = App->scene->Root;
 	this->CreateComponent(TRANSFORM);
 	filePath = FileLocation;
-	App->editor->consoleApp.AddLog("Created GameObject \n");
+	App->editor->consoleApp.AddLog("Created GameObject \n -------------\n");
 }
 
 
@@ -42,12 +43,26 @@ GameObject::GameObject(const char* name,bool active, GameObject* parent, const c
 {
 	this->id = App->scene->GOcounter;
 	this->UUID = App->GenerateUUID();
+	this->parent = parent;
+	this->parent_UUID = parent->UUID;
 	this->name =  name;
 	this->active = active;
-	this->parent = parent;
 	this->CreateComponent(TRANSFORM);
 	filePath = FileLocation;
-	App->editor->consoleApp.AddLog("Created GameObject \n");
+	App->editor->consoleApp.AddLog("Created GameObject \n -------------\n");
+}
+
+GameObject::GameObject(const char* name, GameObject* parent) 
+{
+	UUID = App->GenerateUUID();
+
+	this->name = name;
+
+	if (parent != nullptr) {
+		this->parent = parent;
+		parent_UUID = parent->UUID;
+		parent->children.push_back(this);
+	}
 }
 
 GameObject::~GameObject()
@@ -349,16 +364,21 @@ Component* GameObject::CreateComponent(int type)
 {
 	Component* comp = nullptr;
 
+	
 	switch (type) 
 	{
 	case MESH:
 		comp = new ComponentMesh();
 		this->MeshComponents.push_back(comp);
+		comp->my_go = this;
+		comp->parentUUID = this->UUID;
 		mesh = (ComponentMesh*)comp;
 		break;
 	case MATERIAL:
 		comp = new ComponentMaterial();
 		this->MaterialComponents.push_back(comp);
+		comp->my_go = this;
+		comp->parentUUID = this->UUID;
 		material = (ComponentMaterial*)comp;
 		break;
 	case LIGHT:
@@ -368,10 +388,12 @@ Component* GameObject::CreateComponent(int type)
 	case TRANSFORM: 	
 		comp = new (ComponentTransform);
 		this->TransformComponents.push_back(comp);
+		comp->my_go = this;
+		comp->parentUUID = this->UUID;
 		transform = (ComponentTransform*)comp;
 		break;
 	}
-	comp->my_go = this;
+	
 	this->components.push_back(comp);
 	return comp;
 }
@@ -471,10 +493,10 @@ void GameObject::Save(Config* config)
 	config->addString("name", name);
 
 	if (parent != nullptr) {
-		config->addString("parentUuid", parent->UUID);
+		config->addString("parentUuid", parent_UUID);
 	}
 
-	config->addBool("enabled", active);
+	config->addBool("active", active);
 	config->addBool("static", Static);
 
 	config->StartArray("components");
@@ -486,4 +508,30 @@ void GameObject::Save(Config* config)
 	config->EndArray();
 
 	config->endObject();
+}
+
+void GameObject::Load(Config* config, Value& value) {
+
+	UUID = config->GetString("uuid", value);
+
+	active = config->GetBool("active", value);
+	Static = config->GetBool("static", value);
+
+	if (parent != nullptr) {
+		parent_UUID, config->GetString("parentUuid", value);
+	}
+	else {
+		parent_UUID = "";
+	}
+
+	rapidjson::Value components = value["components"].GetArray();
+
+	for (Value::ValueIterator it = components.Begin(); it != components.End(); ++it) {
+		Component* component = CreateComponent(config->GetComponentType("componentType", (*it)));
+
+		if (component != nullptr) {
+			component->Load(config, (*it));
+		}
+	}
+
 }

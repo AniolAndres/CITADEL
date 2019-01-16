@@ -220,7 +220,8 @@ Document Config::LoadFromDisk()
 	Document result = nullptr;
 
 	char* fileBuffer;
-	unsigned lenghBuffer = App->fileSystem->Load("/Library/Scenes/scene.json", &fileBuffer);
+
+	unsigned lenghtBuffer = App->fileSystem->Load("/assets/Scenes/scene.json", &fileBuffer);
 
 	if (fileBuffer) {
 		if (result.Parse<kParseStopWhenDoneFlag>(fileBuffer).HasParseError()) {

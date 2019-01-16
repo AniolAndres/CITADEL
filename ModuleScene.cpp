@@ -112,6 +112,51 @@ GameObject* ModuleScene::CreateGameObject(const char* name, bool active, const c
 	return my_go;
 }
 
+void ModuleScene::CreateGameObject(Config* config, Value &value)
+{
+	if (value.HasMember("parentUuid")) {
+		const char* parentUuid = config->GetString("parentUuid", value);
+		char uuidGameObjectParent[37];
+		sprintf_s(uuidGameObjectParent, parentUuid);
+
+		GameObject* parent = GetGameObjectByUUID(Root, uuidGameObjectParent);
+
+		GameObject* gameObject = new GameObject(config->GetString("name", value), parent);
+		gameObject->Load(config, value);
+	}
+	else {
+		Root->Load(config, value);
+	}
+}
+
+GameObject* ModuleScene::GetGameObjectByUUID(GameObject* gameObject, char uuidObjectName[37]) 
+{
+	GameObject* result = nullptr;
+
+	if (result == nullptr && (strcmp(gameObject->UUID, uuidObjectName) == 0)) {
+		result = gameObject;
+	}
+	else {
+		for (std::list<GameObject*>::iterator it = gameObject->children.begin(); it != gameObject->children.end(); ++it)
+		{
+			if (gameObject->children.size() > 0)
+				result = GetGameObjectByUUID((*it), uuidObjectName);
+			if (result == nullptr && (strcmp((*it)->UUID, uuidObjectName) == 0)) 
+			{
+				result = (*it);
+				break;
+			}
+			else if (result != nullptr) 
+			{
+				break;
+			}
+		}
+
+	}
+
+	return result;
+}
+
 void ModuleScene::SaveScene()
 {
 	Config* config = new Config();
@@ -148,5 +193,19 @@ void ModuleScene::LoadScene()
 {
 	Config* config = new Config();
 
-	rapidjson::Document document = config->LoadFromDisk();
+	Document document = config->LoadFromDisk();
+
+	if (!document.HasParseError()) {
+		Value& scene = document["scene"];
+
+		ambientLight = config->GetFloat("ambientLight", scene);
+		lightPosition = config->GetFloat3("ambientLightPosition", scene);
+
+		Value gameObjects = document["gameObjects"].GetArray();
+		for (Value::ValueIterator it = gameObjects.Begin(); it != gameObjects.End(); ++it) {
+			CreateGameObject(config, *it);
+		}
+
+	}
+
 }

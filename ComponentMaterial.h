@@ -23,7 +23,8 @@ public:
 	void LoadMaterial(const aiMaterial* material);
 	unsigned GetShader() {return shader; }
 	Texture* GetTexture(int TT);
-	void Save(Config* config);
+	void Save(Config* config) override;
+	void Load(Config* config, Value& value) override;
 
 	void DeleteTexture();
 

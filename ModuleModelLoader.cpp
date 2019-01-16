@@ -61,7 +61,7 @@ bool ModuleModelLoader::CleanUp()
 //	}
 //}
 
-void ModuleModelLoader::LoadFBX(char* path)
+void ModuleModelLoader::LoadFBX(const char* path)
 {
 	const char* err;
 
