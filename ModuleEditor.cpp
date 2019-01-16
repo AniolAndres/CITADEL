@@ -277,7 +277,7 @@ update_status ModuleEditor::Update()
 
 	DrawWindow();
 
-	ImGui::ShowDemoWindow();
+	//ImGui::ShowDemoWindow();
 
 	return UPDATE_CONTINUE;
 }

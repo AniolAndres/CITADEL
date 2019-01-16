@@ -5,6 +5,7 @@
 #include "GameObject.h"
 #include "ComponentLight.h"
 #include "ModuleDebugDraw.h"
+#include "ModuleTextures.h"
 #include "ModuleInput.h"
 #include "ComponentMaterial.h"
 #include "ComponentMesh.h"
@@ -207,29 +208,94 @@ void GameObject::DrawMaterials()
 		ImGui::SliderFloat("Ambient", &this->material->material.ambientK, 0.f, 1.f);
 	/*	ImGui::Image(((ImTextureID)this->material->GetTexture()->id), { size,size });*/
 	}
+
+	//Diffuse textures
 	if (ImGui::CollapsingHeader("Diffuse"))
 	{
 		ImGui::SliderFloat("Diffuse", &this->material->material.diffuseK, 0.f, 1.f);
-		if(this->material->GetTexture(DIFFUSE)!=nullptr)
-			ImGui::Image(((ImTextureID)this->material->GetTexture(DIFFUSE)->id), { size,size });
-		if(ImGui::BeginCombo("Diffuse Texture", "none"))
-		{
 
+		if (this->material->GetTexture(DIFFUSE) != nullptr)
+		{
+			ImGui::Text(this->material->textureDiffuse->name);
+			ImGui::Image(((ImTextureID)this->material->GetTexture(DIFFUSE)->id), { size,size });
 		}
+		ImGui::Text("Diffuse Texture: ");
+
+		ImGui::PushID(0);
+
+		if (ImGui::BeginCombo("##hidelabel", "Select diffuse Texture"))
+		{
+			for (std::list<Texture*>::iterator it=App->textures->textures.begin();it!=App->textures->textures.end();++it)
+			{
+				if (ImGui::Selectable((*it)->name))
+				{
+					this->material->textureDiffuse = (*it);
+				}
+			}
+			ImGui::EndCombo();
+		}
+		ImGui::PopID();
 	}
+
+	//Specular Textures
 	if (ImGui::CollapsingHeader("Specular"))
 	{
+
 		ImGui::SliderFloat("Specular", &this->material->material.specularK, 0.f, 1.f);
 		ImGui::SliderFloat("Shininess", &this->material->material.shininess, 0.f, 128.f);
+
 		if (this->material->GetTexture(SPECULAR) != nullptr)
+		{
+			ImGui::Text(this->material->textureSpecular->name);
 			ImGui::Image(((ImTextureID)this->material->GetTexture(SPECULAR)->id), { size,size });
+		}
+
+		ImGui::Text("Specular Texture: ");
+
+		ImGui::PushID(1);
+
+		if (ImGui::BeginCombo("##hidelabel", "Select Specular Texture"))
+		{
+			for (std::list<Texture*>::iterator it = App->textures->textures.begin(); it != App->textures->textures.end(); ++it)
+			{
+				if (ImGui::Selectable((*it)->name))
+				{
+					this->material->textureSpecular = (*it);
+				}
+			}
+			ImGui::EndCombo();
+		}
+
+		ImGui::PopID();
 	}
+
+	//Emissive Textures
 	if (ImGui::CollapsingHeader("Emissive"))
 	{
 		if (this->material->GetTexture(EMISSIVE) != nullptr)
+		{
+			ImGui::Text(this->material->textureEmissive->name);
 			ImGui::Image(((ImTextureID)this->material->GetTexture(EMISSIVE)->id), { size,size });
-	}
+		}
 
+		ImGui::Text("Emissive Texture: ");
+
+		ImGui::PushID(2);
+
+		if (ImGui::BeginCombo("##hidelabel", "Select emissive Texture"))
+		{
+			for (std::list<Texture*>::iterator it = App->textures->textures.begin(); it != App->textures->textures.end(); ++it)
+			{
+				if (ImGui::Selectable((*it)->name))
+				{
+					this->material->textureEmissive = (*it);
+				}
+			}
+			ImGui::EndCombo();
+		}
+		ImGui::PopID();
+	}
+	ImGui::Separator();
 }
 
 void GameObject::DrawTransforms()
