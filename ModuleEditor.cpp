@@ -587,14 +587,14 @@ void ModuleEditor::DrawEditor()
 							App->scene->SelectedGO->DrawComponents(TRANSFORM);
 						}
 					}
-					if (ImGui::CollapsingHeader("Component Light"))
+					/*if (ImGui::CollapsingHeader("Component Light"))
 					{
 						App->scene->SelectedGO->DrawComponents(LIGHT);
 						if (ImGui::Button("New Component Light"))
 						{
 							App->scene->SelectedGO->CreateComponent(LIGHT);
 						}
-					}
+					}*/
 				}
 				ImGui::EndTabItem();
 			}
@@ -664,7 +664,7 @@ void ModuleEditor::DrawHierarchyPopup()
 		{
 			App->scene->CreateGameObject(DEFAULT_GO_NAME, true, App->scene->SelectedGO, ".");
 		}
-		if (ImGui::Selectable("Duplicate GO"))
+		/*if (ImGui::Selectable("Duplicate GO"))
 		{
 			App->scene->DuplicateGameObject(App->scene->SelectedGO);
 		}
@@ -672,14 +672,14 @@ void ModuleEditor::DrawHierarchyPopup()
 		{
 			App->scene->CopiedGO = App->scene->SelectedGO;
 			isModelCopied = true;
-		}
-		if (isModelCopied)
-		{
-			if (ImGui::Selectable("Paste GO"))
-			{
-				//PASTE CODE
-			}
-		}
+		}*/
+		//if (isModelCopied)
+		//{
+		//	if (ImGui::Selectable("Paste GO"))
+		//	{
+		//		//PASTE CODE
+		//	}
+		//}
 		ImGui::EndPopup();
 	}
 	

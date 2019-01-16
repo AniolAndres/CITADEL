@@ -144,41 +144,44 @@ Texture* ModuleTextures::loadImg(const char* path, const char* name)
 
 void ModuleTextures::LoadTextures()
 {
+
+	//had no time to implement PhysFS
+
 	loadImg("./assets/Textures/BakerHouse/Baker_house.png","Baker_house.png");
 
 	loadImg("./assets/Textures/Clock/ClockDiffuse.png", "ClockDiffuse.png");
 	loadImg("./assets/Textures/Clock/ClockNormals.png", "ClockNormals.png");
 	loadImg("./assets/Textures/Clock/ClockOcclusion.png", "ClockOcclusion.png");
-	loadImg("./assets/Textures/Clock/ClockSpecular.png", "ClockSpecular.png");
+	loadImg("./assets/Textures/Clock/ClockSpecular.tif", "ClockSpecular.tif");
 
 	loadImg("./assets/Textures/DollHouse/DollhouseDiffuse.png", "DollhouseDiffuse.png");
 	loadImg("./assets/Textures/DollHouse/DollhouseOcclusion.png", "DollhouseOcclusion.png");
-	loadImg("./assets/Textures/DollHouse/DollhouseSpecular.png", "DollhouseSpecular.png");
+	loadImg("./assets/Textures/DollHouse/DollhouseSpecular.tif", "DollhouseSpecular.tif");
 
 	loadImg("./assets/Textures/Drawers/DrawersDiffuse.png", "DrawersDiffuse.png");
 	loadImg("./assets/Textures/Drawers/DrawersOcclusion.png", "DrawersOcclusion.png");
 	loadImg("./assets/Textures/Drawers/DrawersNormals.png", "DrawersNormals.png");
-	loadImg("./assets/Textures/Drawers/DrawersSpecular.png", "DrawersSpecular.png");
+	loadImg("./assets/Textures/Drawers/DrawersSpecular.tif", "DrawersSpecular.tif");
 
 	loadImg("./assets/Textures/Firetruck/FiretruckDiffuse.png", "FiretruckDiffuse.png");
 	loadImg("./assets/Textures/Firetruck/FiretruckOcclusion.png", "FiretruckOcclusion.png");
 	loadImg("./assets/Textures/Firetruck/FiretruckNormals.png", "FiretruckNormals.png");
-	loadImg("./assets/Textures/Firetruck/FiretruckSpecular.png", "FiretruckSpecular.png");
+	loadImg("./assets/Textures/Firetruck/FiretruckSpecular.tif", "FiretruckSpecular.tif");
 
 	loadImg("./assets/Textures/Floor/PlanksDiffuse.png", "PlanksDiffuse.png");
 	loadImg("./assets/Textures/Floor/PlanksOcclusion.png", "PlanksOcclusion.png");
 	loadImg("./assets/Textures/Floor/PlanksNormals.png", "PlanksNormals.png");
-	loadImg("./assets/Textures/Floor/PlanksSpecular.png", "PlanksSpecular.png");
+	loadImg("./assets/Textures/Floor/PlanksSpecular.tif", "PlanksSpecular.tif");
 
 	loadImg("./assets/Textures/Hearse/HearseDiffuse.png", "HearseDiffuse.png");
 	loadImg("./assets/Textures/Hearse/HearseOcclusion.png", "HearseOcclusion.png");
 	loadImg("./assets/Textures/Hearse/HearseNormals.png", "HearseNormals.png");
-	loadImg("./assets/Textures/Hearse/HearseSpecular.png", "HearseSpecular.png");
+	loadImg("./assets/Textures/Hearse/HearseSpecular.tif", "HearseSpecular.tif");
 
 	loadImg("./assets/Textures/Player/PlayerDiffuse.png", "PlayerDiffuse.png");
 	loadImg("./assets/Textures/Player/PlayerOcclusion.png", "PlayerOcclusion.png");
 	loadImg("./assets/Textures/Player/PlayerNormals.png","PlayerNormals.png");
-	loadImg("./assets/Textures/Player/PlayerSpecular.png","PlayerSpecular.png");
+	loadImg("./assets/Textures/Player/PlayerSpecular.tif","PlayerSpecular.tif");
 
 	loadImg("./assets/Textures/Player/GunDiffuse.png", "GunDiffuse.png");
 	loadImg("./assets/Textures/Player/GunOcclusion.png", "GunOcclusion.png");
@@ -187,22 +190,22 @@ void ModuleTextures::LoadTextures()
 
 	loadImg("./assets/Textures/Robot/RobotDiffuse.png", "RobotDiffuse.png");
 	loadImg("./assets/Textures/Robot/RobotOcclusion.png", "RobotOcclusion.png");
-	loadImg("./assets/Textures/Robot/RobotSpecular.png", "RobotSpecular.png");
+	loadImg("./assets/Textures/Robot/RobotSpecular.tif", "RobotSpecular.tif");
 
 	loadImg("./assets/Textures/SpinningTop/SpinningTopDiffuse.png","SpinningTopDiffuse.png");
 	loadImg("./assets/Textures/SpinningTop/SpinningTopOcclusion.png","SpinningTopOcclusion.png");
 	loadImg("./assets/Textures/SpinningTop/SpinningTopNormals.png", "SpinningTopNormals.png");
 
-	loadImg("./assets/Textures/TracerPistol/tracerPistol.png", "tracerPistol.png");
+	loadImg("./assets/Textures/TracerPistol/tracerPistol.dds", "tracerPistol.dds");
 
 	loadImg("./assets/Textures/Wall/WallDiffuse.png", "WallDiffuse.png");
 	loadImg("./assets/Textures/Wall/WallOcclusion.png", "WallOcclusion.png");
 	loadImg("./assets/Textures/Wall/WallNormals.png", "WallNormals.png");
-	loadImg("./assets/Textures/Wall/WallSpecular.png", "WallSpecular.png");
+	loadImg("./assets/Textures/Wall/WallSpecular.tif", "WallSpecular.tif");
 
 	loadImg("./assets/Textures/ZomBunny/ZomBunnyDiffuse.png", "ZomBunnyDiffuse.png");
 	loadImg("./assets/Textures/ZomBunny/ZomBunnyOcclusion.png", "ZomBunnyOcclusion.png");
 	loadImg("./assets/Textures/ZomBunny/ZomBunnyNormals.png", "ZomBunnyNormals.png");
-	loadImg("./assets/Textures/ZomBunny/ZomBunnySpecular.png", "ZomBunnySpecular.png");
+	loadImg("./assets/Textures/ZomBunny/ZomBunnySpecular.tif", "ZomBunnySpecular.tif");
 	loadImg("./assets/Textures/ZomBunny/ZomBunnyEmissive.png", "ZomBunnyEmissive.png");
 }

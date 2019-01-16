@@ -46,7 +46,7 @@ public:
 	int GOcounter = 1;
 
 	float3 lightPosition = { 1000.f, 1000.f, 1000.f };
-	float ambientLight = 3.0f;
+	float ambientLight = 0.4f;
 
 	std::list<GameObject*> GOs; //map or list or vector??
 

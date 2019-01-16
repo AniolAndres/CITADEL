@@ -126,6 +126,7 @@ void ComponentMesh::LoadMesh(aiMesh* AImesh)
 
 	mesh.BB.SetNegativeInfinity();
 	mesh.BB.Enclose((float3*)mesh.vertices, mesh.verticesNumber);
+
 }
 
 void ComponentMesh::LoadMesh(par_shapes_mesh_s* pmesh)
