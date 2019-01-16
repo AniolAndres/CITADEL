@@ -9,23 +9,23 @@
     },
     "gameObjects": [
         {
-            "uuid": "7addc3a7-c999-4f7c-9db2-2edc16a20abf",
+            "uuid": "66abbc51-557a-4184-8a29-abb0bb7d2dff",
             "name": "Root",
             "enabled": true,
             "static": true,
             "components": []
         },
         {
-            "uuid": "0e3bdc16-1643-48d6-b62a-d61367fbe5ef",
+            "uuid": "efab5178-c466-475d-84c8-4ec795a1657c",
             "name": "RootNode",
-            "parentUuid": "7addc3a7-c999-4f7c-9db2-2edc16a20abf",
+            "parentUuid": "66abbc51-557a-4184-8a29-abb0bb7d2dff",
             "enabled": true,
             "static": true,
             "components": [
                 {
                     "Transform": "parentUuid",
-                    "0e3bdc16-1643-48d6-b62a-d61367fbe5ef": "uuid",
-                    "300f92bf-0d0b-4f22-8ef1-4ba81b586d9f": "position",
+                    "efab5178-c466-475d-84c8-4ec795a1657c": "uuid",
+                    "f02c9286-edaf-4d50-98c3-85d5813a1048": "position",
                     {
                         "x": 0.0,
                         "y": 0.0,
@@ -46,6 +46,139 @@
                         "x": 1.0,
                         "y": 1.0,
                         "z": 1.0
+                    }
+                }
+            ]
+        },
+        {
+            "uuid": "fbaff249-0cd1-42df-8e50-d466d9da5378",
+            "name": "Chimney",
+            "parentUuid": "efab5178-c466-475d-84c8-4ec795a1657c",
+            "enabled": true,
+            "static": false,
+            "components": [
+                {
+                    "Transform": "parentUuid",
+                    "fbaff249-0cd1-42df-8e50-d466d9da5378": "uuid",
+                    "bd8c5d82-9a17-447e-a7fc-782298a2a70f": "position",
+                    {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    }: "rotation",
+                    {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0,
+                        "w": 1.0
+                    }: "eulerRotation",
+                    {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    }: "scale",
+                    {
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0
+                    }
+                },
+                {
+                    "Mesh": "parent",
+                    "fbaff249-0cd1-42df-8e50-d466d9da5378": "currentMesh",
+                    "./assets/Models/BakerHouse/BakerHouse.fbx"
+                },
+                {
+                    "Material": "parent",
+                    "fbaff249-0cd1-42df-8e50-d466d9da5378": "diffuseColor",
+                    {
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0,
+                        "w": 1.0
+                    }: "diffuseK",
+                    1.0: "ambientK",
+                    0.5: "specularColor",
+                    {
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0,
+                        "w": 1.0
+                    }: "specularK",
+                    0.6000000238418579: "shininess",
+                    64.0: "emissiveColor",
+                    {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 1.0,
+                        "w": 0.0
+                    }
+                }
+            ]
+        },
+        {
+            "uuid": "8f35daab-dc2c-4210-a6e8-b462cf2d28b9",
+            "name": "Baker_house",
+            "parentUuid": "efab5178-c466-475d-84c8-4ec795a1657c",
+            "enabled": true,
+            "static": false,
+            "components": [
+                {
+                    "Transform": "parentUuid",
+                    "8f35daab-dc2c-4210-a6e8-b462cf2d28b9": "uuid",
+                    "c9debcb9-c2fe-443c-9799-10d8a674e14d": "position",
+                    {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    }: "rotation",
+                    {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0,
+                        "w": 1.0
+                    }: "eulerRotation",
+                    {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    }: "scale",
+                    {
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0
+                    }
+                },
+                {
+                    "Mesh": "parent",
+                    "8f35daab-dc2c-4210-a6e8-b462cf2d28b9": "currentMesh",
+                    "./assets/Models/BakerHouse/BakerHouse.fbx"
+                },
+                {
+                    "Material": "parent",
+                    "8f35daab-dc2c-4210-a6e8-b462cf2d28b9": "diffuseSelected",
+                    "./assets/Textures/BakerHouse/Baker_house.png": "diffuseColor",
+                    {
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0,
+                        "w": 1.0
+                    }: "diffuseK",
+                    0.5360000133514404: "ambientK",
+                    0.5: "specularColor",
+                    {
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0,
+                        "w": 1.0
+                    }: "specularK",
+                    0.6000000238418579: "shininess",
+                    64.0: "emissiveColor",
+                    {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 1.0,
+                        "w": 0.0
                     }
                 }
             ]

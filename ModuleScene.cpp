@@ -140,7 +140,7 @@ void ModuleScene::SaveGameObject(Config* config, GameObject* GO)
 
 	for (std::list<GameObject*>::iterator it = GO->children.begin(); it != GO->children.end(); ++it)
 	{
-		(*it)->Save(config);
+		SaveGameObject(config, (*it));
 	}
 }
 
