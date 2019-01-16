@@ -305,6 +305,9 @@ void ModuleRender::setUniformMatrix()
 	float4x4 Model(math::float4x4::identity);
 
 	//could be done iterating
+	glUniformMatrix4fv(glGetUniformLocation(App->program->programBlinn, "model"), 1, GL_TRUE, &Model[0][0]);
+	glUniformMatrix4fv(glGetUniformLocation(App->program->programBlinn, "view"), 1, GL_TRUE, &viewMatrix[0][0]);
+	glUniformMatrix4fv(glGetUniformLocation(App->program->programBlinn, "proj"), 1, GL_TRUE, &projectionMatrix[0][0]);
 
 	glUniformMatrix4fv(glGetUniformLocation(App->program->programLoader, "model"), 1, GL_TRUE, &Model[0][0]);
 	glUniformMatrix4fv(glGetUniformLocation(App->program->programLoader, "view"), 1, GL_TRUE, &viewMatrix[0][0]);
@@ -314,9 +317,7 @@ void ModuleRender::setUniformMatrix()
 	glUniformMatrix4fv(glGetUniformLocation(App->program->programDefault, "view"), 1, GL_TRUE, &viewMatrix[0][0]);
 	glUniformMatrix4fv(glGetUniformLocation(App->program->programDefault, "proj"), 1, GL_TRUE, &projectionMatrix[0][0]);
 
-	glUniformMatrix4fv(glGetUniformLocation(App->program->programBlinn, "model"), 1, GL_TRUE, &Model[0][0]);
-	glUniformMatrix4fv(glGetUniformLocation(App->program->programBlinn, "view"), 1, GL_TRUE, &viewMatrix[0][0]);
-	glUniformMatrix4fv(glGetUniformLocation(App->program->programBlinn, "proj"), 1, GL_TRUE, &projectionMatrix[0][0]);
+	
 }
 
 

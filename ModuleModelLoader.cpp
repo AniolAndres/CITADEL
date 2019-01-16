@@ -103,7 +103,7 @@ bool ModuleModelLoader::ProcessFBX(const aiNode* node, const aiScene* scene, Gam
 		mesh->LoadMesh(scene->mMeshes[node->mMeshes[i]]);
 
 		ComponentMaterial* material = (ComponentMaterial*)GO->CreateComponent(MATERIAL);
-		material->LoadMaterial(scene->mMaterials[mesh->GetMaterialIndex()]);
+	/*	material->LoadMaterial(scene->mMaterials[mesh->GetMaterialIndex()]);*/
 	}
 
 	for (unsigned i = 0u; i < node->mNumChildren; i++) 

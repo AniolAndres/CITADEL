@@ -456,6 +456,11 @@ void ModuleEditor::DrawEditor()
 					ImGui::Text("Current window size: ");
 					ImGui::BulletText(" %f x %f ", App->window->windowWidth, App->window->windowHeight); //How can I get rid of the decimals?
 				}
+				if (ImGui::CollapsingHeader("Module Scene"))
+				{
+					ImGui::DragFloat3("Light position: ", (float*)&App->scene->lightPosition, 0.1f, 1000.f, 1000.f);
+					ImGui::DragFloat("Ambient Light: ", (float*)&App->scene->ambientLight, 0.1f, -100.f, 100.f);
+				}
 				if (ImGui::CollapsingHeader("Properties: "))
 				{
 					if (App->modelLoader->modelLoaded)

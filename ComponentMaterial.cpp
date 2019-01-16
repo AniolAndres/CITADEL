@@ -19,9 +19,9 @@ void ComponentMaterial::LoadMaterial(const aiMaterial* material)
 	}
 }
 
-Texture* ComponentMaterial::GetTexture(int TT)
+Texture* ComponentMaterial::GetTexture(int TextureType)
 {
-	switch (TT)
+	switch (TextureType)
 	{
 	case DIFFUSE:
 		return textureDiffuse;
@@ -49,7 +49,7 @@ void ComponentMaterial::DeleteTexture()
 
 ComponentMaterial::ComponentMaterial()
 {
-	shader = App->program->programBlinn;
+	shader = App->program->programLoader;
 	type = MATERIAL;
 }
 

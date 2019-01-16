@@ -1,6 +1,7 @@
 #version 330
 
-layout(location = 0) in vec3 vertex_position;
+layout(location = 0) in vec3 
+;
 
 uniform mat4 proj; 
 uniform mat4 view; 

@@ -44,8 +44,7 @@ void main()
 	vec4 algo = vec4(textureSpecularColor.rgb*specularColor.rgb, max(textureSpecularColor.a*shininess*128.0f, 8.0f));
     vec3 finalSpecular = algo.rgb * k_specular * spec * specularColor.rgb;
 	
-    	
-  
+    
 	 /*Emissive */
      vec3 finalEmission = emissiveColor.rgb * texture(emissiveMap, uv0).rgb;
     

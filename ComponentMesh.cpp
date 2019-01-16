@@ -215,19 +215,17 @@ void ComponentMesh::Draw(unsigned Program, const ComponentMaterial* mat) const
 
 	glUseProgram(Program);
 
-	
-
-	if (mat->texture != nullptr) 
-	{
-		glBindTexture(GL_TEXTURE_2D, mat->texture->id);
-	}
+	//if (mat->texture != nullptr) 
+	//{
+	//	glBindTexture(GL_TEXTURE_2D, mat->texture->id);
+	//}
 
 	glUniform1i(glGetUniformLocation(Program, "texture0"), 0);
 
-
+	//glUniformMatrix4fv(glGetUniformLocation(Program, "model"), 1, GL_TRUE, &Model[0][0]);
 	glUniformMatrix4fv(glGetUniformLocation(Program, "view"), 1, GL_TRUE, &App->renderer->viewMatrix[0][0]);
 	glUniformMatrix4fv(glGetUniformLocation(Program, "proj"), 1, GL_TRUE, &App->renderer->projectionMatrix[0][0]);
-	glUniformMatrix4fv(glGetUniformLocation(Program, "model"), 1, GL_TRUE, &Model[0][0]);
+
 	glUniformMatrix4fv(glGetUniformLocation(App->program->programDefault, "view"), 1, GL_TRUE, &App->renderer->viewMatrix[0][0]);
 	glUniformMatrix4fv(glGetUniformLocation(App->program->programDefault, "proj"), 1, GL_TRUE, &App->renderer->projectionMatrix[0][0]);
 
@@ -245,8 +243,9 @@ void ComponentMesh::Draw(unsigned Program, const ComponentMaterial* mat) const
 	glUniform4fv(glGetUniformLocation(Program, "newColor"), 1, (float*)&mat->material.color);
 
 	glActiveTexture(GL_TEXTURE0);
-	if (mat->material.diffuseMap != 0) {
-		glBindTexture(GL_TEXTURE_2D, mat->material.diffuseMap);
+
+	if (mat->textureDiffuse!=nullptr) {
+		glBindTexture(GL_TEXTURE_2D, mat->textureDiffuse->id);
 	}
 	else {
 		glBindTexture(GL_TEXTURE_2D, App->renderer->Fallback);
@@ -254,10 +253,12 @@ void ComponentMesh::Draw(unsigned Program, const ComponentMaterial* mat) const
 	glUniform1i(glGetUniformLocation(Program, "diffuseMap"), 0);
 
 	glActiveTexture(GL_TEXTURE1);
-	if (mat->material.emissiveMap != 0) {
+	if (mat->material.emissiveMap != 0) 
+	{
 		glBindTexture(GL_TEXTURE_2D, mat->material.emissiveMap);
 	}
-	else {
+	else 
+	{
 		glBindTexture(GL_TEXTURE_2D, App->renderer->Fallback);
 	}
 	glUniform1i(glGetUniformLocation(Program, "emissiveMap"), 1);
@@ -288,6 +289,8 @@ void ComponentMesh::Draw(unsigned Program, const ComponentMaterial* mat) const
 	glBindVertexArray(0);
 
 	glBindTexture(GL_TEXTURE_2D, 0);
+
+	glUseProgram(0);
 }
 
 

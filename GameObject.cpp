@@ -117,7 +117,6 @@ void GameObject::Draw()
 		ModelTransform(shader);
 
 		this->mesh->Draw(shader, material);
-		
 	}
 
 	//Draw your children
