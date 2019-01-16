@@ -45,7 +45,7 @@ public:
 	GameObject* CreateGameObject(const char* name, bool active, const char* FileLocation);
 	void CreateGameObject(Config* config, Value &value);
 
-	GameObject* GetGameObjectByUUID(GameObject* GO, char uuidObjectName[37]);
+	GameObject* GetGameObjectByUUID(GameObject* GO, const char* name);
 
 	void DuplicateGameObject(GameObject* GO);
 

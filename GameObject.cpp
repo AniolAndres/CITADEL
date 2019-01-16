@@ -512,7 +512,8 @@ void GameObject::Save(Config* config)
 	config->endObject();
 }
 
-void GameObject::Load(Config* config, Value& value) {
+void GameObject::Load(Config* config, Value& value) 
+{
 
 	UUID = config->GetString("uuid", value);
 
@@ -520,7 +521,7 @@ void GameObject::Load(Config* config, Value& value) {
 	Static = config->GetBool("static", value);
 
 	if (parent != nullptr) {
-		parent_UUID, config->GetString("parentUuid", value);
+		parent_UUID = config->GetString("parentUuid", value);
 	}
 	else {
 		parent_UUID = "";
@@ -528,7 +529,8 @@ void GameObject::Load(Config* config, Value& value) {
 
 	rapidjson::Value components = value["components"].GetArray();
 
-	for (Value::ValueIterator it = components.Begin(); it != components.End(); ++it) {
+	for (Value::ValueIterator it = components.Begin(); it != components.End(); ++it) 
+	{
 		Component* component = CreateComponent(config->GetComponentType("componentType", (*it)));
 
 		if (component != nullptr) {

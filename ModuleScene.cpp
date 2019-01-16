@@ -116,12 +116,13 @@ void ModuleScene::CreateGameObject(Config* config, Value &value)
 {
 	if (value.HasMember("parentUuid")) {
 		const char* parentUuid = config->GetString("parentUuid", value);
-		char uuidGameObjectParent[37];
-		sprintf_s(uuidGameObjectParent, parentUuid);
 
-		GameObject* parent = GetGameObjectByUUID(Root, uuidGameObjectParent);
+		GameObject* parent = GetGameObjectByUUID(Root, parentUuid);
 
 		GameObject* gameObject = new GameObject(config->GetString("name", value), parent);
+
+		gameObject->parent_UUID = parentUuid;
+
 		gameObject->Load(config, value);
 	}
 	else {
@@ -129,19 +130,21 @@ void ModuleScene::CreateGameObject(Config* config, Value &value)
 	}
 }
 
-GameObject* ModuleScene::GetGameObjectByUUID(GameObject* gameObject, char uuidObjectName[37]) 
+GameObject* ModuleScene::GetGameObjectByUUID(GameObject* gameObject, const char* name)
 {
 	GameObject* result = nullptr;
 
-	if (result == nullptr && (strcmp(gameObject->UUID, uuidObjectName) == 0)) {
+	if (result == nullptr && (strcmp(gameObject->UUID, name) == 0)) 
+	{
 		result = gameObject;
 	}
-	else {
+	else 
+	{
 		for (std::list<GameObject*>::iterator it = gameObject->children.begin(); it != gameObject->children.end(); ++it)
 		{
 			if (gameObject->children.size() > 0)
-				result = GetGameObjectByUUID((*it), uuidObjectName);
-			if (result == nullptr && (strcmp((*it)->UUID, uuidObjectName) == 0)) 
+				result = GetGameObjectByUUID((*it), name);
+			if (result == nullptr && (strcmp((*it)->UUID, name) == 0)) 
 			{
 				result = (*it);
 				break;

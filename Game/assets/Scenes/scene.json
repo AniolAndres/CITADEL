@@ -9,40 +9,40 @@
     },
     "gameObjects": [
         {
-            "uuid": "ebdc4a99-4814-4009-bd98-a54fcf23a1f4",
+            "uuid": "fab36550-4bc0-404d-a30d-a0b946a20d0c",
             "name": "Root",
             "active": true,
             "static": true,
             "components": []
         },
         {
-            "uuid": "c5d8d6cb-dbb3-465b-8efc-3ad8fb7de227",
+            "uuid": "b9d5e51a-ae1e-4935-b5ec-3b4e915b0b24",
             "name": "RootNode",
-            "parentUuid": "ebdc4a99-4814-4009-bd98-a54fcf23a1f4",
+            "parentUuid": "fab36550-4bc0-404d-a30d-a0b946a20d0c",
             "active": true,
             "static": true,
             "components": [
                 {
-                    "Transform": "parentUuid",
-                    "c5d8d6cb-dbb3-465b-8efc-3ad8fb7de227": "uuid",
-                    "d56b3ab2-ea23-4d98-a890-d26de0e5997a": "position",
-                    {
+                    "componentType": "Transform",
+                    "parentUuid": "b9d5e51a-ae1e-4935-b5ec-3b4e915b0b24",
+                    "uuid": "5ce37599-c8a6-4b8c-a633-30279680c10c",
+                    "position": {
                         "x": 0.0,
                         "y": 0.0,
                         "z": 0.0
-                    }: "rotation",
-                    {
+                    },
+                    "rotation": {
                         "x": 0.0,
                         "y": 0.0,
                         "z": 0.0,
                         "w": 1.0
-                    }: "eulerRotation",
-                    {
+                    },
+                    "eulerRotation": {
                         "x": 0.0,
                         "y": 0.0,
                         "z": 0.0
-                    }: "scale",
-                    {
+                    },
+                    "scale": {
                         "x": 1.0,
                         "y": 1.0,
                         "z": 1.0
@@ -51,63 +51,63 @@
             ]
         },
         {
-            "uuid": "ac9e6707-09e9-4f7b-b47c-1be85ce21628",
+            "uuid": "8c84435f-9dce-46fb-8c7e-8164947886f2",
             "name": "Chimney",
-            "parentUuid": "c5d8d6cb-dbb3-465b-8efc-3ad8fb7de227",
+            "parentUuid": "b9d5e51a-ae1e-4935-b5ec-3b4e915b0b24",
             "active": true,
             "static": false,
             "components": [
                 {
-                    "Transform": "parentUuid",
-                    "ac9e6707-09e9-4f7b-b47c-1be85ce21628": "uuid",
-                    "385a0655-6d18-41c2-945e-7bfc0c7b15b1": "position",
-                    {
+                    "componentType": "Transform",
+                    "parentUuid": "8c84435f-9dce-46fb-8c7e-8164947886f2",
+                    "uuid": "a58c042d-d842-4809-b452-01aff0a83fda",
+                    "position": {
                         "x": 0.0,
                         "y": 0.0,
                         "z": 0.0
-                    }: "rotation",
-                    {
+                    },
+                    "rotation": {
                         "x": 0.0,
                         "y": 0.0,
                         "z": 0.0,
                         "w": 1.0
-                    }: "eulerRotation",
-                    {
+                    },
+                    "eulerRotation": {
                         "x": 0.0,
                         "y": 0.0,
                         "z": 0.0
-                    }: "scale",
-                    {
+                    },
+                    "scale": {
                         "x": 1.0,
                         "y": 1.0,
                         "z": 1.0
                     }
                 },
                 {
-                    "Mesh": "parent",
-                    "ac9e6707-09e9-4f7b-b47c-1be85ce21628": "currentMesh",
-                    "./assets/Models/BakerHouse/BakerHouse.fbx"
+                    "componentType": "Mesh",
+                    "parent": "8c84435f-9dce-46fb-8c7e-8164947886f2",
+                    "currentMesh": "./assets/Models/BakerHouse/BakerHouse.fbx"
                 },
                 {
-                    "Material": "parent",
-                    "ac9e6707-09e9-4f7b-b47c-1be85ce21628": "diffuseColor",
-                    {
+                    "componentType": "Material",
+                    "parent": "8c84435f-9dce-46fb-8c7e-8164947886f2",
+                    "diffuseColor": {
                         "x": 1.0,
                         "y": 1.0,
                         "z": 1.0,
                         "w": 1.0
-                    }: "diffuseK",
-                    1.0: "ambientK",
-                    0.5: "specularColor",
-                    {
+                    },
+                    "diffuseK": 1.0,
+                    "ambientK": 0.5,
+                    "specularColor": {
                         "x": 1.0,
                         "y": 1.0,
                         "z": 1.0,
                         "w": 1.0
-                    }: "specularK",
-                    0.6000000238418579: "shininess",
-                    64.0: "emissiveColor",
-                    {
+                    },
+                    "specularK": 0.6000000238418579,
+                    "shininess": 64.0,
+                    "emissiveColor": {
                         "x": 0.0,
                         "y": 0.0,
                         "z": 1.0,
@@ -117,63 +117,64 @@
             ]
         },
         {
-            "uuid": "ba37ad1b-9665-4dca-8384-3163742ff88f",
+            "uuid": "36a4027e-7ed0-445e-9784-8f233217d6dd",
             "name": "Baker_house",
-            "parentUuid": "c5d8d6cb-dbb3-465b-8efc-3ad8fb7de227",
+            "parentUuid": "b9d5e51a-ae1e-4935-b5ec-3b4e915b0b24",
             "active": true,
             "static": false,
             "components": [
                 {
-                    "Transform": "parentUuid",
-                    "ba37ad1b-9665-4dca-8384-3163742ff88f": "uuid",
-                    "d685a0b3-c601-4d18-83ef-512e5fac3b60": "position",
-                    {
+                    "componentType": "Transform",
+                    "parentUuid": "36a4027e-7ed0-445e-9784-8f233217d6dd",
+                    "uuid": "544bc388-b6cf-489f-8507-631f57b0b0d9",
+                    "position": {
                         "x": 0.0,
                         "y": 0.0,
                         "z": 0.0
-                    }: "rotation",
-                    {
+                    },
+                    "rotation": {
                         "x": 0.0,
                         "y": 0.0,
                         "z": 0.0,
                         "w": 1.0
-                    }: "eulerRotation",
-                    {
+                    },
+                    "eulerRotation": {
                         "x": 0.0,
                         "y": 0.0,
                         "z": 0.0
-                    }: "scale",
-                    {
+                    },
+                    "scale": {
                         "x": 1.0,
                         "y": 1.0,
                         "z": 1.0
                     }
                 },
                 {
-                    "Mesh": "parent",
-                    "ba37ad1b-9665-4dca-8384-3163742ff88f": "currentMesh",
-                    "./assets/Models/BakerHouse/BakerHouse.fbx"
+                    "componentType": "Mesh",
+                    "parent": "36a4027e-7ed0-445e-9784-8f233217d6dd",
+                    "currentMesh": "./assets/Models/BakerHouse/BakerHouse.fbx"
                 },
                 {
-                    "Material": "parent",
-                    "ba37ad1b-9665-4dca-8384-3163742ff88f": "diffuseColor",
-                    {
+                    "componentType": "Material",
+                    "parent": "36a4027e-7ed0-445e-9784-8f233217d6dd",
+                    "diffuseSelected": 2,
+                    "diffuseColor": {
                         "x": 1.0,
                         "y": 1.0,
                         "z": 1.0,
                         "w": 1.0
-                    }: "diffuseK",
-                    1.0: "ambientK",
-                    0.5: "specularColor",
-                    {
+                    },
+                    "diffuseK": 1.0,
+                    "ambientK": 0.5,
+                    "specularColor": {
                         "x": 1.0,
                         "y": 1.0,
                         "z": 1.0,
                         "w": 1.0
-                    }: "specularK",
-                    0.6000000238418579: "shininess",
-                    64.0: "emissiveColor",
-                    {
+                    },
+                    "specularK": 0.6000000238418579,
+                    "shininess": 64.0,
+                    "emissiveColor": {
                         "x": 0.0,
                         "y": 0.0,
                         "z": 1.0,
@@ -183,3 +184,4 @@
             ]
         }
     ]
+}

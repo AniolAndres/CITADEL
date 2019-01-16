@@ -90,6 +90,7 @@ void Config::addUnsigned(const char* str, unsigned ui)
 
 void Config::addComponentType(const char* str, int ComponentType)
 {
+	writer->String(str);
 	switch (ComponentType)
 	{
 	case MESH:
