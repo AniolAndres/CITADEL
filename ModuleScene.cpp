@@ -191,19 +191,23 @@ void ModuleScene::SaveGameObject(Config* config, GameObject* GO)
 
 void ModuleScene::LoadScene()
 {
+
 	Config* config = new Config();
 
 	Document document = config->LoadFromDisk();
 
-	if (!document.HasParseError()) {
+	if (!document.HasParseError()) 
+	{
 		Value& scene = document["scene"];
 
 		ambientLight = config->GetFloat("ambientLight", scene);
 		lightPosition = config->GetFloat3("ambientLightPosition", scene);
 
 		Value gameObjects = document["gameObjects"].GetArray();
-		for (Value::ValueIterator it = gameObjects.Begin(); it != gameObjects.End(); ++it) {
-			CreateGameObject(config, *it);
+
+		for (Value::ValueIterator it = gameObjects.Begin(); it != gameObjects.End(); ++it) 
+		{
+			CreateGameObject(config, (*it));
 		}
 
 	}

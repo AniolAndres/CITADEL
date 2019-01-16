@@ -9,23 +9,23 @@
     },
     "gameObjects": [
         {
-            "uuid": "49482721-1b4b-4514-b633-a4cf92df1be2",
+            "uuid": "ebdc4a99-4814-4009-bd98-a54fcf23a1f4",
             "name": "Root",
             "active": true,
             "static": true,
             "components": []
         },
         {
-            "uuid": "212579a6-597d-40e0-a4d7-7247a5013743",
+            "uuid": "c5d8d6cb-dbb3-465b-8efc-3ad8fb7de227",
             "name": "RootNode",
-            "parentUuid": "49482721-1b4b-4514-b633-a4cf92df1be2",
+            "parentUuid": "ebdc4a99-4814-4009-bd98-a54fcf23a1f4",
             "active": true,
             "static": true,
             "components": [
                 {
                     "Transform": "parentUuid",
-                    "212579a6-597d-40e0-a4d7-7247a5013743": "uuid",
-                    "8b4015f0-0723-4bae-93e5-072e40ae77f5": "position",
+                    "c5d8d6cb-dbb3-465b-8efc-3ad8fb7de227": "uuid",
+                    "d56b3ab2-ea23-4d98-a890-d26de0e5997a": "position",
                     {
                         "x": 0.0,
                         "y": 0.0,
@@ -51,16 +51,16 @@
             ]
         },
         {
-            "uuid": "1fe429ae-de86-4464-a297-b1af401d013a",
+            "uuid": "ac9e6707-09e9-4f7b-b47c-1be85ce21628",
             "name": "Chimney",
-            "parentUuid": "212579a6-597d-40e0-a4d7-7247a5013743",
+            "parentUuid": "c5d8d6cb-dbb3-465b-8efc-3ad8fb7de227",
             "active": true,
             "static": false,
             "components": [
                 {
                     "Transform": "parentUuid",
-                    "1fe429ae-de86-4464-a297-b1af401d013a": "uuid",
-                    "9e13e822-0905-4b6c-a192-33af1c3e444c": "position",
+                    "ac9e6707-09e9-4f7b-b47c-1be85ce21628": "uuid",
+                    "385a0655-6d18-41c2-945e-7bfc0c7b15b1": "position",
                     {
                         "x": 0.0,
                         "y": 0.0,
@@ -85,13 +85,12 @@
                 },
                 {
                     "Mesh": "parent",
-                    "1fe429ae-de86-4464-a297-b1af401d013a": "currentMesh",
+                    "ac9e6707-09e9-4f7b-b47c-1be85ce21628": "currentMesh",
                     "./assets/Models/BakerHouse/BakerHouse.fbx"
                 },
                 {
                     "Material": "parent",
-                    "1fe429ae-de86-4464-a297-b1af401d013a": "diffuseSelected",
-                    3: "diffuseColor",
+                    "ac9e6707-09e9-4f7b-b47c-1be85ce21628": "diffuseColor",
                     {
                         "x": 1.0,
                         "y": 1.0,
@@ -99,15 +98,14 @@
                         "w": 1.0
                     }: "diffuseK",
                     1.0: "ambientK",
-                    0.5: "specularSelected",
-                    6: "specularColor",
+                    0.5: "specularColor",
                     {
                         "x": 1.0,
                         "y": 1.0,
                         "z": 1.0,
                         "w": 1.0
                     }: "specularK",
-                    0.36500000953674319: "shininess",
+                    0.6000000238418579: "shininess",
                     64.0: "emissiveColor",
                     {
                         "x": 0.0,
@@ -119,16 +117,16 @@
             ]
         },
         {
-            "uuid": "1fd8162c-ecee-4fe4-8287-51e7b3f9f709",
+            "uuid": "ba37ad1b-9665-4dca-8384-3163742ff88f",
             "name": "Baker_house",
-            "parentUuid": "212579a6-597d-40e0-a4d7-7247a5013743",
+            "parentUuid": "c5d8d6cb-dbb3-465b-8efc-3ad8fb7de227",
             "active": true,
             "static": false,
             "components": [
                 {
                     "Transform": "parentUuid",
-                    "1fd8162c-ecee-4fe4-8287-51e7b3f9f709": "uuid",
-                    "391e7f1a-2654-4616-8e71-11538e043f73": "position",
+                    "ba37ad1b-9665-4dca-8384-3163742ff88f": "uuid",
+                    "d685a0b3-c601-4d18-83ef-512e5fac3b60": "position",
                     {
                         "x": 0.0,
                         "y": 0.0,
@@ -153,13 +151,12 @@
                 },
                 {
                     "Mesh": "parent",
-                    "1fd8162c-ecee-4fe4-8287-51e7b3f9f709": "currentMesh",
+                    "ba37ad1b-9665-4dca-8384-3163742ff88f": "currentMesh",
                     "./assets/Models/BakerHouse/BakerHouse.fbx"
                 },
                 {
                     "Material": "parent",
-                    "1fd8162c-ecee-4fe4-8287-51e7b3f9f709": "diffuseSelected",
-                    2: "diffuseColor",
+                    "ba37ad1b-9665-4dca-8384-3163742ff88f": "diffuseColor",
                     {
                         "x": 1.0,
                         "y": 1.0,
@@ -186,4 +183,3 @@
             ]
         }
     ]
-}

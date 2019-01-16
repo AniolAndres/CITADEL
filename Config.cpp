@@ -1,12 +1,12 @@
 #include "Config.h"
-
+#include "ModuleFileSystem.h"
 
 
 Config::Config()
 {
 	string = new StringBuffer();
 	writer = new PrettyWriter<StringBuffer>(*string);
-	writer->StartObject();
+	writer->StartObject();	
 }
 
 
@@ -194,9 +194,6 @@ void Config::addQuat(const char* str, Quat quat)
 	writer->Double(quat.w);
 	endObject();
 }
-//
-//void StartArray(const char* name);
-//void EndArray();
 
 void Config::StartArray(const char* str)
 {
@@ -223,11 +220,13 @@ Document Config::LoadFromDisk()
 
 	unsigned lenghtBuffer = App->fileSystem->Load("/assets/Scenes/scene.json", &fileBuffer);
 
-	if (fileBuffer) {
-		if (result.Parse<kParseStopWhenDoneFlag>(fileBuffer).HasParseError()) {
+	if (fileBuffer)
+	{
+		if (result.Parse<kParseStopWhenDoneFlag>(fileBuffer).HasParseError()) //why is this returning true!?
+		{
 			result = nullptr;
 		}
 	}
 
-	return result;
+	return result;	
 }

@@ -3,9 +3,13 @@
 
 #include "Module.h"
 #include "Application.h"
+#include "rapidjson/document.h"
+#include "Config.h"
 #include "map"
 #include "vector"
 #include "string"
+
+using namespace rapidjson;
 
 class ModuleFileSystem : public Module
 {

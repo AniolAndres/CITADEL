@@ -372,6 +372,7 @@ Component* GameObject::CreateComponent(int type)
 		this->MeshComponents.push_back(comp);
 		comp->my_go = this;
 		comp->parentUUID = this->UUID;
+		this->components.push_back(comp);
 		mesh = (ComponentMesh*)comp;
 		break;
 	case MATERIAL:
@@ -379,6 +380,7 @@ Component* GameObject::CreateComponent(int type)
 		this->MaterialComponents.push_back(comp);
 		comp->my_go = this;
 		comp->parentUUID = this->UUID;
+		this->components.push_back(comp);
 		material = (ComponentMaterial*)comp;
 		break;
 	case LIGHT:
@@ -390,11 +392,11 @@ Component* GameObject::CreateComponent(int type)
 		this->TransformComponents.push_back(comp);
 		comp->my_go = this;
 		comp->parentUUID = this->UUID;
+		this->components.push_back(comp);
 		transform = (ComponentTransform*)comp;
 		break;
 	}
 	
-	this->components.push_back(comp);
 	return comp;
 }
 

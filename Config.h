@@ -48,7 +48,6 @@ public:
 	void WriteToDisk();
 	Document LoadFromDisk();
 
-	Document document;
 	StringBuffer* string = nullptr;
 	PrettyWriter<StringBuffer>* writer = nullptr;
 };
