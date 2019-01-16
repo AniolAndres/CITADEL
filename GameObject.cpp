@@ -241,7 +241,7 @@ void GameObject::DrawMaterials()
 	{
 
 		ImGui::SliderFloat("Specular", &this->material->material.specularK, 0.f, 1.f);
-		ImGui::SliderFloat("Shininess", &this->material->material.shininess, 0.f, 128.f);
+		ImGui::SliderFloat("Shininess", &this->material->material.shininess, 8.0f, 128.f);
 
 		if (this->material->GetTexture(SPECULAR) != nullptr)
 		{

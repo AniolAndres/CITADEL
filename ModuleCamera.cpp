@@ -41,36 +41,13 @@ update_status ModuleCamera::Update()
 	return UPDATE_CONTINUE;
 }
 
-// needs more work, intended to reescale the camera depending on the cubic root of the total vertices in the model
-
-
-//void ModuleCamera::focusCamera()
-//{
-//	float objectSize;
-//	memcpy(&objectSize, &App->modelLoader->numVerticesTotal, 32);
-//	objectSize = cbrt(objectSize);
-//	target = { 0,0,0 };
-//	if (objectSize < 30)
-//	{
-//		eye = { 2,2,10 };
-//	}
-//	else if (objectSize >= 30 && objectSize < 60)
-//	{
-//		eye *= 2;
-//	}
-//	else if (objectSize >= 60)
-//	{
-//		eye *= 4;
-//	}
-//}
-
 void ModuleCamera::CameraMovement()
 {
 
 	if (App->input->GetKey(SDL_SCANCODE_RSHIFT) || App->input->GetKey(SDL_SCANCODE_LSHIFT))
-		cameraSpeed = 2.5f;
+		cameraSpeed = 1.5f;
 	else
-		cameraSpeed = 1.0f;
+		cameraSpeed = 0.5f;
 
 	if (App->input->GetKey(SDL_SCANCODE_F))
 	{

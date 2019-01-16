@@ -270,8 +270,8 @@ void ComponentMesh::Draw(unsigned Program, const ComponentMaterial* mat) const
 	glUniform1i(glGetUniformLocation(Program, "occlusionMap"), 2);
 
 	glActiveTexture(GL_TEXTURE3);
-	if (mat->material.specularMap != 0) {
-		glBindTexture(GL_TEXTURE_2D, mat->material.specularMap);
+	if (mat->textureSpecular!=nullptr) {
+		glBindTexture(GL_TEXTURE_2D, mat->textureSpecular->id);
 	}
 	else {
 		glBindTexture(GL_TEXTURE_2D, App->renderer->Fallback);

@@ -56,7 +56,7 @@ bool ModuleRender::Init()
 	glClearColor(0.3f, 0.3f, 0.3f, 1.f);
 	glViewport(0, 0, App->window->windowWidth, App->window->windowHeight);
 
-	if (!App->program->programLoader || !App->program->programBlinn || !App->program->programDefault)
+	if (!App->program->programLoader || !App->program->programBlinnPhong || !App->program->programDefault)
 	{
 		App->editor->consoleApp.AddLog("Program could not be compiled \n");
 		return false;
@@ -91,7 +91,7 @@ update_status ModuleRender::Update()
 
 	DrawDebug();
 	
-	DrawGuizmo(App->editor->drawWidth, App->editor->drawHeight, pos.x, pos.y);
+	//DrawGuizmo(App->editor->drawWidth, App->editor->drawHeight, pos.x, pos.y);
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
@@ -306,26 +306,26 @@ void ModuleRender::DrawDebug()
 
 	App->debugDraw->Draw(&App->camera->fbo);
 }
-
-void ModuleRender::setUniformMatrix()
-{
-	float4x4 Model(math::float4x4::identity);
-
-	//could be done iterating
-	glUniformMatrix4fv(glGetUniformLocation(App->program->programBlinn, "model"), 1, GL_TRUE, &Model[0][0]);
-	glUniformMatrix4fv(glGetUniformLocation(App->program->programBlinn, "view"), 1, GL_TRUE, &viewMatrix[0][0]);
-	glUniformMatrix4fv(glGetUniformLocation(App->program->programBlinn, "proj"), 1, GL_TRUE, &projectionMatrix[0][0]);
-
-	glUniformMatrix4fv(glGetUniformLocation(App->program->programLoader, "model"), 1, GL_TRUE, &Model[0][0]);
-	glUniformMatrix4fv(glGetUniformLocation(App->program->programLoader, "view"), 1, GL_TRUE, &viewMatrix[0][0]);
-	glUniformMatrix4fv(glGetUniformLocation(App->program->programLoader, "proj"), 1, GL_TRUE, &projectionMatrix[0][0]);
-
-	glUniformMatrix4fv(glGetUniformLocation(App->program->programDefault, "model"), 1, GL_TRUE, &Model[0][0]);
-	glUniformMatrix4fv(glGetUniformLocation(App->program->programDefault, "view"), 1, GL_TRUE, &viewMatrix[0][0]);
-	glUniformMatrix4fv(glGetUniformLocation(App->program->programDefault, "proj"), 1, GL_TRUE, &projectionMatrix[0][0]);
-
-	
-}
+//
+//void ModuleRender::setUniformMatrix()
+//{
+//	float4x4 Model(math::float4x4::identity);
+//
+//	//could be done iterating
+//	glUniformMatrix4fv(glGetUniformLocation(App->program->programBlinn, "model"), 1, GL_TRUE, &Model[0][0]);
+//	glUniformMatrix4fv(glGetUniformLocation(App->program->programBlinn, "view"), 1, GL_TRUE, &viewMatrix[0][0]);
+//	glUniformMatrix4fv(glGetUniformLocation(App->program->programBlinn, "proj"), 1, GL_TRUE, &projectionMatrix[0][0]);
+//
+//	glUniformMatrix4fv(glGetUniformLocation(App->program->programLoader, "model"), 1, GL_TRUE, &Model[0][0]);
+//	glUniformMatrix4fv(glGetUniformLocation(App->program->programLoader, "view"), 1, GL_TRUE, &viewMatrix[0][0]);
+//	glUniformMatrix4fv(glGetUniformLocation(App->program->programLoader, "proj"), 1, GL_TRUE, &projectionMatrix[0][0]);
+//
+//	glUniformMatrix4fv(glGetUniformLocation(App->program->programDefault, "model"), 1, GL_TRUE, &Model[0][0]);
+//	glUniformMatrix4fv(glGetUniformLocation(App->program->programDefault, "view"), 1, GL_TRUE, &viewMatrix[0][0]);
+//	glUniformMatrix4fv(glGetUniformLocation(App->program->programDefault, "proj"), 1, GL_TRUE, &projectionMatrix[0][0]);
+//
+//	
+//}
 
 
 void ModuleRender::GenerateFallback()

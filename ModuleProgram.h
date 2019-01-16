@@ -26,7 +26,7 @@ public:
 
 	GLuint programDefault;
 
-	GLuint programBlinn;
+	GLuint programBlinnPhong;
 };
 
 #endif // __ModuleProgram_H_

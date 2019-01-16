@@ -42,10 +42,11 @@ void main()
     vec3 viewPos = transpose(mat3(view))*(-view[3].xyz);
 	vec3 viewDir = normalize(viewPos - position);
     vec3 reflectDir = reflect(-lightDir, normal);
-    float spec = pow(max(dot(viewDir, reflectDir), 0.0f), shininess);
-	vec4 textureSpecularColor = texture(specularMap, uv0);
-	vec4 algo = vec4(textureSpecularColor.rgb * specularColor.rgb, max(textureSpecularColor.a * shininess * 128.0f, 8.0f));
-	vec3 finalSpecular = algo.rgb * k_specular * spec * specularColor.rgb;
+	vec3 half = normalize(lightDir + viewDir);
+    float spec = pow(max(dot(half, normal), 0.0f), shininess);
+	vec3 textureSpecularColor = vec3(texture(specularMap, uv0));
+	vec3 finalSpecular = k_specular * spec * specularColor.rgb * textureSpecularColor;
+
 
 	color = vec4(finalDiffuse,1.0f) + vec4(finalAmbient,1.0f) + vec4(finalSpecular, 1.0f);
 }

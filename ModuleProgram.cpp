@@ -20,7 +20,7 @@ bool ModuleProgram::Init()
 
 	programDefault = CreateProgram("../shaders/default.vs", "../shaders/default.fs");
 
-	programBlinn = CreateProgram("../shaders/blinn.vs", "../shaders/blinn.fs");
+	programBlinnPhong = CreateProgram("../shaders/blinn.vs", "../shaders/blinn.fs");
 
 	return ret;
 }
@@ -68,10 +68,10 @@ bool ModuleProgram::CleanUp()
 {
 	bool ret=true;
 	glDeleteProgram(programDefault);
-	glDeleteProgram(programBlinn);
+	glDeleteProgram(programBlinnPhong);
 	glDeleteProgram(programLoader);
 	programDefault = 0;
-	programBlinn = 0;
+	programBlinnPhong = 0;
 	programLoader = 0;
 
 	return ret;

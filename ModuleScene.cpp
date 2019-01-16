@@ -111,3 +111,25 @@ GameObject* ModuleScene::CreateGameObject(const char* name, bool active, const c
 	GOs.push_back(my_go);
 	return my_go;
 }
+
+void ModuleScene::SaveScene()
+{
+	Config* config = new Config();
+	config->StartObject("scene");
+
+	config->addFloat("ambientLight", ambientLight);
+	config->addFloat3("ambientLightPosition", lightPosition);
+
+	config->endObject();
+
+
+	config->StartArray("gameObjects");
+	SaveGameObject(config, Root);
+	config->EndArray();
+
+	config->WriteToDisk();
+
+	delete config;
+	config = nullptr;
+}
+

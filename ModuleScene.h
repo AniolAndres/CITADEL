@@ -9,6 +9,7 @@
 #include "ModuleEditor.h"
 #include "Geometry/Frustum.h"
 #include "Globals.h"
+#include "Config.h"
 
 #define PAR_SHAPES_IMPLEMENTATION
 #include "par_shapes.h"
@@ -34,6 +35,9 @@ public:
 
 	void Draw();
 	void LoadGeometry(GameObject* parent, GeometryType Gtype);
+
+	void SaveScene();
+	void SaveGameObject(Config* config, GameObject* GO);
 
 	GameObject* CreateGameObject(const char* name, bool active, GameObject* parent, const char* FileLocation);
 	GameObject* CreateGameObject(const char* name, bool active, const char* FileLocation);
