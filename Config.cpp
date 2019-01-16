@@ -108,19 +108,56 @@ void Config::addComponentType(const char* str, int ComponentType)
 	}
 }
 
+void Config::addTexture(const char* str, Texture t)
+{
+	StartObject(str);
+	writer->String("height");
+	writer->Double(t.height);
+	writer->String("width");
+	writer->Double(t.width);
+	writer->String("id");
+	writer->Int(t.id);
+	writer->String("name");
+	writer->String(t.name);
+	writer->String("path");
+	writer->String(t.path);
+	endObject();
+}
+
+Texture Config::GetTexture(const char* str, Value &value)
+{
+	Texture result = Texture(value[str]["id"].GetInt(), value[str]["width"].GetFloat(), value[str]["height"].GetFloat(), value[str]["name"].GetString(), value[str]["path"].GetString());
+
+	return result;
+}
+
+float4 Config::GetFloat4(const char* str, Value &value)
+{
+	float4 result = {
+		value[str]["x"].GetFloat(),
+		value[str]["y"].GetFloat(),
+		value[str]["z"].GetFloat(),
+		value[str]["w"].GetFloat()
+	};
+
+	return result;
+}
+
+
 int Config::GetComponentType(const char* str, Value &value)
 {
 	const char* ComponentType = value[str].GetString();
-
-	if (ComponentType == "Mesh")
+		
+	if (!strcmp(ComponentType, "Mesh"))
 		return MESH;
-	if (ComponentType == "Material")
+	if (!strcmp(ComponentType, "Material"))
 		return MATERIAL;
-	if (ComponentType == "Transform")
+	if (!strcmp(ComponentType,"Transform"))
 		return TRANSFORM;
-	if (ComponentType == "Light")
+	if (!strcmp(ComponentType, "Light"))
 		return LIGHT;
 }
+
 
 int Config::GetInt(const char* str, Value &value)
 {
@@ -158,17 +195,6 @@ float3 Config::GetFloat3(const char* str, Value &value)
 	return result;
 }
 
-float4 Config::GetFloat4(const char* str, Value &value)
-{
-	float4 result = {
-		value[str]["x"].GetFloat(),
-		value[str]["y"].GetFloat(),
-		value[str]["z"].GetFloat(),
-		value[str]["w"].GetFloat()
-	};
-
-	return result;
-}
 
 Quat Config::GetQuat(const char* str, Value &value)
 {

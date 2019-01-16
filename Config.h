@@ -3,6 +3,7 @@
 
 #include "Application.h"
 #include "ModuleFileSystem.h"
+#include "ModuleTextures.h"
 #include "rapidjson/document.h"
 #include "rapidjson/prettywriter.h"
 #include "Globals.h"
@@ -33,6 +34,7 @@ public:
 	void addUnsigned(const char* str, unsigned ui);
 	void addComponentType(const char* str, int componentType);
 	void addQuat(const char* str, Quat quat);
+	void addTexture(const char* str, Texture t);
 
 	//Getters
 	int GetComponentType(const char* str, Value& value);
@@ -44,6 +46,7 @@ public:
 	float3 GetFloat3(const char* str, Value& value);
 	float4 GetFloat4(const char* str, Value& value);
 	Quat GetQuat(const char* str, Value& value);
+	Texture GetTexture(const char* str, Value &value);
 
 	void WriteToDisk();
 	Document LoadFromDisk();

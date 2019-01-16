@@ -65,6 +65,8 @@ ComponentMaterial::~ComponentMaterial()
 {
 }
 
+
+//this needs more work but it's posible
 void ComponentMaterial::Save(Config* config)
 {
 	config->StartObject();
@@ -73,7 +75,9 @@ void ComponentMaterial::Save(Config* config)
 	config->addString("parent", my_go->UUID);
 
 	if(this->textureDiffuse!=nullptr)
-		config->addInt("diffuseSelected", textureDiffuse->id);
+		config->addTexture("diffuseSelected", *textureDiffuse);
+	else
+		config->addTexture("diffuseSelected", *App->textures->defaultTexture);
 
 	config->addFloat4("diffuseColor", material.diffuseColor);
 	config->addFloat("diffuseK", material.diffuseK);
@@ -81,18 +85,24 @@ void ComponentMaterial::Save(Config* config)
 
 
 	if (this->textureOcclusion != nullptr)
-		config->addInt("occlusionSelected", textureOcclusion->id);
+		config->addTexture("occlusionSelected", *textureOcclusion);
+	else
+		config->addTexture("occlusionSelected", *App->textures->defaultTexture);
 
 
 	if (this->textureSpecular != nullptr)
-		config->addInt("specularSelected", textureSpecular->id);
+		config->addTexture("specularSelected", *textureSpecular);
+	else
+		config->addTexture("specularSelected", *App->textures->defaultTexture);
 
 	config->addFloat4("specularColor", material.specularColor);
 	config->addFloat("specularK", material.specularK);
 	config->addFloat("shininess", material.shininess);
 
 	if (this->textureEmissive != nullptr)
-		config->addInt("emissiveSelected", textureEmissive->id);
+		config->addTexture("emissiveSelected", *textureEmissive);
+	else
+		config->addTexture("emissiveSelected", *App->textures->defaultTexture);
 
 	config->addFloat4("emissiveColor", material.emissiveColor);
 
@@ -101,20 +111,18 @@ void ComponentMaterial::Save(Config* config)
 
 void ComponentMaterial::Load(Config* config, Value& value) 
 {
-
-	textureDiffuse->id = config->GetInt("diffuseSelected", value);
+	textureDiffuse = &config->GetTexture("diffuseSelected", value);
 	material.diffuseColor = config->GetFloat4("diffuseColor", value);
 	material.diffuseK = config->GetFloat("diffuseK", value);
 
-	textureOcclusion->id = config->GetInt("occlusionSelected", value);
+	/*textureOcclusion = &config->GetTexture("occlusionSelected", value);*/
 	material.ambientK = config->GetFloat("ambientK", value);
 
-	textureSpecular->id = config->GetInt("specularSelected", value);
+	//textureSpecular = &config->GetTexture("specularSelected", value);
 	material.specularColor = config->GetFloat4("specularColor", value);
 	material.specularK = config->GetFloat("specularK", value);
 	material.shininess = config->GetFloat("shininess", value);
 
-
-	textureEmissive->id = config->GetInt("emissiveSelected", value);
+	//textureEmissive = &config->GetTexture("emissiveSelected", value);
 	material.emissiveColor = config->GetFloat4("emissiveColor", value);
 }
