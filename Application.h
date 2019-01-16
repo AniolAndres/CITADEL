@@ -14,6 +14,7 @@ class ModuleCamera;
 class ModuleEditor;
 class ModuleModelLoader;
 class ModuleScene;
+class ModuleFileSystem;
 class ModuleDebugDraw;
 
 class Application
@@ -40,6 +41,7 @@ public:
 	ModuleModelLoader* modelLoader = nullptr;
 	ModuleScene* scene = nullptr;
 	ModuleDebugDraw* debugDraw = nullptr;
+	ModuleFileSystem* fileSystem = nullptr;
 
 private:
 

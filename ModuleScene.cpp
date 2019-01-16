@@ -143,3 +143,10 @@ void ModuleScene::SaveGameObject(Config* config, GameObject* GO)
 		(*it)->Save(config);
 	}
 }
+
+void ModuleScene::LoadScene()
+{
+	Config* config = new Config();
+
+	rapidjson::Document document = config->LoadFromDisk();
+}

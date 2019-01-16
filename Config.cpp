@@ -5,7 +5,7 @@
 Config::Config()
 {
 	string = new StringBuffer();
-	writer = new PrettyWriter<StringBuffer>();
+	writer = new PrettyWriter<StringBuffer>(*string);
 	writer->StartObject();
 }
 
@@ -207,4 +207,26 @@ void Config::StartArray(const char* str)
 void Config::EndArray()
 {
 	writer->EndArray();
+}
+
+void Config::WriteToDisk()
+{
+	writer->EndObject();
+	App->fileSystem->Save("/assets/Scenes/scene.json", string->GetString(), strlen(string->GetString()), false);
+}
+
+Document Config::LoadFromDisk()
+{
+	Document result = nullptr;
+
+	char* fileBuffer;
+	unsigned lenghBuffer = App->fileSystem->Load("/Library/Scenes/scene.json", &fileBuffer);
+
+	if (fileBuffer) {
+		if (result.Parse<kParseStopWhenDoneFlag>(fileBuffer).HasParseError()) {
+			result = nullptr;
+		}
+	}
+
+	return result;
 }

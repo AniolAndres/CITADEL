@@ -37,6 +37,8 @@ public:
 	void LoadGeometry(GameObject* parent, GeometryType Gtype);
 
 	void SaveScene();
+	void LoadScene();
+
 	void SaveGameObject(Config* config, GameObject* GO);
 
 	GameObject* CreateGameObject(const char* name, bool active, GameObject* parent, const char* FileLocation);

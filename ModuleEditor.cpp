@@ -68,8 +68,14 @@ update_status ModuleEditor::Update()
 	{
 		if (ImGui::BeginMenu("File"))
 		{
-			ImGui::MenuItem("Save");
-			ImGui::MenuItem("Load");
+			if (ImGui::MenuItem("Save"))
+			{
+				App->scene->SaveScene();
+			}
+			if(ImGui::MenuItem("Load"))
+			{
+				App->scene->LoadScene();
+			}
 			if (ImGui::MenuItem("Exit"))
 			{
 				ImGui::EndMenu();
@@ -263,6 +269,9 @@ update_status ModuleEditor::Update()
 		ImGui::BulletText("MATHGEOLIB");
 		ImGui::BulletText("DEVIL");
 		ImGui::BulletText("BROFILER");
+		ImGui::BulletText("PHYSFS");
+		ImGui::BulletText("RAPIDJSON");
+		ImGui::BulletText("CROSSGUID");
 
 		ImGui::End();
 	}

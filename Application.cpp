@@ -7,6 +7,7 @@
 #include "Crossguid/crossguid/guid.hpp"
 #include "ModuleInput.h"
 #include "ModuleProgram.h"
+#include "ModuleFileSystem.h"
 #include "ModuleCamera.h"
 #include "ModuleEditor.h"
 #include "ModuleScene.h"
@@ -28,6 +29,7 @@ Application::Application()
 	modules.push_back(editor = new ModuleEditor());
 	modules.push_back(modelLoader = new ModuleModelLoader());
 	modules.push_back(debugDraw = new ModuleDebugDraw());
+	modules.push_back(fileSystem = new ModuleFileSystem());
 }
 
 Application::~Application()

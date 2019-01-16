@@ -1,0 +1,54 @@
+{
+    "scene": {
+        "ambientLight": 0.4000000059604645,
+        "ambientLightPosition": {
+            "x": 1000.0,
+            "y": 1000.0,
+            "z": 1000.0
+        }
+    },
+    "gameObjects": [
+        {
+            "uuid": "7addc3a7-c999-4f7c-9db2-2edc16a20abf",
+            "name": "Root",
+            "enabled": true,
+            "static": true,
+            "components": []
+        },
+        {
+            "uuid": "0e3bdc16-1643-48d6-b62a-d61367fbe5ef",
+            "name": "RootNode",
+            "parentUuid": "7addc3a7-c999-4f7c-9db2-2edc16a20abf",
+            "enabled": true,
+            "static": true,
+            "components": [
+                {
+                    "Transform": "parentUuid",
+                    "0e3bdc16-1643-48d6-b62a-d61367fbe5ef": "uuid",
+                    "300f92bf-0d0b-4f22-8ef1-4ba81b586d9f": "position",
+                    {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    }: "rotation",
+                    {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0,
+                        "w": 1.0
+                    }: "eulerRotation",
+                    {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    }: "scale",
+                    {
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0
+                    }
+                }
+            ]
+        }
+    ]
+}

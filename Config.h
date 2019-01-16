@@ -1,6 +1,8 @@
 #ifndef __CONFIG_H_
 #define __CONFIG_H_
 
+#include "Application.h"
+#include "ModuleFileSystem.h"
 #include "rapidjson/document.h"
 #include "rapidjson/prettywriter.h"
 #include "Globals.h"
@@ -42,6 +44,9 @@ public:
 	float3 GetFloat3(const char* str, Value& value);
 	float4 GetFloat4(const char* str, Value& value);
 	Quat GetQuat(const char* str, Value& value);
+
+	void WriteToDisk();
+	Document LoadFromDisk();
 
 	Document document;
 	StringBuffer* string = nullptr;
