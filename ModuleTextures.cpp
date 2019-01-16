@@ -183,7 +183,7 @@ void ModuleTextures::LoadTextures()
 	loadImg("./assets/Textures/Player/GunDiffuse.png", "GunDiffuse.png");
 	loadImg("./assets/Textures/Player/GunOcclusion.png", "GunOcclusion.png");
 	loadImg("./assets/Textures/Player/GunNormals.png", "GunNormals.png");
-	loadImg("./assets/Textures/Player/GunSpecular.png", "GunSpecular.png");
+	loadImg("./assets/Textures/Player/GunSpecular.tif", "GunSpecular.tif");
 
 	loadImg("./assets/Textures/Robot/RobotDiffuse.png", "RobotDiffuse.png");
 	loadImg("./assets/Textures/Robot/RobotOcclusion.png", "RobotOcclusion.png");

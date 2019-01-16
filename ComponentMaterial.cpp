@@ -49,7 +49,7 @@ void ComponentMaterial::DeleteTexture()
 
 ComponentMaterial::ComponentMaterial()
 {
-	shader = App->program->programLoader;
+	shader = App->program->programBlinn;
 	type = MATERIAL;
 }
 
