@@ -16,11 +16,11 @@ bool ModuleProgram::Init()
 {
 	bool ret = true;
 	
-	programLoader = CreateProgram("../shaders/basic.vs" , "../shaders/basic.fs");
+	programLoader = CreateProgram("./shaders/basic.vs" , "./shaders/basic.fs");
 
-	programDefault = CreateProgram("../shaders/default.vs", "../shaders/default.fs");
+	programDefault = CreateProgram("./shaders/default.vs", "./shaders/default.fs");
 
-	programBlinnPhong = CreateProgram("../shaders/blinn.vs", "../shaders/blinn.fs");
+	programBlinnPhong = CreateProgram("./shaders/blinn.vs", "./shaders/blinn.fs");
 
 	return ret;
 }
