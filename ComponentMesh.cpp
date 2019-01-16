@@ -127,6 +127,7 @@ void ComponentMesh::LoadMesh(aiMesh* AImesh)
 	mesh.BB.SetNegativeInfinity();
 	mesh.BB.Enclose((float3*)mesh.vertices, mesh.verticesNumber);
 
+	mesh.path = this->path;
 }
 
 void ComponentMesh::LoadMesh(par_shapes_mesh_s* pmesh)
@@ -315,4 +316,15 @@ ComponentMesh::~ComponentMesh()
 	if (mesh.ibo != 0) {
 		glDeleteBuffers(1, &mesh.ibo);
 	}
+}
+
+void ComponentMesh::Save(Config* config)
+{
+	config->StartObject();
+
+	config->addComponentType("componentType", type);
+	config->addString("parent", my_go->UUID);
+	config->addString("currentMesh", this->mesh.path);
+
+	config->endObject();
 }

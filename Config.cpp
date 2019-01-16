@@ -20,14 +20,20 @@ void Config::StartObject(const char* str)
 	writer->StartObject();
 }
 
+void Config::StartObject() 
+{
+	writer->StartObject();
+}
+
 void Config::endObject()
 {
 	writer->EndObject();
 }
 
-void Config::addString(const char* str)
+void Config::addString(const char* str, const char* value)
 {
 	writer->String(str);
+	writer->String(value);
 }
 
 void Config::addInt(const char* str, int x)
@@ -162,6 +168,8 @@ float4 Config::GetFloat4(const char* str, Value &value)
 
 	return result;
 }
+
+Quat
 //
 //void StartArray(const char* name);
 //void EndArray();

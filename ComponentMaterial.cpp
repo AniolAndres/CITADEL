@@ -64,3 +64,28 @@ ComponentMaterial::ComponentMaterial(ComponentMaterial* Cmaterial)
 ComponentMaterial::~ComponentMaterial()
 {
 }
+
+void ComponentMaterial::Save(Config* config)
+{
+	config->StartObject();
+
+	config->addComponentType("componentType", type);
+	config->addString("parent", my_go->UUID);
+
+	config->addString("diffuseSelected", textureDiffuse->path);
+	config->addFloat4("diffuseColor", material.diffuseColor);
+	config->addFloat("diffuseK", material.diffuseK);
+
+	config->addString("occlusionSelected", textureOcclusion->path);
+	config->addFloat("ambientK", material.ambientK);
+
+	config->addString("specularSelected", textureSpecular->path);
+	config->addFloat4("specularColor", material.specularColor);
+	config->addFloat("specularK", material.specularK);
+	config->addFloat("shininess", material.shininess);
+
+	config->addString("emissiveSelected", textureEmissive->path);
+	config->addFloat4("emissiveColor", material.emissiveColor);
+
+	config->endObject();
+}

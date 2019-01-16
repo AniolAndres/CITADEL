@@ -14,7 +14,8 @@ struct Texture
 	int width = 0;
 	int height = 0;
 	const char* name = nullptr;
-	Texture(int id, int width, int height, const char* name) : id(id), width(width), height(height), name(name) { }
+	const char* path = nullptr;
+	Texture(int id, int width, int height, const char* name, const char* path) : id(id), width(width), height(height), name(name), path(path) { }
 };
 
 struct Mesh
@@ -34,6 +35,8 @@ struct Mesh
 	unsigned normalsOffset = 0u;
 	unsigned texturesOffset = 0u;
 	unsigned vertexSize = 0u;
+
+	const char* path = nullptr;
 
 	math::AABB	BB;
 };

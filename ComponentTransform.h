@@ -5,6 +5,7 @@
 #include "MathGeoLib/include/Math/float3.h"
 #include "Math/float4x4.h"
 #include "MathGeoLib/include/Math/Quat.h"
+#include "Config.h"
 
 class ComponentTransform :
 	public Component
@@ -13,6 +14,8 @@ public:
 	ComponentTransform();
 	ComponentTransform(ComponentTransform* Ctransform);
 	~ComponentTransform();
+
+	void Save(Config* config);
 
 	void generateEulerRotation();
 

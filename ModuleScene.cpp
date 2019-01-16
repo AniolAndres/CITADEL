@@ -133,3 +133,13 @@ void ModuleScene::SaveScene()
 	config = nullptr;
 }
 
+void ModuleScene::SaveGameObject(Config* config, GameObject* GO)
+{
+
+	GO->Save(config);
+
+	for (std::list<GameObject*>::iterator it = GO->children.begin(); it != GO->children.end(); ++it)
+	{
+		(*it)->Save(config);
+	}
+}

@@ -13,6 +13,7 @@
 #include "Geometry/AABB.h"
 #include "GL/glew.h"
 #include "par_shapes.h"
+#include "Config.h"
 
 class ComponentMesh : public Component
 
@@ -21,6 +22,8 @@ public:
 
 	void LoadMesh(aiMesh* mesh);
 	void LoadMesh(par_shapes_mesh_s* pmesh);
+
+	void Save(Config* config);
 
 	void Draw(unsigned Program, const ComponentMaterial* mat) const;
 

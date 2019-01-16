@@ -462,3 +462,28 @@ Component* GameObject::DuplicateComponent(int type, GameObject* GO)
 	}
 	return comp;
 }
+
+void GameObject::Save(Config* config)
+{
+	config->StartObject();
+
+	config->addString("uuid", UUID);
+	config->addString("name", name);
+
+	if (parent != nullptr) {
+		config->addString("parentUuid", parent->UUID);
+	}
+
+	config->addBool("enabled", active);
+	config->addBool("static", Static);
+
+	config->StartArray("components");
+
+	for (std::vector<Component*>::iterator it = components.begin(); it != components.end(); ++it) {
+		(*it)->Save(config);
+	}
+
+	config->EndArray();
+
+	config->endObject();
+}

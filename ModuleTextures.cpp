@@ -133,9 +133,9 @@ Texture* ModuleTextures::loadImg(const char* path, const char* name)
 		ilDeleteImages(1, &imageId);
 		glBindTexture(GL_TEXTURE_2D, 0);
 
-		textures.push_back(new Texture(textureId, width, height,name));
+		textures.push_back(new Texture(textureId, width, height,name,path));
 
-		return new Texture(textureId, width, height,name);
+		return new Texture(textureId, width, height,name,path);
 	}
 	LOG("Error: Texture loading %s, %s", iluErrorString(ilGetError()), name);
 

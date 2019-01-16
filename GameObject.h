@@ -9,6 +9,7 @@
 #include "MathGeoLib/include/Math/float4x4.h"
 #include "Math/MathFunc.h"
 #include "Geometry/AABB.h"
+#include "Config.h"
 #include "debugdraw.h"
 #include <vector>
 #include<list>
@@ -33,7 +34,10 @@ public:
 	void Update();
 	Component* CreateComponent(int type);
 	Component* DuplicateComponent(int type, GameObject* GO);
-	
+
+	void Save(Config* config);
+
+
 	AABB LoadBB();
 
 
