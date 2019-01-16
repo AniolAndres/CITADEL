@@ -169,7 +169,31 @@ float4 Config::GetFloat4(const char* str, Value &value)
 	return result;
 }
 
-Quat
+Quat Config::GetQuat(const char* str, Value &value)
+{
+	Quat result = {
+	value[str]["x"].GetFloat(),
+	value[str]["y"].GetFloat(),
+	value[str]["z"].GetFloat(),
+	value[str]["w"].GetFloat()
+	};
+
+	return result;
+}
+
+void Config::addQuat(const char* str, Quat quat)
+{
+	StartObject(str);
+	writer->String("x");
+	writer->Double(quat.x);
+	writer->String("y");
+	writer->Double(quat.y);
+	writer->String("z");
+	writer->Double(quat.z);
+	writer->String("w");
+	writer->Double(quat.w);
+	endObject();
+}
 //
 //void StartArray(const char* name);
 //void EndArray();

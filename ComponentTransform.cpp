@@ -29,5 +29,15 @@ void ComponentTransform::generateEulerRotation()
 
 void ComponentTransform::Save(Config* config)
 {
+	config->StartObject();
 
+	config->addComponentType("componentType", type);
+	config->addString("parentUuid", my_go->UUID);
+	config->addString("uuid", UUID);
+	config->addFloat3("position", position);
+	config->addQuat("rotation", rotation);
+	config->addFloat3("eulerRotation", eulerRot);
+	config->addFloat3("scale", scale);
+
+	config->endObject();
 }

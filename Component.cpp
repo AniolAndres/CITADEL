@@ -4,6 +4,7 @@
 
 Component::Component()
 {
+	UUID = App->GenerateUUID();
 }
 
 

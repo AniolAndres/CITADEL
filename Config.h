@@ -6,6 +6,7 @@
 #include "Globals.h"
 #include "MathGeoLib.h"
 
+
 using namespace rapidjson;
 
 class Config
@@ -29,7 +30,7 @@ public:
 	void addFloat4(const char* str, float4 f4);
 	void addUnsigned(const char* str, unsigned ui);
 	void addComponentType(const char* str, int componentType);
-	void addQuat(const char* str, Quat value);
+	void addQuat(const char* str, Quat quat);
 
 	//Getters
 	int GetComponentType(const char* str, Value& value);

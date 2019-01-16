@@ -3,6 +3,7 @@
 
 #include "Globals.h"
 #include "GameObject.h"
+#include "Application.h"
 #include "Config.h"
 
 class GameObject;
@@ -23,7 +24,7 @@ public:
 	virtual void Save(Config* config) {}
 	virtual void Load(Config* config, Value& value) { }
 
-	unsigned UID;
+	const char* UUID = nullptr;
 	int type;
 	bool active;
 	GameObject* my_go;
