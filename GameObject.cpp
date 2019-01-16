@@ -294,6 +294,35 @@ void GameObject::DrawMaterials()
 		}
 		ImGui::PopID();
 	}
+
+	//Occlusion Textures
+
+	if (ImGui::CollapsingHeader("Occlusion"))
+	{
+		if (this->material->GetTexture(OCCLUSION) != nullptr)
+		{
+			ImGui::Text(this->material->textureOcclusion->name);
+			ImGui::Image(((ImTextureID)this->material->GetTexture(OCCLUSION)->id), { size,size });
+		}
+
+		ImGui::Text("Occlusion Texture: ");
+
+		ImGui::PushID(3);
+
+		if (ImGui::BeginCombo("##hidelabel", "Select occlusion Texture"))
+		{
+			for (std::list<Texture*>::iterator it = App->textures->textures.begin(); it != App->textures->textures.end(); ++it)
+			{
+				if (ImGui::Selectable((*it)->name))
+				{
+					this->material->textureOcclusion = (*it);
+				}
+			}
+			ImGui::EndCombo();
+		}
+		ImGui::PopID();
+	}
+
 	ImGui::Separator();
 }
 

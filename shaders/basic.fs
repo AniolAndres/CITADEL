@@ -1,13 +1,22 @@
-#version 330 core
+#version 400 core
 
 out vec4 color;
 
 in vec2 uv0;
 
-uniform sampler2D texture0;
+uniform sampler2D diffuseMap;
 uniform int drawTexture;
+
+uniform sampler2D occlusionMap;
+
+uniform float ambient;
+uniform float k_ambient;
+
+uniform vec4 ambientcolor;
 
 void main()
 {
-color = texture2D(texture0, uv0);
+	vec3 finalAmbient = k_ambient * ambient * vec3(texture(occlusionMap, uv0));
+
+	color = texture2D(diffuseMap, uv0) + vec4(finalAmbient,1.0f);
 }

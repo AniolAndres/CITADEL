@@ -43,6 +43,7 @@ struct Material {
 
 	unsigned occlusionMap = 0u;
 	float ambientK = 0.5f;
+	float4 ambientColor = { 1.0f,0.0f,1.0f,0.0f };
 
 	unsigned diffuseMap = 0u;
 	float4 diffuseColor = { 1.0f, 1.0f, 0.0f, 1.0f };

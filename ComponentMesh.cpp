@@ -215,14 +215,8 @@ void ComponentMesh::Draw(unsigned Program, const ComponentMaterial* mat) const
 
 	glUseProgram(Program);
 
-	//if (mat->texture != nullptr) 
-	//{
-	//	glBindTexture(GL_TEXTURE_2D, mat->texture->id);
-	//}
+	/*glUniform1i(glGetUniformLocation(Program, "texture0"), 0);*/
 
-	glUniform1i(glGetUniformLocation(Program, "texture0"), 0);
-
-	//glUniformMatrix4fv(glGetUniformLocation(Program, "model"), 1, GL_TRUE, &Model[0][0]);
 	glUniformMatrix4fv(glGetUniformLocation(Program, "view"), 1, GL_TRUE, &App->renderer->viewMatrix[0][0]);
 	glUniformMatrix4fv(glGetUniformLocation(Program, "proj"), 1, GL_TRUE, &App->renderer->projectionMatrix[0][0]);
 
@@ -230,6 +224,8 @@ void ComponentMesh::Draw(unsigned Program, const ComponentMaterial* mat) const
 	glUniformMatrix4fv(glGetUniformLocation(App->program->programDefault, "proj"), 1, GL_TRUE, &App->renderer->projectionMatrix[0][0]);
 
 	glUniform3fv(glGetUniformLocation(Program, "light_pos"), 1, (float*)&App->scene->lightPosition);
+
+	glUniform4f(glGetUniformLocation(Program, "ambientcolor"), mat->material.ambientColor.x, mat->material.ambientColor.y, mat->material.ambientColor.z, 1.0f);
 
 	glUniform4f(glGetUniformLocation(Program, "diffuseColor"), mat->material.diffuseColor.x, mat->material.diffuseColor.y, mat->material.diffuseColor.z, 1.0f);
 	glUniform4f(glGetUniformLocation(Program, "emissiveColor"), mat->material.emissiveColor.x, mat->material.emissiveColor.y, mat->material.emissiveColor.z, 1.0f);
@@ -253,9 +249,9 @@ void ComponentMesh::Draw(unsigned Program, const ComponentMaterial* mat) const
 	glUniform1i(glGetUniformLocation(Program, "diffuseMap"), 0);
 
 	glActiveTexture(GL_TEXTURE1);
-	if (mat->material.emissiveMap != 0) 
+	if (mat->textureEmissive!=nullptr) 
 	{
-		glBindTexture(GL_TEXTURE_2D, mat->material.emissiveMap);
+		glBindTexture(GL_TEXTURE_2D, mat->textureEmissive->id);
 	}
 	else 
 	{
@@ -264,8 +260,8 @@ void ComponentMesh::Draw(unsigned Program, const ComponentMaterial* mat) const
 	glUniform1i(glGetUniformLocation(Program, "emissiveMap"), 1);
 
 	glActiveTexture(GL_TEXTURE2);
-	if (mat->material.occlusionMap != 0) {
-		glBindTexture(GL_TEXTURE_2D, mat->material.occlusionMap);
+	if (mat->textureOcclusion != nullptr) {
+		glBindTexture(GL_TEXTURE_2D, mat->textureOcclusion->id);
 	}
 	else {
 		glBindTexture(GL_TEXTURE_2D, App->renderer->Fallback);
