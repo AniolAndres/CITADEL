@@ -89,6 +89,7 @@
     <ClInclude Include="debug_draw.hpp" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Globals.h" />
+    <ClInclude Include="ImGuizmo\ImGuizmo.h" />
     <ClInclude Include="IMGUI\imconfig.h" />
     <ClInclude Include="IMGUI\imgui.h" />
     <ClInclude Include="IMGUI\imgui_impl_opengl3.h" />
@@ -180,6 +181,7 @@
     <ClCompile Include="Config.cpp" />
     <ClCompile Include="Crossguid\guid.cpp" />
     <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="ImGuizmo\ImGuizmo.cpp" />
     <ClCompile Include="IMGUI\imgui.cpp" />
     <ClCompile Include="IMGUI\imgui_demo.cpp" />
     <ClCompile Include="IMGUI\imgui_draw.cpp" />

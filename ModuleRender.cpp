@@ -3,10 +3,13 @@
 #include "ModuleRender.h"
 #include "ModuleWindow.h"
 #include "ModuleProgram.h"
+#include "ModuleScene.h"
 #include "ModuleEditor.h"
 #include "ModuleDebugDraw.h"
 #include "ModuleCamera.h"
 #include "ModuleModelLoader.h"
+#include "GameObject.h"
+#include "ComponentTransform.h"
 #include "IMGUI/imgui.h"
 #include "IMGUI/imgui_impl_opengl3.h"
 #include "debugdraw.h"
@@ -75,6 +78,8 @@ update_status ModuleRender::Update()
 
 	//setUniformMatrix();
 
+	ImVec2 pos = ImGui::GetWindowPos();
+
 	glBindFramebuffer(GL_FRAMEBUFFER, App->camera->fbo.fbo);
 	glViewport(0, 0, App->camera->fbo.fb_width, App->camera->fbo.fb_height);
 	glClearColor(0.2f, 0.2f, 0.2f, 1.f);
@@ -86,6 +91,8 @@ update_status ModuleRender::Update()
 
 	DrawDebug();
 	
+	DrawGuizmo(App->editor->drawWidth, App->editor->drawHeight, pos.x, pos.y);
+
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 	return UPDATE_CONTINUE;
@@ -332,4 +339,37 @@ void ModuleRender::GenerateFallback()
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 1, 1, 0, GL_RGB, GL_UNSIGNED_BYTE, fallbackImage);
+}
+
+void ModuleRender::DrawGuizmo(float width, float height, float winPosX, float winPosY) {
+	ImGuizmo::SetRect(winPosX, winPosY, width, height);
+	ImGuizmo::SetDrawlist();
+
+	static ImGuizmo::OPERATION mCurrentGizmoOperation(ImGuizmo::TRANSLATE);
+	static ImGuizmo::MODE mCurrentGizmoMode(ImGuizmo::WORLD);
+
+	ImGui::SetCursorPos({ 20,30 });
+
+	if (App->scene->SelectedGO != nullptr) {
+		mCurrentGizmoOperation = (ImGuizmo::OPERATION)imGuizmoOp;
+		mCurrentGizmoMode = (ImGuizmo::MODE)imGuizmoMode;
+
+		ImGuizmo::Enable(!App->scene->SelectedGO->Static);
+
+		ComponentTransform* transform = (ComponentTransform*)App->scene->SelectedGO->transform;
+
+		math::float4x4 model = App->scene->SelectedGO->GetGlobalTransform();
+		math::float4x4 viewScene = App->renderer->viewMatrix;
+		math::float4x4 projectionScene = App->renderer->projectionMatrix;
+
+		ImGuizmo::SetOrthographic(false);
+
+		model.Transpose();
+		ImGuizmo::Manipulate((float*)&viewScene, (float*)&projectionScene, mCurrentGizmoOperation, mCurrentGizmoMode, (float*)&model, NULL, NULL, NULL, NULL);
+
+		if (ImGuizmo::IsUsing()) {
+			model.Transpose();
+		/*	App->scene->SelectedGO->transform->SetGlobalTranso(model);*/
+		}
+	}
 }

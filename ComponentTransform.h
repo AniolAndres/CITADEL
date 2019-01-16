@@ -3,6 +3,7 @@
 
 #include "Component.h"
 #include "MathGeoLib/include/Math/float3.h"
+#include "Math/float4x4.h"
 #include "MathGeoLib/include/Math/Quat.h"
 
 class ComponentTransform :
