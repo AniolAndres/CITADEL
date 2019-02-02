@@ -20,7 +20,7 @@ void ComponentMesh::LoadMesh(aiMesh* AImesh)
 		}
 	}
 
-	if (AImesh->HasTextureCoords(0))
+	/*if (AImesh->HasTextureCoords(0))
 	{
 		mesh.uvs = new float[mesh.verticesNumber * 2];
 		int uvsCounter = 0;
@@ -31,7 +31,7 @@ void ComponentMesh::LoadMesh(aiMesh* AImesh)
 			mesh.uvs[uvsCounter] = AImesh->mTextureCoords[0][i].y;
 			++uvsCounter;
 		}
-	}
+	}*/
 
 	if (AImesh->HasNormals())
 	{
